@@ -1,8 +1,3 @@
-import { Theme, createMuiTheme } from "@material-ui/core/styles";
-import { default as ScStyled, ThemedStyledInterface } from "styled-components";
-
-export const styled = ScStyled as ThemedStyledInterface<Theme>;
-
 export enum Color {
   Primary = "#3728B1",
   Secondary = "#FE845F",
@@ -31,26 +26,3 @@ export enum FontWeight {
   Weight5 = 500,
   Weight6 = 600,
 }
-
-declare module "@material-ui/core/styles/createMuiTheme" {
-  interface Theme {}
-  // allow configuration using `createMuiTheme`
-  interface ThemeOptions {}
-}
-
-export const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: Color.Primary,
-      contrastText: "#1876D1",
-    },
-    secondary: {
-      main: Color.Secondary,
-      contrastText: "#1876D1",
-    },
-    error: {
-      main: Color.Disconnected,
-    },
-    success: { main: Color.Connected },
-  },
-});

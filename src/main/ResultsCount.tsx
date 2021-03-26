@@ -1,6 +1,6 @@
 import Chip from "@material-ui/core/Chip";
-import { styled } from "../design/styles";
 import { Color, FontSize } from "../design/styles";
+import styled from "styled-components";
 
 const StyledChip = styled(Chip)`
   position: absolute;

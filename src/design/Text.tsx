@@ -1,6 +1,6 @@
-import { css } from "styled-components";
-import { isNil } from "../utils";
-import { Color, FontSize, FontWeight, styled } from "./styles";
+import styled, { css } from "styled-components";
+import { isNil } from "../utils/utils";
+import { Color, FontSize, FontWeight } from "./styles";
 
 type TextProps = {
   fontWeight: FontWeight;

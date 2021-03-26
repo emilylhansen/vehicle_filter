@@ -1,15 +1,10 @@
-import styled from "styled-components";
-import { Color } from "./styles";
-import React from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Search from "@material-ui/icons/Search";
+import React from "react";
+import styled from "styled-components";
 import { Icon } from "./Icon";
+import { Color, FontSize } from "./styles";
 
 const StyledTextField = styled(TextField)`
   border-radius: 16px;
@@ -18,7 +13,7 @@ const StyledTextField = styled(TextField)`
   height: 28px;
 
   .MuiInputBase-input {
-    font-size: 0.75rem;
+    font-size: ${FontSize.Size3};
     bottom: -1px;
   }
 

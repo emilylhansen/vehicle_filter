@@ -5,8 +5,10 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import React from "react";
-import { Color, styled } from "../design/styles";
+import { Color } from "../design/styles";
 import { MenuItem } from "./MenuItem";
+import styled from "styled-components";
+
 const MenuBox = styled.div`
   grid-area: menu;
   border-right: 1px solid ${Color.Gray4};

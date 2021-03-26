@@ -1,8 +1,6 @@
 import React from "react";
 import { Collapsible, CollapsibleListItem } from "../design/Collapsible";
-import * as O from "fp-ts/lib/Option";
-import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
+import { A, R, O, pipe } from "../utils/fp-ts";
 
 export const CustomerFilter = () => {
   const items: Array<CollapsibleListItem> = pipe(

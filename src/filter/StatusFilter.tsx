@@ -1,8 +1,6 @@
 import React from "react";
 import { Collapsible, CollapsibleListItem } from "../design/Collapsible";
-import * as O from "fp-ts/lib/Option";
-import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
+import { A, R, O, pipe } from "../utils/fp-ts";
 import { ConnectedIcon } from "../design/ConnectedIcon";
 import { DisconnectedIcon } from "../design/DisconnectedIcon";
 

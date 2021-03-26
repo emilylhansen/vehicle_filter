@@ -5,8 +5,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import car_placeholder from "../car_placeholder.png";
 import { ConnectedIcon } from "../design/ConnectedIcon";
 import { DisconnectedIcon } from "../design/DisconnectedIcon";
-import { Color, styled, FontSize, FontWeight } from "../design/styles";
+import { Color, FontSize, FontWeight } from "../design/styles";
 import { Text } from "../design/Text";
+import styled from "styled-components";
 
 const CELL_MARGIN = 16;
 const CARD_WIDTH = 240;

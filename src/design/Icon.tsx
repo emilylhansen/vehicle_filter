@@ -1,8 +1,7 @@
 import { SvgIcon, SvgIconProps } from "@material-ui/core";
-import { css } from "styled-components";
-import { Color, styled } from "./styles";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as O from "fp-ts/lib/Option";
+import styled, { css } from "styled-components";
+import { Color } from "./styles";
+import { A, R, O, pipe } from "../utils/fp-ts";
 
 const IconBox = styled.div<DefaultInjectedProps>`
   display: flex;

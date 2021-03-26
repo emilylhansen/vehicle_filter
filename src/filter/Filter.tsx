@@ -2,7 +2,7 @@ import React from "react";
 import { FixedSizeList } from "react-window";
 import { Button, ButtonPropsDisplay } from "../design/Button";
 import { SearchInput } from "../design/SearchInput";
-import { Color, styled, FontSize, FontWeight } from "../design/styles";
+import { Color, FontSize, FontWeight } from "../design/styles";
 import { ConnectedIcon } from "../design/ConnectedIcon";
 import { DisconnectedIcon } from "../design/DisconnectedIcon";
 import { CustomerFilter } from "./CustomerFilter";
@@ -13,6 +13,7 @@ import { Icon } from "../design/Icon";
 import List from "@material-ui/core/List";
 import { Text } from "../design/Text";
 import { Collapsible, CollapsibleListItem } from "../design/Collapsible";
+import styled from "styled-components";
 
 const FilterBox = styled.div`
   grid-area: filter;

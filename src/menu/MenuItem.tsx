@@ -1,8 +1,8 @@
 import ListItem from "@material-ui/core/ListItem";
 import React from "react";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 import { Icon } from "../design/Icon";
-import { Color, styled } from "../design/styles";
+import { Color } from "../design/styles";
 
 const MenuItemBox = styled.li`
   display: flex;

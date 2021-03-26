@@ -1,22 +1,19 @@
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Checkbox from "@material-ui/core/Checkbox";
-import List from "@material-ui/core/List";
 import { default as MuiListItem } from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { A, R, O, pipe } from "../utils/fp-ts";
 import React from "react";
 import { VariableSizeList } from "react-window";
-import { Color, styled, FontSize, FontWeight } from "./styles";
-import { SearchInput } from "./SearchInput";
-import { Text } from "./Text";
-import { Icon } from "./Icon";
-import { isNil } from "../utils";
+import styled from "styled-components";
 import { Chip } from "../design/Chip";
+import { isNil } from "../utils/utils";
+import { SearchInput } from "./SearchInput";
+import { FontSize, FontWeight } from "./styles";
+import { Text } from "./Text";
 
 const StyledAccordion = styled(Accordion)`
   box-shadow: none;
