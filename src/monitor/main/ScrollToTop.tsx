@@ -1,6 +1,6 @@
 import IconButton from "@material-ui/core/IconButton";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import { Color } from "../design/styles";
+import { Color } from "../../design/styles";
 import styled from "styled-components";
 
 const StyledIconButton = styled(IconButton)`

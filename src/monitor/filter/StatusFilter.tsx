@@ -1,8 +1,8 @@
 import React from "react";
-import { Collapsible, CollapsibleListItem } from "../design/Collapsible";
-import { A, R, O, pipe } from "../utils/fp-ts";
-import { ConnectedIcon } from "../design/ConnectedIcon";
-import { DisconnectedIcon } from "../design/DisconnectedIcon";
+import { Collapsible, CollapsibleListItem } from "../../design/Collapsible";
+import { A, R, O, pipe } from "../../utils/fp-ts";
+import { ConnectedIcon } from "../../design/ConnectedIcon";
+import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 
 export const StatusFilter = () => {
   const items: Array<CollapsibleListItem> = [

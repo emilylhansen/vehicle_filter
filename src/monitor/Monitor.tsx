@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Main } from "./main/Main";
-import { Menu } from "./menu/Menu";
+import { Menu } from "../menu/Menu";
 import { Filter } from "./filter/Filter";
 
 const MonitorBox = styled.div`

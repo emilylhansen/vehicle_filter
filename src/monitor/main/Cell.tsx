@@ -3,10 +3,10 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import car_placeholder from "../car_placeholder.png";
-import { ConnectedIcon } from "../design/ConnectedIcon";
-import { DisconnectedIcon } from "../design/DisconnectedIcon";
-import { Color, FontSize, FontWeight } from "../design/styles";
-import { Text } from "../design/Text";
+import { ConnectedIcon } from "../../design/ConnectedIcon";
+import { DisconnectedIcon } from "../../design/DisconnectedIcon";
+import { Color, FontSize, FontWeight } from "../../design/styles";
+import { Text } from "../../design/Text";
 import styled from "styled-components";
 
 const CELL_MARGIN = 16;

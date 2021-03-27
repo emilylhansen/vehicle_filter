@@ -4,13 +4,13 @@ import { FixedSizeList, FixedSizeGrid } from "react-window";
 import car_placeholder from "./car_placeholder.png";
 import car_stock_image from "./car_stock_image.png";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Color } from "../design/styles";
-import { ConnectedIcon } from "../design/ConnectedIcon";
-import { DisconnectedIcon } from "../design/DisconnectedIcon";
+import { Color } from "../../design/styles";
+import { ConnectedIcon } from "../../design/ConnectedIcon";
+import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 import { Cell } from "./Cell";
 import { ScrollToTop } from "./ScrollToTop";
 import { ResultsCount } from "./ResultsCount";
-import { Chip } from "../design/Chip";
+import { Chip } from "../../design/Chip";
 
 // const CARD_HEIGHT = 80;
 // const ROW_VERTICAL_MARGIN = 8;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Monitor } from "./Monitor";
+import { Monitor } from "./monitor/Monitor";
 import { MuiThemeProvider, StylesProvider } from "@material-ui/core/styles";
 // import { theme } from "./design/styles";
 import { ThemeProvider } from "styled-components";
