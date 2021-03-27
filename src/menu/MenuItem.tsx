@@ -1,4 +1,3 @@
-import ListItem from "@material-ui/core/ListItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import { Icon } from "../design/Icon";

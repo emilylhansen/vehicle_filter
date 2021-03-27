@@ -5,7 +5,7 @@ import { default as MuiListItem } from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { A, R, O, pipe } from "../utils/fp-ts";
+import { A, R, O, pipe } from "../utils/fp-ts-exports";
 import React from "react";
 import { VariableSizeList } from "react-window";
 import styled from "styled-components";
