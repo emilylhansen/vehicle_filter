@@ -11,7 +11,7 @@ import {
   Vehicle,
   VehicleIdCarrier,
 } from "./api/types";
-import { InjectedProps as CellInjectedProps } from "./monitor/main/Cell";
+import { InjectedProps as CellInjectedProps } from "./monitor/main/cell/Cell";
 import { InitialState } from "./reducer";
 import { A, O, pipe, R, RD } from "./utils/fp-ts-exports";
 
@@ -55,16 +55,23 @@ export const getCells = createSelector(
                 const cellDataO = pipe(
                   data.usersById,
                   R.lookup(isoUserId.unwrap(v.ownerId)),
-                  O.map((u) => ({
-                    vehicle: isoNonEmptyString.wrap(
+                  O.map((u) => {
+                    const vehicle = isoNonEmptyString.wrap(
                       `${v.year} ${v.make} ${v.model}`
-                    ),
-                    owner: isoNonEmptyString.wrap(`${u.first} ${u.last}`),
-                    isConnected: v.connected,
-                    registration: v.registration,
-                    lastConnected: v.lastConnected,
-                    id: isoVehicleId.wrap(k),
-                  }))
+                    );
+                    const owner = isoNonEmptyString.wrap(
+                      `${u.first} ${u.last}`
+                    );
+
+                    return {
+                      vehicle,
+                      owner,
+                      isConnected: v.connected,
+                      registration: v.registration,
+                      lastConnected: v.lastConnected,
+                      id: isoVehicleId.wrap(k),
+                    };
+                  })
                 );
 
                 return pipe(

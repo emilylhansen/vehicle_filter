@@ -1,10 +1,8 @@
-import ListSubheader from "@material-ui/core/ListSubheader";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import { getVehicles } from "../../api/actions";
-import { UserIdCarrier, Vehicle, UserId } from "../../api/types";
+import { UserIdCarrier } from "../../api/types";
 import { Button, ButtonPropsDisplay } from "../../design/Button";
 import { Collapsible } from "../../design/collapsible/Collapsible";
 import { Icon } from "../../design/Icon";
@@ -13,49 +11,22 @@ import { Text } from "../../design/Text";
 import { getUsersById } from "../../selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { CustomerFilter } from "./CustomerFilter";
-import { Status, StatusFilter } from "./StatusFilter";
 import { getCheckedIds } from "./filter.helpers";
-
-const FilterBox = styled.div`
-  grid-area: filter;
-  display: flex;
-  flex-flow: column;
-  border-right: 1px solid ${Color.Gray4};
-  overflow: auto;
-`;
-
-const ButtonsBox = styled.div`
-  display: flex;
-  flex-flow: column;
-  padding: 16px;
-`;
-
-const ScrollList = styled.div`
-  flex: 1;
-  overflow: auto;
-
-  > * {
-    border-bottom: 1px solid ${Color.Gray4};
-  }
-`;
-
-const SearchButton = styled(Button)`
-  margin-bottom: 4px;
-`;
-
-const StyledListSubheader = styled(ListSubheader)`
-  display: flex;
-  align-items: center;
-  height: 48px;
-  background-color: ${Color.White};
-`;
+import {
+  ButtonsBox,
+  FilterBox,
+  ScrollList,
+  SearchButton,
+  StyledListSubheader,
+} from "./filter.styles";
+import { Status, StatusFilter } from "./StatusFilter";
 
 const initCheckByStatus = {
   [Status.Connected]: true,
   [Status.Disconnected]: true,
 };
 
-export const Filter = () => {
+const useFilter = () => {
   const [checkByUserId, setCheckByUserId] = React.useState<
     Record<UserIdCarrier, boolean>
   >({});
@@ -63,7 +34,11 @@ export const Filter = () => {
     Record<Status, boolean>
   >(initCheckByStatus);
 
-  const params = () => {
+  const dispatch = useDispatch();
+
+  const usersById = useSelector(getUsersById);
+
+  const getParams = () => {
     const checkByUserIdParams = pipe(
       getCheckedIds<UserIdCarrier>(checkByUserId),
       A.map((id) => ["ownerId", id])
@@ -77,8 +52,6 @@ export const Filter = () => {
 
     return [...checkByUserIdParams, ...checkByStatusParams];
   };
-
-  const usersById = useSelector(getUsersById);
 
   const initCheckByUserId = React.useMemo(
     () =>
@@ -105,7 +78,29 @@ export const Filter = () => {
     initFilter();
   }, []);
 
-  const dispatch = useDispatch();
+  const onSearch = () => {
+    dispatch(getVehicles(getParams()));
+  };
+
+  const onReset = () => {
+    initFilter();
+    dispatch(getVehicles());
+  };
+
+  return {
+    dispatch,
+    getParams,
+    checkByStatus,
+    checkByUserId,
+    setCheckByStatus,
+    setCheckByUserId,
+    onSearch,
+    onReset,
+  };
+};
+
+export const Filter = () => {
+  const state = useFilter();
 
   return (
     <FilterBox>
@@ -123,13 +118,14 @@ export const Filter = () => {
           </Text>
         </StyledListSubheader>
         <CustomerFilter
-          checkByUserId={checkByUserId}
-          setCheckByUserId={setCheckByUserId}
+          checkByUserId={state.checkByUserId}
+          setCheckByUserId={state.setCheckByUserId}
         />
         <StatusFilter
-          checkByStatus={checkByStatus}
-          setCheckByStatus={setCheckByStatus}
+          checkByStatus={state.checkByStatus}
+          setCheckByStatus={state.setCheckByStatus}
         />
+        {/** presentational additional categories */}
         <Collapsible headerText="Make" items={[]} notificationCount={4} />
         <Collapsible headerText="Model" items={[]} notificationCount={4} />
         <Collapsible headerText="Year" items={[]} notificationCount={4} />
@@ -140,7 +136,7 @@ export const Filter = () => {
           variant="contained"
           size="small"
           display={ButtonPropsDisplay.Primary}
-          onClick={() => dispatch(getVehicles(params()))}
+          onClick={state.onSearch}
         >
           Search
         </SearchButton>
@@ -148,10 +144,7 @@ export const Filter = () => {
           variant="outlined"
           size="small"
           display={ButtonPropsDisplay.Secondary}
-          onClick={() => {
-            initFilter();
-            dispatch(getVehicles());
-          }}
+          onClick={state.onReset}
         >
           Reset
         </Button>

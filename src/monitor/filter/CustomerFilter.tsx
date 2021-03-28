@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { isoNonEmptyString, UserIdCarrier } from "../../api/types";
 import {
   Collapsible,
-  CollapsibleListItem,
+  CollapsibleItem,
 } from "../../design/collapsible/Collapsible";
 import { getUsersById } from "../../selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
@@ -14,7 +14,7 @@ type Props = {
   setCheckByUserId: (checkByUserId: Record<UserIdCarrier, boolean>) => void;
 };
 
-export const CustomerFilter = (props: Props) => {
+const useCustomerFilter = (props: Props) => {
   const usersById = useSelector(getUsersById);
 
   const checkedCount = getCheckedCount(props.checkByUserId);
@@ -28,39 +28,51 @@ export const CustomerFilter = (props: Props) => {
         O.map((us) =>
           pipe(
             us,
-            A.map(([k, v]) => ({
-              primaryText: `${isoNonEmptyString.unwrap(
+            A.map(([k, v]) => {
+              const primaryText = `${isoNonEmptyString.unwrap(
                 v.first
-              )} ${isoNonEmptyString.unwrap(v.last)}`,
-              secondaryText: isoNonEmptyString.unwrap(v.email),
-              checked: pipe(
+              )} ${isoNonEmptyString.unwrap(v.last)}`;
+              const secondaryText = isoNonEmptyString.unwrap(v.email);
+              const checked = pipe(
                 props.checkByUserId,
                 R.lookup(k),
                 O.map((c) => c),
                 O.getOrElse(() => false)
-              ),
-              onChange: (c) => {
-                pipe(
-                  props.checkByUserId,
-                  R.updateAt(k, c),
-                  O.getOrElse(() => props.checkByUserId),
-                  props.setCheckByUserId
-                );
-              },
-              key: k,
-            }))
+              );
+
+              return {
+                primaryText,
+                secondaryText,
+                checked,
+                onChange: (c) => {
+                  pipe(
+                    props.checkByUserId,
+                    R.updateAt(k, c),
+                    O.getOrElse(() => props.checkByUserId),
+                    props.setCheckByUserId
+                  );
+                },
+                key: k,
+              };
+            })
           )
         ),
-        O.getOrElse<Array<CollapsibleListItem>>(() => A.empty)
+        O.getOrElse<Array<CollapsibleItem>>(() => A.empty)
       ),
     [usersById, props]
   );
 
+  return { customerListItems, checkedCount };
+};
+
+export const CustomerFilter = (props: Props) => {
+  const state = useCustomerFilter(props);
+
   return (
     <Collapsible
       headerText="Customer"
-      items={customerListItems}
-      notificationCount={checkedCount}
+      items={state.customerListItems}
+      notificationCount={state.checkedCount}
       // search
     />
   );

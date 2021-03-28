@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Collapsible,
-  CollapsibleListItem,
+  CollapsibleItem,
 } from "../../design/collapsible/Collapsible";
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
@@ -18,54 +18,62 @@ type Props = {
   setCheckByStatus: (checkByStatus: Record<Status, boolean>) => void;
 };
 
-export const StatusFilter = (props: Props) => {
+const useStatusFilter = (props: Props) => {
   const checkedCount = getCheckedCount(props.checkByStatus);
 
-  const items: Array<CollapsibleListItem> = [
-    {
-      key: Status.Connected,
-      primaryText: "Connected",
-      rightAdornment: <ConnectedIcon fontSize={16} margin="0 2px 0 0" />,
-      checked: pipe(
+  const connectedItem: CollapsibleItem = {
+    key: Status.Connected,
+    primaryText: "Connected",
+    rightAdornment: <ConnectedIcon fontSize={16} margin="0 2px 0 0" />,
+    checked: pipe(
+      props.checkByStatus,
+      R.lookup(Status.Connected),
+      O.map((c) => c),
+      O.getOrElse<boolean>(() => false)
+    ),
+    onChange: (c) => {
+      pipe(
         props.checkByStatus,
-        R.lookup(Status.Connected),
-        O.map((c) => c),
-        O.getOrElse<boolean>(() => false)
-      ),
-      onChange: (c) => {
-        pipe(
-          props.checkByStatus,
-          R.updateAt(Status.Connected, c),
-          O.getOrElse(() => props.checkByStatus),
-          props.setCheckByStatus
-        );
-      },
+        R.updateAt(Status.Connected, c),
+        O.getOrElse(() => props.checkByStatus),
+        props.setCheckByStatus
+      );
     },
-    {
-      key: Status.Disconnected,
-      primaryText: "Disconnected",
-      rightAdornment: <DisconnectedIcon fontSize={16} margin="0 2px 0 0" />,
-      checked: pipe(
+  };
+
+  const disconnectedItem: CollapsibleItem = {
+    key: Status.Disconnected,
+    primaryText: "Disconnected",
+    rightAdornment: <DisconnectedIcon fontSize={16} margin="0 2px 0 0" />,
+    checked: pipe(
+      props.checkByStatus,
+      R.lookup(Status.Disconnected),
+      O.map((c) => c),
+      O.getOrElse<boolean>(() => false)
+    ),
+    onChange: (c) => {
+      pipe(
         props.checkByStatus,
-        R.lookup(Status.Disconnected),
-        O.map((c) => c),
-        O.getOrElse<boolean>(() => false)
-      ),
-      onChange: (c) => {
-        pipe(
-          props.checkByStatus,
-          R.updateAt(Status.Disconnected, c),
-          O.getOrElse(() => props.checkByStatus),
-          props.setCheckByStatus
-        );
-      },
+        R.updateAt(Status.Disconnected, c),
+        O.getOrElse(() => props.checkByStatus),
+        props.setCheckByStatus
+      );
     },
-  ];
+  };
+
+  const items: Array<CollapsibleItem> = [connectedItem, disconnectedItem];
+
+  return { items, checkedCount };
+};
+
+export const StatusFilter = (props: Props) => {
+  const state = useStatusFilter(props);
+
   return (
     <Collapsible
       headerText="Status"
-      items={items}
-      notificationCount={checkedCount}
+      items={state.items}
+      notificationCount={state.checkedCount}
     />
   );
 };
