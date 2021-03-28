@@ -1,9 +1,10 @@
 import { SvgIcon, SvgIconProps } from "@material-ui/core";
 import styled, { css } from "styled-components";
+import { O, pipe } from "../utils/fp-ts-exports";
 import { Color } from "./styles";
-import { A, R, O, pipe } from "../utils/fp-ts-exports";
+import { isNotNil } from "../utils/utils";
 
-const IconBox = styled.div<DefaultInjectedProps>`
+const IconBox = styled.div<IconProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,22 +13,22 @@ const IconBox = styled.div<DefaultInjectedProps>`
     css`
       width: ${fontSize}px;
       height: ${fontSize}px;
-      margin: ${margin};
+      ${isNotNil(margin) &&
+      css`
+        margin: ${margin};
+      `}
 
       .MuiSvgIcon-root {
         font-size: ${fontSize}px;
-        color: ${color};
+        ${isNotNil(color) &&
+        css`
+          color: ${color};
+        `}
       }
     `};
 `;
 
 type InjectedProps = { fontSize?: number; color?: Color; margin?: string };
-type DefaultInjectedProps = Required<InjectedProps>;
-const defaultInjectedProps: DefaultInjectedProps = {
-  fontSize: 24,
-  color: Color.Gray1,
-  margin: "0",
-};
 export type IconProps = Omit<SvgIconProps, "fontSize" | "color"> &
   InjectedProps;
 
@@ -35,21 +36,11 @@ export const Icon = ({ fontSize, color, margin, ...rest }: IconProps) => {
   const _fontSize = pipe(
     fontSize,
     O.fromNullable,
-    O.getOrElse(() => defaultInjectedProps.fontSize)
-  );
-  const _color = pipe(
-    color,
-    O.fromNullable,
-    O.getOrElse(() => defaultInjectedProps.color)
-  );
-  const _margin = pipe(
-    margin,
-    O.fromNullable,
-    O.getOrElse(() => defaultInjectedProps.margin)
+    O.getOrElse(() => 24)
   );
 
   return (
-    <IconBox fontSize={_fontSize} color={_color} margin={_margin}>
+    <IconBox fontSize={_fontSize} color={color} margin={margin}>
       <SvgIcon {...rest}>{rest.children}</SvgIcon>
     </IconBox>
   );

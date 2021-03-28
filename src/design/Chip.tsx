@@ -1,6 +1,6 @@
 import {
-  default as MuiChip,
   ChipProps as MuiChipProps,
+  default as MuiChip,
 } from "@material-ui/core/Chip";
 import styled from "styled-components";
 import { Color, FontSize, FontWeight } from "../design/styles";

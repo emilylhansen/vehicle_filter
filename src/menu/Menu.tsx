@@ -1,13 +1,13 @@
 import List from "@material-ui/core/List";
+import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
-import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
-import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import React from "react";
+import styled from "styled-components";
 import { Color } from "../design/styles";
 import { MenuItem } from "./MenuItem";
-import styled from "styled-components";
 
 const MenuBox = styled.div`
   grid-area: menu;
@@ -19,6 +19,7 @@ const StyledList = styled(List)`
   padding-bottom: 0;
 `;
 
+/** TODO: set up routing */
 export const Menu = () => {
   return (
     <MenuBox>

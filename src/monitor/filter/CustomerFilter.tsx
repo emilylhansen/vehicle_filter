@@ -1,7 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { isoNonEmptyString, UserIdCarrier } from "../../api/types";
-import { Collapsible, CollapsibleListItem } from "../../design/Collapsible";
+import {
+  Collapsible,
+  CollapsibleListItem,
+} from "../../design/collapsible/Collapsible";
 import { getUsersById } from "../../selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { getCheckedCount } from "./filter.helpers";
@@ -58,7 +61,7 @@ export const CustomerFilter = (props: Props) => {
       headerText="Customer"
       items={customerListItems}
       notificationCount={checkedCount}
-      search
+      // search
     />
   );
 };

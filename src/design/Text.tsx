@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { isNil } from "../utils/utils";
+import { isNotNil } from "../utils/utils";
 import { Color, FontSize, FontWeight } from "./styles";
 
 type TextProps = {
@@ -17,11 +17,11 @@ export const Text = styled.span<TextProps>`
       font-weight: ${fontWeight};
       font-size: ${fontSize};
 
-      ${!isNil(color) &&
+      ${isNotNil(color) &&
       css`
         color: ${color};
       `}
-      ${!isNil(margin) &&
+      ${isNotNil(margin) &&
       css`
         margin: ${margin};
       `}

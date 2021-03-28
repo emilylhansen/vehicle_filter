@@ -25,20 +25,25 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-export const SearchInput = () => {
-  return (
-    <StyledTextField
-      label=""
-      InputLabelProps={{ shrink: false }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Icon fontSize={18} color={Color.Gray2}>
-              <Search />
-            </Icon>
-          </InputAdornment>
-        ),
-      }}
-    />
-  );
+export type SearchInputProps = {
+  value: string;
+  onChange: (value: string) => void;
 };
+
+export const SearchInput = (props: SearchInputProps) => (
+  <StyledTextField
+    value={props.value}
+    onChange={(e) => props.onChange(e.currentTarget.value)}
+    label=""
+    InputLabelProps={{ shrink: false }}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <Icon fontSize={18} color={Color.Gray2}>
+            <Search />
+          </Icon>
+        </InputAdornment>
+      ),
+    }}
+  />
+);

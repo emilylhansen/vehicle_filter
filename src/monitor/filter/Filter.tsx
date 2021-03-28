@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { getVehicles } from "../../api/actions";
 import { UserIdCarrier, Vehicle, UserId } from "../../api/types";
 import { Button, ButtonPropsDisplay } from "../../design/Button";
-import { Collapsible } from "../../design/Collapsible";
+import { Collapsible } from "../../design/collapsible/Collapsible";
 import { Icon } from "../../design/Icon";
 import { Color, FontSize, FontWeight } from "../../design/styles";
 import { Text } from "../../design/Text";

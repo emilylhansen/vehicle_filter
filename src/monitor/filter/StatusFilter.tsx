@@ -1,5 +1,8 @@
 import React from "react";
-import { Collapsible, CollapsibleListItem } from "../../design/Collapsible";
+import {
+  Collapsible,
+  CollapsibleListItem,
+} from "../../design/collapsible/Collapsible";
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 import { O, pipe, R } from "../../utils/fp-ts-exports";
