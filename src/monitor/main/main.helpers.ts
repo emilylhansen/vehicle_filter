@@ -5,5 +5,8 @@ export const getWidth = () =>
   document.documentElement.clientWidth ||
   document.body.clientWidth;
 
-export const getColumnCount = (width: number): number =>
-  Math.ceil((width - MAX_CARD_WIDTH * 2) / MAX_CARD_WIDTH);
+export const getColumnCount = (width: number): number => {
+  const columnCount = Math.ceil((width - MAX_CARD_WIDTH * 2) / MAX_CARD_WIDTH);
+
+  return width <= MAX_CARD_WIDTH * 2 ? 1 : columnCount;
+};
