@@ -4,7 +4,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import styled from "styled-components";
 import { Text } from "../../../design/Text";
 
+const CARD_MARGIN = 16;
 export const CARD_WIDTH = 240;
+export const MAX_CARD_WIDTH = CARD_WIDTH + CARD_MARGIN * 2;
 
 export const CellBox = styled.div`
   display: flex;

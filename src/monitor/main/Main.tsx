@@ -11,15 +11,14 @@ import { Color } from "../../design/styles";
 import { getCells } from "../../selectors";
 import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
 import { Cell } from "./cell/Cell";
-
-const MAX_CELL_WIDTH = 240 + 32;
+import { MAX_CARD_WIDTH } from "./cell/cell.styles";
 
 const getColumnCount = (width: number): number => {
-  if (width < MAX_CELL_WIDTH * 2) {
+  if (width < MAX_CARD_WIDTH * 2) {
     return 1;
   }
 
-  return Math.ceil((width - MAX_CELL_WIDTH * 2) / MAX_CELL_WIDTH);
+  return Math.ceil((width - MAX_CARD_WIDTH * 2) / MAX_CARD_WIDTH);
 };
 
 const COLUMN_COUNT = 4;
