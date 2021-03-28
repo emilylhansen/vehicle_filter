@@ -15,7 +15,11 @@ type Props = {
 };
 
 const useCustomerFilter = (props: Props) => {
+  const [searchValue, setSearchValue] = React.useState<string>("");
+
   const usersById = useSelector(getUsersById);
+
+  const onChangeSearch = (v: string) => setSearchValue(v);
 
   const checkedCount = getCheckedIds(props.checkByUserId).length;
 
@@ -28,41 +32,56 @@ const useCustomerFilter = (props: Props) => {
         O.map((us) =>
           pipe(
             us,
-            A.map(([k, v]) => {
+            A.filterMap(([k, v]) => {
               const primaryText = `${isoNonEmptyString.unwrap(
                 v.first
               )} ${isoNonEmptyString.unwrap(v.last)}`;
               const secondaryText = isoNonEmptyString.unwrap(v.email);
-              const checked = pipe(
-                props.checkByUserId,
-                R.lookup(k),
-                O.map((c) => c),
-                O.getOrElse(() => false)
-              );
 
-              return {
-                primaryText,
-                secondaryText,
-                checked,
-                onChange: (c) => {
-                  pipe(
-                    props.checkByUserId,
-                    R.updateAt(k, c),
-                    O.getOrElse(() => props.checkByUserId),
-                    props.setCheckByUserId
-                  );
-                },
-                key: k,
-              };
+              const isMatch =
+                primaryText
+                  .toLocaleLowerCase()
+                  .includes(searchValue.toLocaleLowerCase()) ||
+                secondaryText
+                  .toLocaleLowerCase()
+                  .includes(searchValue.toLocaleLowerCase());
+
+              if (isMatch) {
+                const checked = pipe(
+                  props.checkByUserId,
+                  R.lookup(k),
+                  O.map((c) => c),
+                  O.getOrElse(() => false)
+                );
+
+                const item: CollapsibleItem = {
+                  primaryText,
+                  secondaryText,
+                  checked,
+                  onChange: (c) => {
+                    pipe(
+                      props.checkByUserId,
+                      R.updateAt(k, c),
+                      O.getOrElse(() => props.checkByUserId),
+                      props.setCheckByUserId
+                    );
+                  },
+                  key: k,
+                };
+
+                return O.some(item);
+              } else {
+                return O.none;
+              }
             })
           )
         ),
         O.getOrElse<Array<CollapsibleItem>>(() => A.empty)
       ),
-    [usersById, props]
+    [usersById, props.checkByUserId, props.setCheckByUserId, searchValue]
   );
 
-  return { customerListItems, checkedCount };
+  return { customerListItems, checkedCount, searchValue, onChangeSearch };
 };
 
 export const CustomerFilter = (props: Props) => {
@@ -73,7 +92,7 @@ export const CustomerFilter = (props: Props) => {
       headerText="Customer"
       items={state.customerListItems}
       notificationCount={state.checkedCount}
-      // search
+      search={{ value: state.searchValue, onChange: state.onChangeSearch }}
     />
   );
 };

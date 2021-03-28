@@ -60,19 +60,11 @@ const useCollapsible = (props: CollapsibleProps) => {
   const getItemSize = (index: number) =>
     shouldHandleSearch(index) ? LIST_HEADER_HEIGHT : LIST_ITEM_HEIGHT;
 
-  /**
-   * get correct index to access data in items list.
-   * accounts for possible search input row.
-   */
-  const getItemIndex = (index: number) =>
-    isNil(props.search) ? index : index - 1;
-
   return {
     itemCount,
     gridHeight,
     shouldHandleSearch,
     getItemSize,
-    getItemIndex,
   };
 };
 
@@ -87,6 +79,16 @@ export const Collapsible = (props: CollapsibleProps) => {
         </Text>
         <StyledChip label={props.notificationCount} />
       </StyledAccordionSummary>
+      {pipe(
+        props.search,
+        O.fromNullable,
+        O.map((s) => (
+          <SearchInputBox>
+            <SearchInput value={s.value} onChange={s.onChange} />
+          </SearchInputBox>
+        )),
+        O.toNullable
+      )}
       <VariableSizeList
         height={state.gridHeight}
         itemCount={state.itemCount}
@@ -95,23 +97,12 @@ export const Collapsible = (props: CollapsibleProps) => {
         overscanCount={OVERSCAN_COUNT}
       >
         {({ index, style }) =>
-          state.shouldHandleSearch(index)
-            ? pipe(
-                props.search,
-                O.fromNullable,
-                O.map((s) => (
-                  <SearchInputBox style={style}>
-                    <SearchInput value={s.value} onChange={s.onChange} />
-                  </SearchInputBox>
-                )),
-                O.toNullable
-              )
-            : pipe(
-                props.items,
-                A.lookup(state.getItemIndex(index)),
-                O.map((i) => <CollapsibleListItem item={i} style={style} />),
-                O.toNullable
-              )
+          pipe(
+            props.items,
+            A.lookup(index),
+            O.map((i) => <CollapsibleListItem item={i} style={style} />),
+            O.toNullable
+          )
         }
       </VariableSizeList>
     </StyledAccordion>
