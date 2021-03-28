@@ -1,7 +1,6 @@
+import { AxiosResponse } from "axios";
 import { Api } from "./api";
-import { AxiosError, AxiosResponse } from "axios";
-import { GetUsersResponse, GetVehiclesResponse, Vehicle } from "./types";
-import { handle, Action } from "redux-pack";
+import { ApiParams, GetUsersResponse, GetVehiclesResponse } from "./types";
 
 export const GET_USERS = "GET_USERS";
 export type GET_USERS = typeof GET_USERS;
@@ -24,7 +23,7 @@ export type GetVehicles = {
   type: GET_VEHICLES;
   promise: Promise<AxiosResponse<GetVehiclesResponse>>;
 };
-export const getVehicles = (params?: Partial<Vehicle>): GetVehicles => {
+export const getVehicles = (params?: ApiParams): GetVehicles => {
   return {
     type: GET_VEHICLES,
     promise: Api.getVehicles(params),

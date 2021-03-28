@@ -1,21 +1,20 @@
-import React from "react";
-import { FixedSizeList } from "react-window";
-import { Button, ButtonPropsDisplay } from "../../design/Button";
-import { SearchInput } from "../../design/SearchInput";
-import { Color, FontSize, FontWeight } from "../../design/styles";
-import { ConnectedIcon } from "../../design/ConnectedIcon";
-import { DisconnectedIcon } from "../../design/DisconnectedIcon";
-import { CustomerFilter } from "./CustomerFilter";
-import { StatusFilter } from "./StatusFilter";
-import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import { Icon } from "../../design/Icon";
-import List from "@material-ui/core/List";
-import { Text } from "../../design/Text";
-import { Collapsible, CollapsibleListItem } from "../../design/Collapsible";
+import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getVehicles } from "../../api/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { UserIdCarrier, Vehicle, UserId } from "../../api/types";
+import { Button, ButtonPropsDisplay } from "../../design/Button";
+import { Collapsible } from "../../design/Collapsible";
+import { Icon } from "../../design/Icon";
+import { Color, FontSize, FontWeight } from "../../design/styles";
+import { Text } from "../../design/Text";
+import { getUsersById } from "../../selectors";
+import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
+import { CustomerFilter } from "./CustomerFilter";
+import { Status, StatusFilter } from "./StatusFilter";
+import { getCheckedIds } from "./filter.helpers";
 
 const FilterBox = styled.div`
   grid-area: filter;
@@ -48,9 +47,64 @@ const StyledListSubheader = styled(ListSubheader)`
   display: flex;
   align-items: center;
   height: 48px;
+  background-color: ${Color.White};
 `;
 
+const initCheckByStatus = {
+  [Status.Connected]: true,
+  [Status.Disconnected]: true,
+};
+
 export const Filter = () => {
+  const [checkByUserId, setCheckByUserId] = React.useState<
+    Record<UserIdCarrier, boolean>
+  >({});
+  const [checkByStatus, setCheckByStatus] = React.useState<
+    Record<Status, boolean>
+  >(initCheckByStatus);
+
+  const params = () => {
+    const checkByUserIdParams = pipe(
+      getCheckedIds<UserIdCarrier>(checkByUserId),
+      A.map((id) => ["ownerId", id])
+    );
+    const checkByStatusParams = pipe(
+      getCheckedIds<Status>(checkByStatus),
+      A.map((i) =>
+        i === Status.Connected ? ["connected", "true"] : ["connected", "false"]
+      )
+    );
+
+    return [...checkByUserIdParams, ...checkByStatusParams];
+  };
+
+  const usersById = useSelector(getUsersById);
+
+  const initCheckByUserId = React.useMemo(
+    () =>
+      pipe(
+        usersById,
+        RD.toOption,
+        O.map((us) =>
+          pipe(
+            us,
+            R.map((u) => true)
+          )
+        ),
+        O.getOrElse<Record<UserIdCarrier, boolean>>(() => ({}))
+      ),
+    [usersById]
+  );
+
+  const initFilter = () => {
+    setCheckByUserId(initCheckByUserId);
+    setCheckByStatus(initCheckByStatus);
+  };
+
+  React.useEffect(() => {
+    initFilter();
+  }, []);
+
   const dispatch = useDispatch();
 
   return (
@@ -68,11 +122,17 @@ export const Filter = () => {
             Filter
           </Text>
         </StyledListSubheader>
-        <CustomerFilter />
-        <StatusFilter />
-        <Collapsible headerText="Make" items={[]} notificationCount={0} />
-        <Collapsible headerText="Model" items={[]} notificationCount={3} />
-        <Collapsible headerText="Year" items={[]} notificationCount={2} />
+        <CustomerFilter
+          checkByUserId={checkByUserId}
+          setCheckByUserId={setCheckByUserId}
+        />
+        <StatusFilter
+          checkByStatus={checkByStatus}
+          setCheckByStatus={setCheckByStatus}
+        />
+        <Collapsible headerText="Make" items={[]} notificationCount={4} />
+        <Collapsible headerText="Model" items={[]} notificationCount={4} />
+        <Collapsible headerText="Year" items={[]} notificationCount={4} />
       </ScrollList>
 
       <ButtonsBox>
@@ -80,7 +140,7 @@ export const Filter = () => {
           variant="contained"
           size="small"
           display={ButtonPropsDisplay.Primary}
-          onClick={() => dispatch(getVehicles({ connected: true }))}
+          onClick={() => dispatch(getVehicles(params()))}
         >
           Search
         </SearchButton>
@@ -88,6 +148,10 @@ export const Filter = () => {
           variant="outlined"
           size="small"
           display={ButtonPropsDisplay.Secondary}
+          onClick={() => {
+            initFilter();
+            dispatch(getVehicles());
+          }}
         >
           Reset
         </Button>

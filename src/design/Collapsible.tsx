@@ -15,6 +15,9 @@ import { SearchInput } from "./SearchInput";
 import { FontSize, FontWeight } from "./styles";
 import { Text } from "./Text";
 
+const LIST_ITEM_HEIGHT = 48;
+const LIST_HEADER_HEIGHT = 40;
+
 const StyledAccordion = styled(Accordion)`
   box-shadow: none;
   margin: 0 !important;
@@ -42,6 +45,26 @@ const StyledListItem = styled(MuiListItem)`
     padding-left: 0;
     padding-right: 8px;
   }
+
+  .MuiListItemText-primary,
+  .MuiListItemText-secondary {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .MuiListItemText-primary {
+    font-size: ${FontSize.Size3};
+  }
+
+  .MuiListItemText-secondary {
+    font-size: ${FontSize.Size5};
+  }
+
+  .MuiListItemText-root {
+    flex: unset;
+    margin-right: 8px;
+  }
 `;
 
 const StyledAccordionSummary = styled(AccordionSummary)`
@@ -60,6 +83,8 @@ export type CollapsibleListItem = {
   secondaryText?: string;
   rightAdornment?: JSX.Element;
   key: string;
+  checked: boolean;
+  onChange: (c: boolean) => void;
 };
 
 type CollapsibleProps = {
@@ -78,7 +103,12 @@ const ListItem = ({
 }) => (
   <StyledListItem style={style} key={item.key} role={undefined} dense button>
     <ListItemIcon>
-      <Checkbox tabIndex={-1} disableRipple />
+      <Checkbox
+        tabIndex={-1}
+        disableRipple
+        onChange={(event, checked) => item.onChange(checked)}
+        checked={item.checked}
+      />
     </ListItemIcon>
     <ListItemText primary={item.primaryText} secondary={item.secondaryText} />
     {item.rightAdornment}
@@ -93,11 +123,11 @@ export const Collapsible = (props: CollapsibleProps) => {
     O.getOrElse(() => props.items.length)
   );
 
-  const _height = props.items.length * 48;
+  const _height = props.items.length * LIST_ITEM_HEIGHT;
   const height = pipe(
     props.search,
     O.fromNullable,
-    O.map((_) => _height + 40),
+    O.map((_) => _height + LIST_HEADER_HEIGHT),
     O.getOrElse(() => _height)
   );
 
@@ -112,7 +142,11 @@ export const Collapsible = (props: CollapsibleProps) => {
       <VariableSizeList
         height={height}
         itemCount={itemCount}
-        itemSize={(i) => (i === 0 && !isNil(props.search) ? 40 : 48)}
+        itemSize={(i) =>
+          i === 0 && !isNil(props.search)
+            ? LIST_HEADER_HEIGHT
+            : LIST_ITEM_HEIGHT
+        }
         width={"100%"}
         overscanCount={5}
       >

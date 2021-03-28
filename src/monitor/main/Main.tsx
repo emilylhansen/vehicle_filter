@@ -9,7 +9,7 @@ import { getUsers, getVehicles } from "../../api/actions";
 import { Chip } from "../../design/Chip";
 import { Color } from "../../design/styles";
 import { getCells } from "../../selectors";
-import { A, O, pipe } from "../../utils/fp-ts-exports";
+import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
 import { Cell } from "./Cell";
 
 const MainBox = styled.div`
@@ -64,43 +64,58 @@ export const Main = () => {
   return (
     <MainBox>
       <AutoSizer>
-        {({ height, width }) => (
-          <FixedSizeGrid
-            ref={gridRef}
-            columnCount={4}
-            columnWidth={width / 4}
-            height={height}
-            rowCount={Math.ceil(cells.length / 4)}
-            rowHeight={311}
-            width={width}
-          >
-            {({ rowIndex, columnIndex, style }) =>
-              pipe(
-                cells,
-                A.lookup(rowIndex + 1 + columnIndex + 1),
-                O.map((data) => (
-                  <Cell
-                    rowIndex={rowIndex}
-                    columnIndex={columnIndex}
-                    style={style}
-                    vehicle={data.vehicle}
-                    owner={data.owner}
-                    isConnected={data.isConnected}
-                    registration={data.registration}
-                    lastConnected={data.lastConnected}
-                    id={data.id}
-                  />
-                )),
-                O.getOrElse(() => <div>unable to load cell</div>)
+        {({ height, width }) =>
+          pipe(
+            cells,
+            RD.fold(
+              () => <div>loading</div>,
+              () => <div>loading</div>,
+              (e) => <div>{e}</div>,
+              (cs) => (
+                <FixedSizeGrid
+                  ref={gridRef}
+                  columnCount={4}
+                  columnWidth={width / 4}
+                  height={height}
+                  rowCount={Math.ceil(cs.length / 4)}
+                  rowHeight={311}
+                  width={width}
+                >
+                  {({ rowIndex, columnIndex, style }) =>
+                    pipe(
+                      cs,
+                      A.lookup(rowIndex + 1 + columnIndex + 1),
+                      O.map((data) => (
+                        <Cell
+                          rowIndex={rowIndex}
+                          columnIndex={columnIndex}
+                          style={style}
+                          vehicle={data.vehicle}
+                          owner={data.owner}
+                          isConnected={data.isConnected}
+                          registration={data.registration}
+                          lastConnected={data.lastConnected}
+                          id={data.id}
+                        />
+                      )),
+                      O.getOrElse(() => <div>unable to load cell</div>)
+                    )
+                  }
+                </FixedSizeGrid>
               )
-            }
-          </FixedSizeGrid>
-        )}
+            )
+          )
+        }
       </AutoSizer>
       <StyledIconButton onClick={scrollToTop}>
         <ArrowUpwardIcon />
       </StyledIconButton>
-      <StyledChip label={`${cells.length} Results Found`} />
+      {pipe(
+        cells,
+        RD.toOption,
+        O.map((cs) => <StyledChip label={`${cs.length} Results Found`} />),
+        O.toNullable
+      )}
     </MainBox>
   );
 };

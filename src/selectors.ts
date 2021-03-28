@@ -1,22 +1,19 @@
+import { sequenceS } from "fp-ts/lib/Apply";
 import { Lens } from "monocle-ts";
-import { InitialState } from "./reducer";
 import { createSelector } from "reselect";
-import { A, pipe, R, O, RD } from "./utils/fp-ts-exports";
-import { InjectedProps as CellInjectedProps } from "./monitor/main/Cell";
 import {
-  isoIntegerTimeStamp,
   isoNonEmptyString,
-  isoNonEmptyString6,
+  isoUserId,
   isoVehicleId,
   Vehicle,
-  isoUserId,
+  RdError,
+  User,
+  UserIdCarrier,
+  VehicleIdCarrier,
 } from "./api/types";
-import { sequenceS } from "fp-ts/lib/Apply";
-import {
-  NonEmptyString,
-  prismNonEmptyString,
-} from "newtype-ts/lib/NonEmptyString";
-import { Collapsible, CollapsibleListItem } from "./design/Collapsible";
+import { InjectedProps as CellInjectedProps } from "./monitor/main/Cell";
+import { InitialState } from "./reducer";
+import { A, O, pipe, R, RD } from "./utils/fp-ts-exports";
 
 const usersByIdLens = Lens.fromProp<InitialState>()("usersById");
 
@@ -27,68 +24,74 @@ export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
 
-export const getCustomerListItems = createSelector(
-  getUsersById,
-  (usersById): Array<CollapsibleListItem> =>
-    pipe(
-      usersById,
-      RD.toOption,
-      O.map(R.toArray),
-      O.map((us) =>
-        pipe(
-          us,
-          A.map(([k, v]) => ({
-            primaryText: `${isoNonEmptyString.unwrap(
-              v.first
-            )} ${isoNonEmptyString.unwrap(v.last)}`,
-            secondaryText: isoNonEmptyString.unwrap(v.email),
-            key: k,
-          }))
-        )
-      ),
-      O.getOrElse<Array<CollapsibleListItem>>(() => A.empty)
-    )
-);
-
 export const getCells = createSelector(
   getUsersById,
   getVehiclesById,
-  (usersById, vehiclesById): Array<CellInjectedProps> => {
+  (
+    usersById,
+    vehiclesById
+  ): RD.RemoteData<RdError, Array<CellInjectedProps>> => {
     return pipe(
       sequenceS(RD.remoteData)({ usersById, vehiclesById }),
-      RD.toOption,
-      O.map((data) =>
-        pipe(
-          data.vehiclesById,
-          R.toArray,
-          A.reduce<[string, Vehicle], Array<CellInjectedProps>>(
-            A.empty,
-            (acc, [k, v]) => {
-              const cellDataO = pipe(
-                data.usersById,
-                R.lookup(isoUserId.unwrap(v.ownerId)),
-                O.map((u) => ({
-                  vehicle: isoNonEmptyString.wrap(
-                    `${v.year} ${v.make} ${v.model}`
-                  ),
-                  owner: isoNonEmptyString.wrap(`${u.first} ${u.last}`),
-                  isConnected: v.connected,
-                  registration: v.registration,
-                  lastConnected: v.lastConnected,
-                  id: isoVehicleId.wrap(k),
-                }))
-              );
+      RD.fold<
+        RdError,
+        {
+          usersById: Record<UserIdCarrier, User>;
+          vehiclesById: Record<VehicleIdCarrier, Vehicle>;
+        },
+        RD.RemoteData<RdError, Array<CellInjectedProps>>
+      >(
+        () => RD.initial,
+        () => RD.pending,
+        (e) => RD.failure(e),
+        (data) =>
+          pipe(
+            data.vehiclesById,
+            R.toArray,
+            A.reduce<[string, Vehicle], Array<CellInjectedProps>>(
+              [],
+              (acc, [k, v]) => {
+                const cellDataO = pipe(
+                  data.usersById,
+                  R.lookup(isoUserId.unwrap(v.ownerId)),
+                  O.map((u) => ({
+                    vehicle: isoNonEmptyString.wrap(
+                      `${v.year} ${v.make} ${v.model}`
+                    ),
+                    owner: isoNonEmptyString.wrap(`${u.first} ${u.last}`),
+                    isConnected: v.connected,
+                    registration: v.registration,
+                    lastConnected: v.lastConnected,
+                    id: isoVehicleId.wrap(k),
+                  }))
+                );
 
-              return pipe(
-                cellDataO,
-                O.map((c) => [...acc, c]),
-                O.getOrElse(() => acc)
-              );
-            }
+                return pipe(
+                  cellDataO,
+                  O.map((c) => [...acc, c]),
+                  O.getOrElse(() => acc)
+                );
+              }
+            ),
+            RD.success
           )
-        )
-      ),
-      O.getOrElse<Array<CellInjectedProps>>(() => A.empty)
+      )
     );
   }
+);
+
+export const getInitCheckByUserId = createSelector(
+  getUsersById,
+  (usersById): Record<UserIdCarrier, boolean> =>
+    pipe(
+      usersById,
+      RD.toOption,
+      O.map((us) =>
+        pipe(
+          us,
+          R.map((u) => true)
+        )
+      ),
+      O.getOrElse<Record<UserIdCarrier, boolean>>(() => ({}))
+    )
 );

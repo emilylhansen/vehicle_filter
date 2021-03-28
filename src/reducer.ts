@@ -1,12 +1,18 @@
 import { initial, RemoteData } from "@devexperts/remote-data-ts";
 import { ApiAction, GET_USERS, GET_VEHICLES } from "./api/actions";
-import { User, Vehicle } from "./api/types";
+import {
+  User,
+  Vehicle,
+  UserIdCarrier,
+  VehicleIdCarrier,
+  RdError,
+} from "./api/types";
 import { usersByIdHandlers } from "./handlers/usersByIdHandlers";
 import { vehiclesByIdHandlers } from "./handlers/vehiclesByIdHandlers";
 
 export type InitialState = {
-  usersById: RemoteData<string, Record<string, User>>;
-  vehiclesById: RemoteData<string, Record<string, Vehicle>>;
+  usersById: RemoteData<RdError, Record<UserIdCarrier, User>>;
+  vehiclesById: RemoteData<RdError, Record<VehicleIdCarrier, Vehicle>>;
 };
 const initialState: InitialState = {
   usersById: initial,

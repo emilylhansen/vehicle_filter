@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { GetUsersResponse, GetVehiclesResponse, Vehicle } from "./types";
+import { ApiParams, GetUsersResponse, GetVehiclesResponse } from "./types";
 
 export const apiClient = axios.create({
   baseURL: "http://localhost:3000/",
@@ -13,7 +13,9 @@ export const Api = {
   getUsers: async (): Promise<AxiosResponse<GetUsersResponse>> =>
     apiClient.get<GetUsersResponse>(`users`),
   getVehicles: async (
-    params?: Partial<Vehicle>
+    params?: ApiParams
   ): Promise<AxiosResponse<GetVehiclesResponse>> =>
-    apiClient.get<GetVehiclesResponse>(`vehicles`, { params }),
+    apiClient.get<GetVehiclesResponse>(`vehicles`, {
+      params: new URLSearchParams(params),
+    }),
 };

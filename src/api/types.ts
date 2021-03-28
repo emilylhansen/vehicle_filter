@@ -1,8 +1,5 @@
-import { Concat, iso, Newtype } from "newtype-ts";
-import {
-  NonEmptyString,
-  prismNonEmptyString,
-} from "newtype-ts/lib/NonEmptyString";
+import { CarrierOf, Concat, iso, Newtype } from "newtype-ts";
+import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
 import { PositiveInteger } from "newtype-ts/lib/PositiveInteger";
 
 export const isoNonEmptyString = iso<NonEmptyString>();
@@ -10,10 +7,12 @@ export const isoNonEmptyString = iso<NonEmptyString>();
 export interface UserId
   extends Newtype<{ readonly UserId: unique symbol }, string> {}
 export const isoUserId = iso<UserId>();
+export type UserIdCarrier = CarrierOf<UserId>;
 
 export interface VehicleId
   extends Newtype<{ readonly VehicleId: unique symbol }, string> {}
 export const isoVehicleId = iso<VehicleId>();
+export type VehicleIdCarrier = CarrierOf<VehicleId>;
 
 export interface String6
   extends Newtype<{ readonly String6: unique symbol }, string> {}
@@ -64,3 +63,10 @@ export type Vehicle = {
 export type GetUsersResponse = Array<User>;
 
 export type GetVehiclesResponse = Array<Vehicle>;
+
+export interface RdError
+  extends Newtype<{ readonly RdError: unique symbol }, string> {}
+export const isoRdError = iso<RdError>();
+export type RdErrorCarrier = CarrierOf<RdError>;
+
+export type ApiParams = Array<Array<string>>;
