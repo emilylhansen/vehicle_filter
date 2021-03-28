@@ -2,6 +2,7 @@
   "name": "vehicle-filter",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@devexperts/remote-data-ts": "^2.0.5",
     "@material-ui/core": "^4.11.3",
@@ -19,7 +20,10 @@
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",
     "@types/redux": "^3.6.0",
+    "@types/redux-logger": "^3.0.8",
     "@types/redux-pack": "^0.1.5",
+    "@types/redux-thunk": "^2.1.0",
+    "@types/reselect": "^2.2.0",
     "@types/styled-components": "^5.1.9",
     "axios": "^0.21.1",
     "faker": "^5.5.0",
@@ -33,8 +37,13 @@
     "react-virtualized-auto-sizer": "^1.0.5",
     "react-window": "^1.8.6",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "redux-pack": "^0.1.5",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "styled-components": "^5.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -64,8 +73,6 @@
   "devDependencies": {
     "@types/json-server": "^0.14.3",
     "json-server": "^0.16.3",
-    "nodemon": "^2.0.7",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "nodemon": "^2.0.7"
   }
 }

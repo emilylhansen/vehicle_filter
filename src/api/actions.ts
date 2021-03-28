@@ -6,7 +6,6 @@ import { handle, Action } from "redux-pack";
 export const GET_USERS = "GET_USERS";
 export type GET_USERS = typeof GET_USERS;
 
-type A = Action<{}, GetUsersResponse, , {}>;
 export type GetUsers = {
   type: GET_USERS;
   promise: Promise<AxiosResponse<GetUsersResponse>>;
@@ -25,7 +24,7 @@ export type GetVehicles = {
   type: GET_VEHICLES;
   promise: Promise<AxiosResponse<GetVehiclesResponse>>;
 };
-export const getVehicles = (params: Partial<Vehicle>): GetVehicles => {
+export const getVehicles = (params?: Partial<Vehicle>): GetVehicles => {
   return {
     type: GET_VEHICLES,
     promise: Api.getVehicles(params),

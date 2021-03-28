@@ -1,5 +1,8 @@
 import { Concat, iso, Newtype } from "newtype-ts";
-import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
+import {
+  NonEmptyString,
+  prismNonEmptyString,
+} from "newtype-ts/lib/NonEmptyString";
 import { PositiveInteger } from "newtype-ts/lib/PositiveInteger";
 
 export const isoNonEmptyString = iso<NonEmptyString>();
@@ -55,7 +58,7 @@ export type Vehicle = {
   year: PositiveInteger4;
   registration: NonEmptyString6;
   connected: boolean;
-  lastActive: IntegerTimeStamp;
+  lastConnected: IntegerTimeStamp;
 };
 
 export type GetUsersResponse = Array<User>;

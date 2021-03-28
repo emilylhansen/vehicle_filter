@@ -32,7 +32,7 @@ const vehicleAA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("ABC123"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 const vehicleAB: Vehicle = {
   id: isoVehicleId.wrap("VLUR4X20009093588"),
@@ -42,7 +42,7 @@ const vehicleAB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("DEF456"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 const vehicleAC: Vehicle = {
   id: isoVehicleId.wrap("VLUR4X20009048066"),
@@ -52,7 +52,7 @@ const vehicleAC: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("GHI789"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 
 const userB: User = {
@@ -75,7 +75,7 @@ const vehicleBA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("JKL012"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 const vehicleBB: Vehicle = {
   id: isoVehicleId.wrap("YS2R4X20005387949"),
@@ -85,7 +85,7 @@ const vehicleBB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("MNO345"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 
 const userC: User = {
@@ -108,7 +108,7 @@ const vehicleCA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("PQR678"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 const vehicleCB: Vehicle = {
   id: isoVehicleId.wrap("YS2R4X20005387055"),
@@ -118,7 +118,7 @@ const vehicleCB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("STU901"),
   connected: faker.random.boolean(),
-  lastActive: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
 
 const baseCustomers = [userA, userB, userC];
@@ -157,9 +157,9 @@ const generatedVehicles: Array<Vehicle> = pipe(
     make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
     model: isoNonEmptyString.wrap(faker.vehicle.model()),
     year: isoPositiveInteger4.wrap(2021),
-    registration: isoNonEmptyString6.wrap("123abc"),
+    registration: isoNonEmptyString6.wrap("dk1l1"),
     connected: faker.random.boolean(),
-    lastActive: isoIntegerTimeStamp.wrap(1616866793),
+    lastConnected: isoIntegerTimeStamp.wrap(1616866793),
   }))
 );
 

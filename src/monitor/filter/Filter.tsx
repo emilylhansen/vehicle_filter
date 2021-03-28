@@ -14,6 +14,8 @@ import List from "@material-ui/core/List";
 import { Text } from "../../design/Text";
 import { Collapsible, CollapsibleListItem } from "../../design/Collapsible";
 import styled from "styled-components";
+import { getVehicles } from "../../api/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const FilterBox = styled.div`
   grid-area: filter;
@@ -49,6 +51,8 @@ const StyledListSubheader = styled(ListSubheader)`
 `;
 
 export const Filter = () => {
+  const dispatch = useDispatch();
+
   return (
     <FilterBox>
       <ScrollList>
@@ -76,6 +80,7 @@ export const Filter = () => {
           variant="contained"
           size="small"
           display={ButtonPropsDisplay.Primary}
+          onClick={() => dispatch(getVehicles({ connected: true }))}
         >
           Search
         </SearchButton>

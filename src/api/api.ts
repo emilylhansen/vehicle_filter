@@ -13,7 +13,7 @@ export const Api = {
   getUsers: async (): Promise<AxiosResponse<GetUsersResponse>> =>
     apiClient.get<GetUsersResponse>(`users`),
   getVehicles: async (
-    params: Partial<Vehicle>
+    params?: Partial<Vehicle>
   ): Promise<AxiosResponse<GetVehiclesResponse>> =>
     apiClient.get<GetVehiclesResponse>(`vehicles`, { params }),
 };

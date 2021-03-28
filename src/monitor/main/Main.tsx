@@ -1,20 +1,16 @@
-import styled, { css } from "styled-components";
-import { FixedSizeList, FixedSizeGrid } from "react-window";
-
-import car_placeholder from "./car_placeholder.png";
-import car_stock_image from "./car_stock_image.png";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Color } from "../../design/styles";
-import { ConnectedIcon } from "../../design/ConnectedIcon";
-import { DisconnectedIcon } from "../../design/DisconnectedIcon";
-import { Cell } from "./Cell";
-import { ScrollToTop } from "./ScrollToTop";
-import { ResultsCount } from "./ResultsCount";
+import { FixedSizeGrid } from "react-window";
+import styled from "styled-components";
+import { getUsers, getVehicles } from "../../api/actions";
 import { Chip } from "../../design/Chip";
-
-// const CARD_HEIGHT = 80;
-// const ROW_VERTICAL_MARGIN = 8;
-// const ROW_HEIGHT = CARD_HEIGHT + ROW_VERTICAL_MARGIN * 2;
+import { Color } from "../../design/styles";
+import { getCells } from "../../selectors";
+import { A, O, pipe } from "../../utils/fp-ts-exports";
+import { Cell } from "./Cell";
 
 const MainBox = styled.div`
   grid-area: main;
@@ -27,25 +23,84 @@ const StyledChip = styled(Chip)`
   right: 45%;
 `;
 
+const StyledIconButton = styled(IconButton)`
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  color: ${Color.Secondary};
+  background-color: ${Color.Primary};
+`;
+
 export const Main = () => {
+  const dispatch = useDispatch();
+  const gridRef = React.createRef<FixedSizeGrid>();
+
+  const cells = useSelector(getCells);
+
+  const scrollToTop = () => {
+    /**
+     * Unable to use window smooth scroll with react-window,
+     * since it would require the library to render all items.
+     */
+    pipe(
+      gridRef.current,
+      O.fromNullable,
+      O.map((r) => () => {
+        r.scrollToItem({
+          rowIndex: 0,
+          align: "start",
+        });
+      }),
+      O.getOrElse(() => () => {}),
+      (io) => io()
+    );
+  };
+
+  React.useEffect(() => {
+    dispatch(getUsers());
+    dispatch(getVehicles());
+  }, []);
+
   return (
     <MainBox>
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeGrid
+            ref={gridRef}
             columnCount={4}
             columnWidth={width / 4}
             height={height}
-            rowCount={20}
+            rowCount={Math.ceil(cells.length / 4)}
             rowHeight={311}
             width={width}
           >
-            {Cell}
+            {({ rowIndex, columnIndex, style }) =>
+              pipe(
+                cells,
+                A.lookup(rowIndex + 1 + columnIndex + 1),
+                O.map((data) => (
+                  <Cell
+                    rowIndex={rowIndex}
+                    columnIndex={columnIndex}
+                    style={style}
+                    vehicle={data.vehicle}
+                    owner={data.owner}
+                    isConnected={data.isConnected}
+                    registration={data.registration}
+                    lastConnected={data.lastConnected}
+                    id={data.id}
+                  />
+                )),
+                O.getOrElse(() => <div>unable to load cell</div>)
+              )
+            }
           </FixedSizeGrid>
         )}
       </AutoSizer>
-      <ScrollToTop />
-      <StyledChip label="4 Results Found" />
+      <StyledIconButton onClick={scrollToTop}>
+        <ArrowUpwardIcon />
+      </StyledIconButton>
+      <StyledChip label={`${cells.length} Results Found`} />
     </MainBox>
   );
 };

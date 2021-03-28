@@ -2,18 +2,28 @@ import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import car_placeholder from "../car_placeholder.png";
+import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
+import styled from "styled-components";
+import {
+  IntegerTimeStamp,
+  isoIntegerTimeStamp,
+  isoNonEmptyString,
+  isoNonEmptyString6,
+  NonEmptyString6,
+  VehicleId,
+  isoVehicleId,
+} from "../../api/types";
+import car_placeholder from "../../car_placeholder.png";
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 import { Color, FontSize, FontWeight } from "../../design/styles";
 import { Text } from "../../design/Text";
-import styled from "styled-components";
 
-const CELL_MARGIN = 16;
+// const CELL_MARGIN = 16;
 const CARD_WIDTH = 240;
-const CARD_HEIGHT = 240;
-const CELL_HEIGHT = CARD_HEIGHT + CELL_MARGIN * 2;
-const CELL_WIDTH = CARD_WIDTH + CELL_MARGIN * 2;
+// const CARD_HEIGHT = 240;
+// const CELL_HEIGHT = CARD_HEIGHT + CELL_MARGIN * 2;
+// const CELL_WIDTH = CARD_WIDTH + CELL_MARGIN * 2;
 
 const CellBox = styled.div`
   display: flex;
@@ -29,6 +39,7 @@ const LastConnectedBox = styled.div`
 const StyledCard = styled(Card)`
   width: ${CARD_WIDTH}px;
   border-radius: 16px;
+  margin: 16px;
   box-shadow: 0 2.8px 4.4px rgba(55, 40, 177, 0.006),
     0 6.7px 10.6px rgba(55, 40, 177, 0.008),
     0 12.5px 20px rgba(55, 40, 177, 0.01),
@@ -48,23 +59,39 @@ const StyledCardContent = styled(CardContent)`
   flex-flow: column;
 `;
 
-export const Cell = ({
-  columnIndex,
-  rowIndex,
-  style,
-}: {
+const Registration = styled(Text)`
+  text-transform: uppercase;
+`;
+
+type ReactWindowCellProps = {
   columnIndex: number;
   rowIndex: number;
   style: React.CSSProperties;
-}) => (
-  <CellBox style={style} key={columnIndex}>
-    <div style={{ padding: 16 }}>
+};
+export type InjectedProps = {
+  vehicle: NonEmptyString;
+  owner: NonEmptyString;
+  isConnected: boolean;
+  registration: NonEmptyString6;
+  lastConnected: IntegerTimeStamp;
+  id: VehicleId;
+};
+type Props = ReactWindowCellProps & InjectedProps;
+
+export const Cell = (props: Props) => {
+  const dateString = new Date(
+    isoIntegerTimeStamp.unwrap(props.lastConnected) * 1000
+  ).toLocaleDateString();
+  const date = props.isConnected ? "Now" : dateString;
+
+  return (
+    <CellBox style={props.style} key={isoVehicleId.unwrap(props.id)}>
       <StyledCard>
         <CardActionArea>
           <StyledCardMedia image={car_placeholder} />
           <StyledCardContent>
             <Text fontSize={FontSize.Size1} fontWeight={FontWeight.Weight6}>
-              2021 Volkswagen Golf
+              {isoNonEmptyString.unwrap(props.vehicle)}
             </Text>
             <Text
               fontSize={FontSize.Size3}
@@ -72,7 +99,7 @@ export const Cell = ({
               color={Color.Gray2}
               margin="0 0 8px"
             >
-              Luke L. Skywalker
+              {isoNonEmptyString.unwrap(props.owner)}
             </Text>
             <LastConnectedBox>
               <Text
@@ -80,25 +107,25 @@ export const Cell = ({
                 fontWeight={FontWeight.Weight2}
                 color={Color.Gray3}
               >
-                {`Last Connected: ${columnIndex % 3 === 0 ? "Now" : "3/3/21"}`}
+                {`Last Connected: ${date}`}
               </Text>
-              {columnIndex % 3 === 0 ? (
+              {props.isConnected ? (
                 <ConnectedIcon fontSize={12} margin="0 0 0 8px" />
               ) : (
                 <DisconnectedIcon fontSize={12} margin="0 0 0 8px" />
               )}
-              <Text
+              <Registration
                 fontSize={FontSize.Size3}
                 fontWeight={FontWeight.Weight5}
                 color={Color.Secondary}
                 margin="0 0 0 auto"
               >
-                F34SD1
-              </Text>
+                {isoNonEmptyString6.unwrap(props.registration)}
+              </Registration>
             </LastConnectedBox>
           </StyledCardContent>
         </CardActionArea>
       </StyledCard>
-    </div>
-  </CellBox>
-);
+    </CellBox>
+  );
+};
