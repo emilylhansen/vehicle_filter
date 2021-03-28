@@ -7,7 +7,7 @@ import {
 } from "../../design/collapsible/Collapsible";
 import { getUsersById } from "../../selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
-import { getCheckedCount } from "./filter.helpers";
+import { getCheckedIds } from "./filter.helpers";
 
 type Props = {
   checkByUserId: Record<UserIdCarrier, boolean>;
@@ -17,7 +17,7 @@ type Props = {
 const useCustomerFilter = (props: Props) => {
   const usersById = useSelector(getUsersById);
 
-  const checkedCount = getCheckedCount(props.checkByUserId);
+  const checkedCount = getCheckedIds(props.checkByUserId).length;
 
   const customerListItems = React.useMemo(
     () =>

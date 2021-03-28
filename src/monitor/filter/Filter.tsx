@@ -38,21 +38,6 @@ const useFilter = () => {
 
   const usersById = useSelector(getUsersById);
 
-  const getParams = () => {
-    const checkByUserIdParams = pipe(
-      getCheckedIds<UserIdCarrier>(checkByUserId),
-      A.map((id) => ["ownerId", id])
-    );
-    const checkByStatusParams = pipe(
-      getCheckedIds<Status>(checkByStatus),
-      A.map((i) =>
-        i === Status.Connected ? ["connected", "true"] : ["connected", "false"]
-      )
-    );
-
-    return [...checkByUserIdParams, ...checkByStatusParams];
-  };
-
   const initCheckByUserId = React.useMemo(
     () =>
       pipe(
@@ -70,6 +55,7 @@ const useFilter = () => {
   );
 
   const initFilter = () => {
+    /** init with all checkboxes checked */
     setCheckByUserId(initCheckByUserId);
     setCheckByStatus(initCheckByStatus);
   };
@@ -78,8 +64,23 @@ const useFilter = () => {
     initFilter();
   }, []);
 
+  const getQueryParams = () => {
+    const checkByUserIdQueryParams = pipe(
+      getCheckedIds<UserIdCarrier>(checkByUserId),
+      A.map((id) => ["ownerId", id])
+    );
+    const checkByStatusQueryParams = pipe(
+      getCheckedIds<Status>(checkByStatus),
+      A.map((i) =>
+        i === Status.Connected ? ["connected", "true"] : ["connected", "false"]
+      )
+    );
+
+    return [...checkByUserIdQueryParams, ...checkByStatusQueryParams];
+  };
+
   const onSearch = () => {
-    dispatch(getVehicles(getParams()));
+    dispatch(getVehicles(getQueryParams()));
   };
 
   const onReset = () => {
@@ -89,7 +90,7 @@ const useFilter = () => {
 
   return {
     dispatch,
-    getParams,
+    getQueryParams,
     checkByStatus,
     checkByUserId,
     setCheckByStatus,

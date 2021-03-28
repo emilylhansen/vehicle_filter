@@ -12,6 +12,8 @@ import { getCells } from "../../selectors";
 import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
 import { Cell } from "./cell/Cell";
 
+const COLUMN_COUNT = 4;
+
 const MainBox = styled.div`
   grid-area: main;
   background-color: ${Color.Gray4};
@@ -32,8 +34,8 @@ const StyledIconButton = styled(IconButton)`
 `;
 
 const useMain = () => {
-  const dispatch = useDispatch();
   const gridRef = React.createRef<FixedSizeGrid>();
+  const dispatch = useDispatch();
 
   const cells = useSelector(getCells);
 
@@ -61,11 +63,20 @@ const useMain = () => {
     dispatch(getVehicles());
   }, []);
 
-  return { cells, scrollToTop, gridRef };
+  /** get list index given grid coords */
+  const getListIndex = ({
+    columnIndex,
+    rowIndex,
+  }: {
+    columnIndex: number;
+    rowIndex: number;
+  }) => rowIndex * (COLUMN_COUNT - 1) + (columnIndex + rowIndex);
+
+  return { cells, scrollToTop, gridRef, getListIndex };
 };
 export const Main = () => {
   const state = useMain();
-
+  console.log(state.cells);
   return (
     <MainBox>
       <AutoSizer>
@@ -80,17 +91,17 @@ export const Main = () => {
               (cs) => (
                 <FixedSizeGrid
                   ref={state.gridRef}
-                  columnCount={4}
-                  columnWidth={width / 4}
+                  columnCount={COLUMN_COUNT}
+                  columnWidth={width / COLUMN_COUNT}
                   height={height}
-                  rowCount={Math.ceil(cs.length / 4)}
+                  rowCount={Math.ceil(cs.length / COLUMN_COUNT)}
                   rowHeight={311}
                   width={width}
                 >
                   {({ rowIndex, columnIndex, style }) =>
                     pipe(
                       cs,
-                      A.lookup(rowIndex + 1 + columnIndex + 1),
+                      A.lookup(state.getListIndex({ rowIndex, columnIndex })),
                       O.map((data) => (
                         <Cell
                           rowIndex={rowIndex}
@@ -104,8 +115,7 @@ export const Main = () => {
                           id={data.id}
                         />
                       )),
-                      /** TODO: styled error cell */
-                      O.getOrElse(() => <div>unable to load cell</div>)
+                      O.toNullable
                     )
                   }
                 </FixedSizeGrid>

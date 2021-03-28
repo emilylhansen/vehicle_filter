@@ -6,7 +6,7 @@ import {
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 import { O, pipe, R } from "../../utils/fp-ts-exports";
-import { getCheckedCount } from "./filter.helpers";
+import { getCheckedIds } from "./filter.helpers";
 
 export enum Status {
   Connected = "CONNECTED",
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const useStatusFilter = (props: Props) => {
-  const checkedCount = getCheckedCount(props.checkByStatus);
+  const checkedCount = getCheckedIds(props.checkByStatus).length;
 
   const connectedItem: CollapsibleItem = {
     key: Status.Connected,
