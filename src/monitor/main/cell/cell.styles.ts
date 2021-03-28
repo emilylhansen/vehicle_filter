@@ -19,6 +19,8 @@ export const LastConnectedBox = styled.div`
 
 export const StyledCard = styled(Card)`
   width: ${CARD_WIDTH}px;
+  min-width: ${CARD_WIDTH}px;
+  max-width: ${CARD_WIDTH}px;
   border-radius: 16px;
   margin: 16px;
   box-shadow: 0 2.8px 4.4px rgba(55, 40, 177, 0.006),

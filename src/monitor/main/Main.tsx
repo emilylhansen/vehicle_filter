@@ -12,6 +12,16 @@ import { getCells } from "../../selectors";
 import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
 import { Cell } from "./cell/Cell";
 
+const MAX_CELL_WIDTH = 240 + 32;
+
+const getColumnCount = (width: number): number => {
+  if (width < MAX_CELL_WIDTH * 2) {
+    return 1;
+  }
+
+  return Math.ceil((width - MAX_CELL_WIDTH * 2) / MAX_CELL_WIDTH);
+};
+
 const COLUMN_COUNT = 4;
 
 const MainBox = styled.div`
@@ -33,12 +43,43 @@ const StyledIconButton = styled(IconButton)`
   background-color: ${Color.Primary};
 `;
 
+const getWidth = () =>
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
+
 const useMain = () => {
+  const [width, setWidth] = React.useState<number>(getWidth());
+
   const gridRef = React.createRef<FixedSizeGrid>();
   const dispatch = useDispatch();
 
   const cells = useSelector(getCells);
 
+  // in this case useEffect will execute only once because
+  // it does not have any dependencies.
+  React.useEffect(() => {
+    // timeoutId for debounce mechanism
+    let timeoutId: NodeJS.Timeout | null = null;
+    const resizeListener = () => {
+      if (!!timeoutId) {
+        // prevent execution of previous setTimeout
+        clearTimeout(timeoutId);
+      }
+      // change width from the state object after 150 milliseconds
+      timeoutId = setTimeout(() => setWidth(getWidth()), 1000);
+    };
+    // set resize listener
+    window.addEventListener("resize", resizeListener);
+
+    // clean up function
+    return () => {
+      // remove resize listener
+      window.removeEventListener("resize", resizeListener);
+    };
+  });
+
+  console.log({ width });
   const scrollToTop = () => {
     /**
      * Unable to use window smooth scroll with react-window,
@@ -72,11 +113,13 @@ const useMain = () => {
     rowIndex: number;
   }) => rowIndex * (COLUMN_COUNT - 1) + (columnIndex + rowIndex);
 
-  return { cells, scrollToTop, gridRef, getListIndex };
+  const columnCount = getColumnCount(width);
+
+  return { cells, scrollToTop, gridRef, getListIndex, columnCount };
 };
 export const Main = () => {
   const state = useMain();
-  console.log(state.cells);
+
   return (
     <MainBox>
       <AutoSizer>
@@ -91,10 +134,10 @@ export const Main = () => {
               (cs) => (
                 <FixedSizeGrid
                   ref={state.gridRef}
-                  columnCount={COLUMN_COUNT}
-                  columnWidth={width / COLUMN_COUNT}
+                  columnCount={state.columnCount}
+                  columnWidth={width / state.columnCount}
                   height={height}
-                  rowCount={Math.ceil(cs.length / COLUMN_COUNT)}
+                  rowCount={Math.ceil(cs.length / state.columnCount)}
                   rowHeight={311}
                   width={width}
                 >
