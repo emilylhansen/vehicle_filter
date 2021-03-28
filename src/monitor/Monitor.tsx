@@ -1,13 +1,11 @@
 import styled from "styled-components";
-import { Main } from "./main/Main";
 import { Menu } from "../menu/Menu";
 import { Filter } from "./filter/Filter";
+import { Main } from "./main/Main";
 
 const MonitorBox = styled.div`
   display: grid;
   grid-template-areas:
-    // "header header"
-
     "menu filter main "
     "menu filter  main";
   grid-template-columns: 64px 216px auto;
@@ -15,12 +13,10 @@ const MonitorBox = styled.div`
   height: 100%;
 `;
 
-export const Monitor = () => {
-  return (
-    <MonitorBox>
-      <Menu />
-      <Filter />
-      <Main />
-    </MonitorBox>
-  );
-};
+export const Monitor = () => (
+  <MonitorBox>
+    <Menu />
+    <Filter />
+    <Main />
+  </MonitorBox>
+);

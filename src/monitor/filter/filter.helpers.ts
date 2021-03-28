@@ -6,7 +6,11 @@ export const getCheckedIds = <K extends string | number | symbol>(
   pipe(
     checkById,
     R.toArray,
-    /** unsafe */
+    /**
+     * unsafe cast !
+     * R.toArray extends the record key to string,
+     * so i'm not able to use K
+     */
     (a) => a as Array<[K, boolean]>,
     A.filterMap(([k, v]) => (v ? O.some(k) : O.none))
   );

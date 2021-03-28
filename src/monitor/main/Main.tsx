@@ -10,7 +10,7 @@ import { Chip } from "../../design/Chip";
 import { Color } from "../../design/styles";
 import { getCells } from "../../selectors";
 import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
-import { Cell } from "./Cell";
+import { Cell } from "./cell/Cell";
 
 const MainBox = styled.div`
   grid-area: main;
@@ -31,7 +31,7 @@ const StyledIconButton = styled(IconButton)`
   background-color: ${Color.Primary};
 `;
 
-export const Main = () => {
+const useMain = () => {
   const dispatch = useDispatch();
   const gridRef = React.createRef<FixedSizeGrid>();
 
@@ -61,19 +61,25 @@ export const Main = () => {
     dispatch(getVehicles());
   }, []);
 
+  return { cells, scrollToTop, gridRef };
+};
+export const Main = () => {
+  const state = useMain();
+
   return (
     <MainBox>
       <AutoSizer>
         {({ height, width }) =>
           pipe(
-            cells,
+            state.cells,
             RD.fold(
+              /** TODO: style loading and error states */
               () => <div>loading</div>,
               () => <div>loading</div>,
               (e) => <div>{e}</div>,
               (cs) => (
                 <FixedSizeGrid
-                  ref={gridRef}
+                  ref={state.gridRef}
                   columnCount={4}
                   columnWidth={width / 4}
                   height={height}
@@ -98,6 +104,7 @@ export const Main = () => {
                           id={data.id}
                         />
                       )),
+                      /** TODO: styled error cell */
                       O.getOrElse(() => <div>unable to load cell</div>)
                     )
                   }
@@ -107,11 +114,11 @@ export const Main = () => {
           )
         }
       </AutoSizer>
-      <StyledIconButton onClick={scrollToTop}>
+      <StyledIconButton onClick={state.scrollToTop}>
         <ArrowUpwardIcon />
       </StyledIconButton>
       {pipe(
-        cells,
+        state.cells,
         RD.toOption,
         O.map((cs) => <StyledChip label={`${cs.length} Results Found`} />),
         O.toNullable

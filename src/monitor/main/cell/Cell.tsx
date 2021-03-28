@@ -1,67 +1,27 @@
-import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
-import styled from "styled-components";
 import {
   IntegerTimeStamp,
   isoIntegerTimeStamp,
   isoNonEmptyString,
   isoNonEmptyString6,
+  isoVehicleId,
   NonEmptyString6,
   VehicleId,
-  isoVehicleId,
-} from "../../api/types";
-import car_placeholder from "../../car_placeholder.png";
-import { ConnectedIcon } from "../../design/ConnectedIcon";
-import { DisconnectedIcon } from "../../design/DisconnectedIcon";
-import { Color, FontSize, FontWeight } from "../../design/styles";
-import { Text } from "../../design/Text";
-
-// const CELL_MARGIN = 16;
-const CARD_WIDTH = 240;
-// const CARD_HEIGHT = 240;
-// const CELL_HEIGHT = CARD_HEIGHT + CELL_MARGIN * 2;
-// const CELL_WIDTH = CARD_WIDTH + CELL_MARGIN * 2;
-
-const CellBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LastConnectedBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledCard = styled(Card)`
-  width: ${CARD_WIDTH}px;
-  border-radius: 16px;
-  margin: 16px;
-  box-shadow: 0 2.8px 4.4px rgba(55, 40, 177, 0.006),
-    0 6.7px 10.6px rgba(55, 40, 177, 0.008),
-    0 12.5px 20px rgba(55, 40, 177, 0.01),
-    0 22.3px 35.7px rgba(55, 40, 177, 0.012),
-    0 41.8px 66.8px rgba(55, 40, 177, 0.014),
-    0 100px 160px rgba(55, 40, 177, 0.02);
-`;
-
-const StyledCardMedia = styled(CardMedia)`
-  height: 160px;
-  border-radius: 16px;
-  margin: 16px 16px 0;
-`;
-
-const StyledCardContent = styled(CardContent)`
-  display: flex;
-  flex-flow: column;
-`;
-
-const Registration = styled(Text)`
-  text-transform: uppercase;
-`;
+} from "../../../api/types";
+import { ConnectedIcon } from "../../../design/ConnectedIcon";
+import { DisconnectedIcon } from "../../../design/DisconnectedIcon";
+import { Color, FontSize, FontWeight } from "../../../design/styles";
+import { Text } from "../../../design/Text";
+import car_placeholder from "./car_placeholder.png";
+import {
+  CellBox,
+  LastConnectedBox,
+  Registration,
+  StyledCard,
+  StyledCardContent,
+  StyledCardMedia,
+} from "./cell.styles";
 
 type ReactWindowCellProps = {
   columnIndex: number;
@@ -78,11 +38,17 @@ export type InjectedProps = {
 };
 type Props = ReactWindowCellProps & InjectedProps;
 
-export const Cell = (props: Props) => {
+const useCell = (props: Props) => {
   const dateString = new Date(
     isoIntegerTimeStamp.unwrap(props.lastConnected) * 1000
   ).toLocaleDateString();
   const date = props.isConnected ? "Now" : dateString;
+
+  return { date };
+};
+
+export const Cell = (props: Props) => {
+  const state = useCell(props);
 
   return (
     <CellBox style={props.style} key={isoVehicleId.unwrap(props.id)}>
@@ -107,7 +73,7 @@ export const Cell = (props: Props) => {
                 fontWeight={FontWeight.Weight2}
                 color={Color.Gray3}
               >
-                {`Last Connected: ${date}`}
+                {`Last Connected: ${state.date}`}
               </Text>
               {props.isConnected ? (
                 <ConnectedIcon fontSize={12} margin="0 0 0 8px" />
