@@ -36,6 +36,7 @@ type CollapsibleProps = {
 };
 
 const useCollapsible = (props: CollapsibleProps) => {
+  /** count of items matching filters */
   const itemCount = pipe(
     props.search,
     O.fromNullable,
@@ -43,6 +44,7 @@ const useCollapsible = (props: CollapsibleProps) => {
     O.getOrElse(() => props.items.length)
   );
 
+  /** calculate grid height */
   const _gridHeight = props.items.length * LIST_ITEM_HEIGHT;
   const gridHeight = pipe(
     props.search,
@@ -54,9 +56,14 @@ const useCollapsible = (props: CollapsibleProps) => {
   const shouldHandleSearch = (index: number) =>
     index === 0 && !isNil(props.search);
 
+  /** height for each row */
   const getItemSize = (index: number) =>
     shouldHandleSearch(index) ? LIST_HEADER_HEIGHT : LIST_ITEM_HEIGHT;
 
+  /**
+   * get correct index to access data in items list.
+   * accounts for possible search input row.
+   */
   const getItemIndex = (index: number) =>
     isNil(props.search) ? index : index - 1;
 

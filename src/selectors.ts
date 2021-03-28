@@ -5,10 +5,10 @@ import {
   isoNonEmptyString,
   isoUserId,
   isoVehicleId,
-  Vehicle,
   RdError,
   User,
   UserIdCarrier,
+  Vehicle,
   VehicleIdCarrier,
 } from "./api/types";
 import { InjectedProps as CellInjectedProps } from "./monitor/main/Cell";
@@ -24,6 +24,7 @@ export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
 
+/** get data for cells in vehicle grid */
 export const getCells = createSelector(
   getUsersById,
   getVehiclesById,

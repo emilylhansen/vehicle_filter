@@ -1,11 +1,11 @@
 import { initial, RemoteData } from "@devexperts/remote-data-ts";
 import { ApiAction, GET_USERS, GET_VEHICLES } from "./api/actions";
 import {
-  User,
-  Vehicle,
-  UserIdCarrier,
-  VehicleIdCarrier,
   RdError,
+  User,
+  UserIdCarrier,
+  Vehicle,
+  VehicleIdCarrier,
 } from "./api/types";
 import { usersByIdHandlers } from "./handlers/usersByIdHandlers";
 import { vehiclesByIdHandlers } from "./handlers/vehiclesByIdHandlers";
