@@ -12,6 +12,7 @@ import {
   Vehicle,
 } from "./types";
 
+//#region userA start
 const userA: User = {
   id: isoUserId.wrap("userA"),
   first: isoNonEmptyString.wrap("Kalles"),
@@ -54,7 +55,9 @@ const vehicleAC: Vehicle = {
   connected: faker.random.boolean(),
   lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
+//#endregion userA end
 
+//#region userB start
 const userB: User = {
   id: isoUserId.wrap("userB"),
   first: isoNonEmptyString.wrap("Johans"),
@@ -87,7 +90,9 @@ const vehicleBB: Vehicle = {
   connected: faker.random.boolean(),
   lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
+//#endregion userB end
 
+//#region userC start
 const userC: User = {
   id: isoUserId.wrap("userC"),
   first: isoNonEmptyString.wrap("Haralds"),
@@ -120,6 +125,7 @@ const vehicleCB: Vehicle = {
   connected: faker.random.boolean(),
   lastConnected: isoIntegerTimeStamp.wrap(1616866793),
 };
+//#endregion userC end
 
 const baseCustomers = [userA, userB, userC];
 
