@@ -8,6 +8,10 @@ This application has a tab that allows admins to easily view and filter their cu
 
 Your task will be to create Web GUI that will show these vehicles with their status and the customers who own them.
 
+# Analysis
+
+Analysis of the task can be found in the `/identity`. It contains wireframes, user use-cases, user flow, branding.
+
 ## Technologies
 
 ### Frontend

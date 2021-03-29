@@ -4,10 +4,12 @@ import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
+import OpacityIcon from "@material-ui/icons/Opacity";
 import React from "react";
 import styled from "styled-components";
 import { Color } from "../design/styles";
 import { MenuItem } from "./MenuItem";
+import { Icon } from "../design/Icon";
 
 const MenuBox = styled.div`
   grid-area: menu;
@@ -30,11 +32,15 @@ export const Menu = () => {
   return (
     <MenuBox>
       <StyledList>
-        <MenuItem
-          isActive={false}
-          icon={<HomeOutlinedIcon />}
+        <Icon
+          fontSize={32}
+          color={Color.Primary}
           aria-label="home"
-        />
+          margin="16px auto 32px"
+        >
+          <OpacityIcon />
+        </Icon>
+        <MenuItem isActive={false} icon={<HomeOutlinedIcon />} />
         <MenuItem
           isActive={true}
           icon={<FilterListOutlinedIcon />}
