@@ -12,6 +12,8 @@ import {
   Vehicle,
 } from "./types";
 
+const LAST_CONNECTED = 1616866793;
+
 //#region userA start
 const userA: User = {
   id: isoUserId.wrap("userA"),
@@ -33,7 +35,7 @@ const vehicleAA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("ABC123"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 const vehicleAB: Vehicle = {
   id: isoVehicleId.wrap("VLUR4X20009093588"),
@@ -43,7 +45,7 @@ const vehicleAB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("DEF456"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 const vehicleAC: Vehicle = {
   id: isoVehicleId.wrap("VLUR4X20009048066"),
@@ -53,7 +55,7 @@ const vehicleAC: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("GHI789"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 //#endregion userA end
 
@@ -78,7 +80,7 @@ const vehicleBA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("JKL012"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 const vehicleBB: Vehicle = {
   id: isoVehicleId.wrap("YS2R4X20005387949"),
@@ -88,7 +90,7 @@ const vehicleBB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("MNO345"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 //#endregion userB end
 
@@ -113,7 +115,7 @@ const vehicleCA: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("PQR678"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 const vehicleCB: Vehicle = {
   id: isoVehicleId.wrap("YS2R4X20005387055"),
@@ -123,7 +125,7 @@ const vehicleCB: Vehicle = {
   year: isoPositiveInteger4.wrap(2021),
   registration: isoNonEmptyString6.wrap("STU901"),
   connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
 };
 //#endregion userC end
 
@@ -165,7 +167,7 @@ const generatedVehicles: Array<Vehicle> = pipe(
     year: isoPositiveInteger4.wrap(2021),
     registration: isoNonEmptyString6.wrap("dk1l1"),
     connected: faker.random.boolean(),
-    lastConnected: isoIntegerTimeStamp.wrap(1616866793),
+    lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
   }))
 );
 

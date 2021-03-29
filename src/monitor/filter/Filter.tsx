@@ -27,6 +27,14 @@ const initCheckByStatus = {
 };
 
 const useFilter = () => {
+  const [checkByUserId, setCheckByUserId] = React.useState<
+    Record<UserIdCarrier, boolean>
+  >({});
+  const [checkByStatus, setCheckByStatus] = React.useState<
+    Record<Status, boolean>
+  >(initCheckByStatus);
+  const dispatch = useDispatch();
+
   const usersById = useSelector(getUsersById);
 
   const initCheckByUserId = React.useMemo(
@@ -45,14 +53,9 @@ const useFilter = () => {
     [usersById]
   );
 
-  const [checkByUserId, setCheckByUserId] = React.useState<
-    Record<UserIdCarrier, boolean>
-  >(initCheckByUserId);
-  const [checkByStatus, setCheckByStatus] = React.useState<
-    Record<Status, boolean>
-  >(initCheckByStatus);
-
-  const dispatch = useDispatch();
+  React.useEffect(() => {
+    setCheckByUserId(initCheckByUserId);
+  }, [initCheckByUserId]);
 
   const initFilter = () => {
     /** init with all checkboxes checked */
@@ -60,6 +63,7 @@ const useFilter = () => {
     setCheckByStatus(initCheckByStatus);
   };
 
+  /** parse check records into query params */
   const getQueryParams = () => {
     const checkByUserIdQueryParams = pipe(
       getCheckedIds<UserIdCarrier>(checkByUserId),
