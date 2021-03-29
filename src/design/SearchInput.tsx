@@ -32,6 +32,7 @@ export type SearchInputProps = {
 
 export const SearchInput = (props: SearchInputProps) => (
   <StyledTextField
+    data-cy="search-input"
     value={props.value}
     onChange={(e) => props.onChange(e.currentTarget.value)}
     label=""

@@ -72,8 +72,11 @@ export const Collapsible = (props: CollapsibleProps) => {
   const state = useCollapsible(props);
 
   return (
-    <StyledAccordion square>
-      <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <StyledAccordion square data-cy="collapsible">
+      <StyledAccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        data-cy="collapsible-header"
+      >
         <Text fontSize={FontSize.Size2} fontWeight={FontWeight.Weight4}>
           {props.headerText}
         </Text>
@@ -95,6 +98,8 @@ export const Collapsible = (props: CollapsibleProps) => {
         itemSize={state.getItemSize}
         width="100%"
         overscanCount={OVERSCAN_COUNT}
+        /** data-cy and aria-label don't work, use className instead */
+        className="collapsible-list"
       >
         {({ index, style }) =>
           pipe(

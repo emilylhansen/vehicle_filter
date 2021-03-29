@@ -105,7 +105,7 @@ export const Filter = () => {
 
   return (
     <FilterBox>
-      <StyledListSubheader>
+      <StyledListSubheader data-cy="filter-list-header">
         <Icon fontSize={18} margin="0 8px 0 0">
           <FilterListOutlinedIcon />
         </Icon>
@@ -117,7 +117,7 @@ export const Filter = () => {
           Filter
         </Text>
       </StyledListSubheader>
-      <ScrollList aria-label="categories list">
+      <ScrollList aria-label="filter-list" data-cy="filter-list">
         <CustomerFilter
           checkByUserId={state.checkByUserId}
           setCheckByUserId={state.setCheckByUserId}
@@ -139,6 +139,7 @@ export const Filter = () => {
           display={ButtonPropsDisplay.Primary}
           onClick={state.onSearch}
           aria-label="search"
+          data-cy="search-filter"
         >
           Search
         </SearchButton>
@@ -148,6 +149,7 @@ export const Filter = () => {
           display={ButtonPropsDisplay.Secondary}
           onClick={state.onReset}
           aria-label="reset"
+          data-cy="reset-filter"
         >
           Reset
         </Button>

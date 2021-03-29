@@ -90,6 +90,7 @@ export const Main = () => {
           <StyledChip
             label={`${cs.length} Results Found`}
             aria-label="results found count"
+            data-cy="results-found-count"
           />
         )),
         O.toNullable

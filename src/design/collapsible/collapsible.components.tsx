@@ -12,7 +12,14 @@ export const CollapsibleListItem = ({
   item: CollapsibleItem;
   style: React.CSSProperties;
 }) => (
-  <StyledListItem style={style} key={item.key} role={undefined} dense button>
+  <StyledListItem
+    style={style}
+    key={item.key}
+    role={undefined}
+    dense
+    button
+    data-cy="collapsible-list-item"
+  >
     <ListItemIcon>
       <Checkbox
         tabIndex={-1}
