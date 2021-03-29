@@ -1,3 +1,4 @@
+import faker from "faker";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { Lens } from "monocle-ts";
 import { createSelector } from "reselect";
@@ -23,6 +24,19 @@ export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
+
+export const getVehiclesByIdNewStatus = createSelector(
+  getVehiclesById,
+  (vehiclesById): RD.RemoteData<RdError, Record<VehicleIdCarrier, Vehicle>> =>
+    RD.success(
+      pipe(
+        vehiclesById,
+        RD.toOption,
+        O.map(R.map((v) => ({ ...v, connected: faker.random.boolean() }))),
+        O.getOrElse(() => ({}))
+      )
+    )
+);
 
 /** get data for cells in vehicle grid */
 export const getCells = createSelector(

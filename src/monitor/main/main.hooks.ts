@@ -1,10 +1,43 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeGrid } from "react-window";
-import { getUsers, getVehicles } from "../../api/actions";
-import { getCells } from "../../selectors";
+import { getUsers, getVehicles, setVehicles } from "../../api/actions";
+import { getCells, getVehiclesByIdNewStatus } from "../../selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
 import { getColumnCount, getWidth } from "./main.helpers";
+
+const MS_PER_S = 1000;
+const S_PER_M = 60;
+const MS_PER_M = MS_PER_S * S_PER_M;
+
+/** thanks dan abramov */
+export const useInterval = (callback: () => void, delay: number) => {
+  const savedCallback = React.useRef<() => void>();
+
+  // Remember the latest callback.
+  React.useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  React.useEffect(() => {
+    const tick = () => {
+      pipe(
+        savedCallback.current,
+        O.fromNullable,
+        O.map((cur) => () => {
+          cur();
+        }),
+        O.getOrElse(() => () => {}),
+        (thnk) => thnk()
+      );
+    };
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+};
 
 const useResize = (setWidth: (width: number) => void) =>
   React.useEffect(() => {
@@ -33,11 +66,18 @@ export const useMain = () => {
   const [width, setWidth] = React.useState<number>(getWidth());
 
   const gridRef = React.createRef<FixedSizeGrid>();
+
   const dispatch = useDispatch();
+
+  const cells = useSelector(getCells);
+  const vehiclesByIdNewStatus = useSelector(getVehiclesByIdNewStatus);
 
   useResize(setWidth);
 
-  const cells = useSelector(getCells);
+  useInterval(() => {
+    console.log("poll data");
+    dispatch(setVehicles(vehiclesByIdNewStatus));
+  }, MS_PER_M);
 
   const scrollToTop = () => {
     /**

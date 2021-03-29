@@ -1,6 +1,14 @@
+import { RemoteData } from "@devexperts/remote-data-ts";
 import { AxiosResponse } from "axios";
 import { Api } from "./api";
-import { ApiParams, GetUsersResponse, GetVehiclesResponse } from "./types";
+import {
+  ApiParams,
+  GetUsersResponse,
+  GetVehiclesResponse,
+  RdError,
+  Vehicle,
+  VehicleIdCarrier,
+} from "./types";
 
 //#region getUsers start
 export const GET_USERS = "GET_USERS";
@@ -30,6 +38,23 @@ export const getVehicles = (params?: ApiParams): GetVehicles => {
     promise: Api.getVehicles(params),
   };
 };
-
-export type ApiAction = GetUsers | GetVehicles;
 //#endregion getVehicles end
+
+//#region setVehicles start
+export const SET_VEHICLES = "SET_VEHICLES";
+export type SET_VEHICLES = typeof SET_VEHICLES;
+export type SetVehicles = {
+  type: SET_VEHICLES;
+  payload: RemoteData<RdError, Record<VehicleIdCarrier, Vehicle>>;
+};
+export const setVehicles = (
+  vehiclesById: RemoteData<RdError, Record<VehicleIdCarrier, Vehicle>>
+): SetVehicles => {
+  return {
+    type: SET_VEHICLES,
+    payload: vehiclesById,
+  };
+};
+//#endregion setVehicles end
+
+export type ApiAction = GetUsers | GetVehicles | SetVehicles;

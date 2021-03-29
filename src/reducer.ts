@@ -1,5 +1,10 @@
 import { initial, RemoteData } from "@devexperts/remote-data-ts";
-import { ApiAction, GET_USERS, GET_VEHICLES } from "./api/actions";
+import {
+  ApiAction,
+  GET_USERS,
+  GET_VEHICLES,
+  SET_VEHICLES,
+} from "./api/actions";
 import {
   RdError,
   User,
@@ -26,6 +31,10 @@ export function rootReducer(state = initialState, action: ApiAction) {
 
   if (action.type === GET_VEHICLES) {
     return vehiclesByIdHandlers({ state, action });
+  }
+
+  if (action.type === SET_VEHICLES) {
+    return { ...state, vehiclesById: action.payload };
   }
 
   return state;
