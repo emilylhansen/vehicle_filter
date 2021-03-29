@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Menu } from "../menu/Menu";
+import { MIN_SCREEN_WIDTH } from "../utils/constants";
 import { Filter } from "./filter/Filter";
 import { Main } from "./main/Main";
 
@@ -7,8 +8,9 @@ const MonitorBox = styled.div`
   display: grid;
   height: 100%;
 
+  /* TODO: filter is inaccessible, make into dropdown */
   /* Extra small devices (phones, 600px and down) */
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
     grid-template-areas:
       "menu  "
       "filter "
@@ -17,7 +19,7 @@ const MonitorBox = styled.div`
   }
 
   /* other devices (600px and up) */
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: ${MIN_SCREEN_WIDTH}px) {
     grid-template-areas:
       "menu filter main "
       "menu filter  main";

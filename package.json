@@ -50,7 +50,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject", 
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cypress": "node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -71,7 +74,9 @@
     ]
   },
   "devDependencies": {
+    "@types/cypress": "^1.1.3",
     "@types/json-server": "^0.14.3",
+    "cypress": "^6.8.0",
     "json-server": "^0.16.3",
     "nodemon": "^2.0.7"
   }

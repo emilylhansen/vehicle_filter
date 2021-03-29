@@ -8,7 +8,7 @@ import { Collapsible } from "../../design/collapsible/Collapsible";
 import { Icon } from "../../design/Icon";
 import { Color, FontSize, FontWeight } from "../../design/styles";
 import { Text } from "../../design/Text";
-import { getUsersById } from "../../selectors";
+import { getUsersById } from "../../api/selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { CustomerFilter } from "./CustomerFilter";
 import { getCheckedIds } from "./filter.helpers";
@@ -27,15 +27,6 @@ const initCheckByStatus = {
 };
 
 const useFilter = () => {
-  const [checkByUserId, setCheckByUserId] = React.useState<
-    Record<UserIdCarrier, boolean>
-  >({});
-  const [checkByStatus, setCheckByStatus] = React.useState<
-    Record<Status, boolean>
-  >(initCheckByStatus);
-
-  const dispatch = useDispatch();
-
   const usersById = useSelector(getUsersById);
 
   const initCheckByUserId = React.useMemo(
@@ -54,15 +45,20 @@ const useFilter = () => {
     [usersById]
   );
 
+  const [checkByUserId, setCheckByUserId] = React.useState<
+    Record<UserIdCarrier, boolean>
+  >(initCheckByUserId);
+  const [checkByStatus, setCheckByStatus] = React.useState<
+    Record<Status, boolean>
+  >(initCheckByStatus);
+
+  const dispatch = useDispatch();
+
   const initFilter = () => {
     /** init with all checkboxes checked */
     setCheckByUserId(initCheckByUserId);
     setCheckByStatus(initCheckByStatus);
   };
-
-  React.useEffect(() => {
-    initFilter();
-  }, []);
 
   const getQueryParams = () => {
     const checkByUserIdQueryParams = pipe(

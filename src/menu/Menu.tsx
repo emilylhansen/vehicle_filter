@@ -3,13 +3,14 @@ import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import OpacityIcon from "@material-ui/icons/Opacity";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import React from "react";
 import styled from "styled-components";
-import { Color } from "../design/styles";
-import { MenuItem } from "./MenuItem";
 import { Icon } from "../design/Icon";
+import { Color } from "../design/styles";
+import { MIN_SCREEN_WIDTH } from "../utils/constants";
+import { MenuItem } from "./MenuItem";
 
 const MenuBox = styled.div`
   grid-area: menu;
@@ -21,7 +22,7 @@ const StyledList = styled(List)`
   padding-bottom: 0;
 
   /* Extra small devices (phones, 600px and down) */
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
     display: flex;
     flex-flow: row;
   }

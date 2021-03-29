@@ -11,10 +11,10 @@ import {
   UserIdCarrier,
   Vehicle,
   VehicleIdCarrier,
-} from "./api/types";
-import { InjectedProps as CellInjectedProps } from "./monitor/main/cell/Cell";
+} from "./types";
+import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
 import { InitialState } from "./reducer";
-import { A, O, pipe, R, RD } from "./utils/fp-ts-exports";
+import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
 
 const usersByIdLens = Lens.fromProp<InitialState>()("usersById");
 

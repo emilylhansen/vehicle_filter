@@ -6,7 +6,7 @@ import { middleware as reduxPackMiddleware } from "redux-pack";
 import thunk from "redux-thunk";
 import App from "./App";
 import "./index.css";
-import { rootReducer } from "./reducer";
+import { rootReducer } from "./api/reducer";
 import reportWebVitals from "./reportWebVitals";
 
 const store = createStore(

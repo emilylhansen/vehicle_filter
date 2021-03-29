@@ -1,8 +1,8 @@
 import { handle } from "redux-pack";
-import { GetUsers } from "../api/actions";
-import { isoUserId, User, UserIdCarrier } from "../api/types";
+import { GetUsers } from "../actions";
+import { isoUserId, User, UserIdCarrier } from "../types";
 import { InitialState } from "../reducer";
-import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
+import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 
 export const usersByIdHandlers = ({
   state,

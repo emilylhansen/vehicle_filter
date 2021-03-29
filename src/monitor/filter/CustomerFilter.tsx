@@ -5,7 +5,7 @@ import {
   Collapsible,
   CollapsibleItem,
 } from "../../design/collapsible/Collapsible";
-import { getUsersById } from "../../selectors";
+import { getUsersById } from "../../api/selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { getCheckedIds } from "./filter.helpers";
 

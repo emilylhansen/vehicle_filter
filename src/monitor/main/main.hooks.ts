@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeGrid } from "react-window";
 import { getUsers, getVehicles, setVehicles } from "../../api/actions";
-import { getCells, getVehiclesByIdNewStatus } from "../../selectors";
+import { getCells, getVehiclesByIdNewStatus } from "../../api/selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
 import { getColumnCount, getWidth } from "./main.helpers";
 

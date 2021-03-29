@@ -1,8 +1,8 @@
 import { handle } from "redux-pack";
-import { GetVehicles } from "../api/actions";
-import { isoVehicleId, Vehicle, VehicleIdCarrier } from "../api/types";
+import { GetVehicles } from "../actions";
+import { isoVehicleId, Vehicle, VehicleIdCarrier } from "../types";
 import { InitialState } from "../reducer";
-import { A, pipe, R, RD } from "../utils/fp-ts-exports";
+import { A, pipe, R, RD } from "../../utils/fp-ts-exports";
 
 export const vehiclesByIdHandlers = ({
   state,
