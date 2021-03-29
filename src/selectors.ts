@@ -25,6 +25,7 @@ export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
 
+/** change the connect value for each vehicle to simulate changing connection */
 export const getVehiclesByIdNewStatus = createSelector(
   getVehiclesById,
   (vehiclesById): RD.RemoteData<RdError, Record<VehicleIdCarrier, Vehicle>> =>

@@ -76,6 +76,7 @@ export const useMain = () => {
 
   useInterval(() => {
     console.log("poll data");
+    /** change vehicle connection status every minute */
     dispatch(setVehicles(vehiclesByIdNewStatus));
   }, MS_PER_M);
 
