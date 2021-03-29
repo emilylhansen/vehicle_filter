@@ -54,7 +54,10 @@ export const Cell = (props: Props) => {
     <CellBox style={props.style} key={isoVehicleId.unwrap(props.id)}>
       <StyledCard>
         <CardActionArea>
-          <StyledCardMedia image={car_placeholder} />
+          <StyledCardMedia
+            image={car_placeholder}
+            aria-label="fancy car image"
+          />
           <StyledCardContent>
             <Text fontSize={FontSize.Size1} fontWeight={FontWeight.Weight6}>
               {isoNonEmptyString.unwrap(props.vehicle)}

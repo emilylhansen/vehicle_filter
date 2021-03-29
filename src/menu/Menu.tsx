@@ -24,11 +24,31 @@ export const Menu = () => {
   return (
     <MenuBox>
       <StyledList>
-        <MenuItem isActive={false} icon={<HomeOutlinedIcon />} />
-        <MenuItem isActive={true} icon={<FilterListOutlinedIcon />} />
-        <MenuItem isActive={false} icon={<AccountTreeOutlinedIcon />} />
-        <MenuItem isActive={false} icon={<AssignmentOutlinedIcon />} />
-        <MenuItem isActive={false} icon={<SettingsOutlinedIcon />} />
+        <MenuItem
+          isActive={false}
+          icon={<HomeOutlinedIcon />}
+          aria-label="home"
+        />
+        <MenuItem
+          isActive={true}
+          icon={<FilterListOutlinedIcon />}
+          aria-label="filter"
+        />
+        <MenuItem
+          isActive={false}
+          icon={<AccountTreeOutlinedIcon />}
+          aria-label="paceholder 1"
+        />
+        <MenuItem
+          isActive={false}
+          icon={<AssignmentOutlinedIcon />}
+          aria-label="paceholder 2"
+        />
+        <MenuItem
+          isActive={false}
+          icon={<SettingsOutlinedIcon />}
+          aria-label="paceholder 3"
+        />
       </StyledList>
     </MenuBox>
   );
