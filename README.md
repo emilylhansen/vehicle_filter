@@ -1,6 +1,6 @@
 # Vehicle Filter
 
-![vehicle filter](https://github.com/emilylhansen/vehicle-filter.png)
+![vehicle filter](https://github.com/emilylhansen/vehicle_filter/blob/main/vehicle-filter.png)
 
 ## Task
 
