@@ -1,6 +1,6 @@
 import { MAX_CARD_WIDTH } from "./cell/cell.styles";
 
-export const getWidth = () =>
+export const getWindowWidth = () =>
   window.innerWidth ||
   document.documentElement.clientWidth ||
   document.body.clientWidth;

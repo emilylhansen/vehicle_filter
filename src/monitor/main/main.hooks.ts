@@ -4,7 +4,7 @@ import { FixedSizeGrid } from "react-window";
 import { getUsers, getVehicles, setVehicles } from "../../api/actions";
 import { getCells, getVehiclesByIdNewStatus } from "../../api/selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
-import { getColumnCount, getWidth } from "./main.helpers";
+import { getColumnCount, getWindowWidth } from "./main.helpers";
 
 const MS_PER_S = 1000;
 const S_PER_M = 60;
@@ -50,7 +50,7 @@ const useResize = (setWidth: (width: number) => void) =>
         clearTimeout(timeoutId);
       }
       // change width from the state object after 1 sec
-      timeoutId = setTimeout(() => setWidth(getWidth()), 1000);
+      timeoutId = setTimeout(() => setWidth(getWindowWidth()), 1000);
     };
     // set resize listener
     window.addEventListener("resize", resizeListener);
@@ -63,7 +63,7 @@ const useResize = (setWidth: (width: number) => void) =>
   });
 
 export const useMain = () => {
-  const [width, setWidth] = React.useState<number>(getWidth());
+  const [width, setWidth] = React.useState<number>(getWindowWidth());
 
   const gridRef = React.createRef<FixedSizeGrid>();
 
