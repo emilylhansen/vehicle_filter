@@ -13,7 +13,7 @@ import { ConnectedIcon } from "../../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../../design/DisconnectedIcon";
 import { Color, FontSize, FontWeight } from "../../../design/styles";
 import { Text } from "../../../design/Text";
-import car_placeholder from "./car_placeholder.png";
+import car_placeholder from "../../../../identity/images/car_placeholder.png";
 import {
   CellBox,
   LastConnectedBox,

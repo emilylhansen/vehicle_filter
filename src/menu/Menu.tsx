@@ -17,6 +17,12 @@ const MenuBox = styled.div`
 const StyledList = styled(List)`
   padding-top: 0;
   padding-bottom: 0;
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-flow: row;
+  }
 `;
 
 /** TODO: set up routing */

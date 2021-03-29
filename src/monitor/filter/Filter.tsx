@@ -105,19 +105,19 @@ export const Filter = () => {
 
   return (
     <FilterBox>
+      <StyledListSubheader>
+        <Icon fontSize={18} margin="0 8px 0 0">
+          <FilterListOutlinedIcon />
+        </Icon>
+        <Text
+          fontSize={FontSize.Size2}
+          fontWeight={FontWeight.Weight4}
+          color={Color.Gray1}
+        >
+          Filter
+        </Text>
+      </StyledListSubheader>
       <ScrollList aria-label="categories list">
-        <StyledListSubheader>
-          <Icon fontSize={18} margin="0 8px 0 0">
-            <FilterListOutlinedIcon />
-          </Icon>
-          <Text
-            fontSize={FontSize.Size2}
-            fontWeight={FontWeight.Weight4}
-            color={Color.Gray1}
-          >
-            Filter
-          </Text>
-        </StyledListSubheader>
         <CustomerFilter
           checkByUserId={state.checkByUserId}
           setCheckByUserId={state.setCheckByUserId}
