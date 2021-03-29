@@ -102,7 +102,7 @@ export const useMain = () => {
   React.useEffect(() => {
     dispatch(getUsers());
     dispatch(getVehicles());
-  }, []);
+  }, [dispatch]);
 
   const columnCount = getColumnCount(width);
 

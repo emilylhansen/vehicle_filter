@@ -30,10 +30,12 @@ Analysis of the task can be found in the `/identity`. It contains wireframes, us
 
 ## Getting Started
 
-Using the terminal navigate to vehicle-filter and run `npm i` and `npm start`
+Using the terminal navigate to vehicle-filter and run `ts-node src/json-server.ts`. In another tab run `npm i` and `npm start`
 
 ### Jest
 
 `npm test`
 
 ### cypress
+
+`npm run cypress`
