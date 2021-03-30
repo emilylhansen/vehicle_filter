@@ -20,15 +20,10 @@ const usersByIdLens = Lens.fromProp<InitialState>()("usersById");
 
 const vehiclesByIdLens = Lens.fromProp<InitialState>()("vehiclesById");
 
-const windowWidthLens = Lens.fromProp<InitialState>()("windowWidth");
-
 export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
-
-export const getWindowWidth = (state: InitialState) =>
-  windowWidthLens.get(state);
 
 /** change the connect value for each vehicle to simulate changing connection */
 export const getVehiclesByIdNewStatus = createSelector(

@@ -57,19 +57,4 @@ export const setVehicles = (
 };
 //#endregion setVehicles end
 
-//#region setWindowWidth start
-export const SET_WINDOW_WIDTH = "SET_WINDOW_WIDTH";
-export type SET_WINDOW_WIDTH = typeof SET_WINDOW_WIDTH;
-export type SetWindowWidth = {
-  type: SET_WINDOW_WIDTH;
-  payload: number;
-};
-export const setWindowWidth = (windowWidth: number): SetWindowWidth => {
-  return {
-    type: SET_WINDOW_WIDTH,
-    payload: windowWidth,
-  };
-};
-//#endregion setWindowWidth end
-
-export type ApiAction = GetUsers | GetVehicles | SetVehicles | SetWindowWidth;
+export type ApiAction = GetUsers | GetVehicles | SetVehicles;

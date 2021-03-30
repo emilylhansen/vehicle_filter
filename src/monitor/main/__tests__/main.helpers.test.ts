@@ -6,10 +6,10 @@ describe("getColumnCount", () => {
   });
 
   test("gets column count for a standard screen", () => {
-    expect(getColumnCount(1600)).toBe(4);
+    expect(getColumnCount(1600)).toBe(5);
   });
 
   test("gets column count for a large screen", () => {
-    expect(getColumnCount(2000)).toBe(6);
+    expect(getColumnCount(2000)).toBe(7);
   });
 });

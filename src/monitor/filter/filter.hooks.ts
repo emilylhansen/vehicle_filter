@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getVehicles } from "../../api/api.actions";
-import { getUsersById, getWindowWidth } from "../../api/api.selectors";
+import { getUsersById } from "../../api/api.selectors";
 import { UserIdCarrier } from "../../api/api.types";
 import { MIN_SCREEN_WIDTH } from "../../utils/constants";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
-import { getCheckedIds } from "./filter.helpers";
+import { getCheckedIds, getCurrentWindowWidth } from "./filter.helpers";
 import { Status } from "./StatusFilter";
+import { useResize } from "../monitor.hooks";
 
 const initCheckByStatus = {
   [Status.Connected]: true,
@@ -20,12 +21,17 @@ export const useFilter = () => {
   const [checkByStatus, setCheckByStatus] = React.useState<
     Record<Status, boolean>
   >(initCheckByStatus);
+  const [isMinScreenWidth, setIsMinScreenWidth] = React.useState<boolean>(
+    getCurrentWindowWidth() <= MIN_SCREEN_WIDTH
+  );
+
   const dispatch = useDispatch();
 
   const usersById = useSelector(getUsersById);
-  const windowWidth = useSelector(getWindowWidth);
 
-  const isMinScreenWidth = windowWidth <= MIN_SCREEN_WIDTH;
+  useResize(() => {
+    setIsMinScreenWidth(getCurrentWindowWidth() <= MIN_SCREEN_WIDTH);
+  });
 
   const initCheckByUserId = React.useMemo(
     () =>

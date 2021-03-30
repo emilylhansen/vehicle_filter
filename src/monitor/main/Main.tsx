@@ -34,7 +34,7 @@ export const Main = () => {
   const state = useMain();
 
   return (
-    <MainBox>
+    <MainBox ref={state.mainRef}>
       <AutoSizer>
         {({ height, width }) =>
           pipe(

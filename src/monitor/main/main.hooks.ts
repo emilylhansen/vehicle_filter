@@ -1,19 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeGrid } from "react-window";
-import {
-  getUsers,
-  getVehicles,
-  setVehicles,
-  setWindowWidth,
-} from "../../api/api.actions";
-import { getCurrentWindowWidth } from "../../api/api.helpers";
-import {
-  getCells,
-  getVehiclesByIdNewStatus,
-  getWindowWidth,
-} from "../../api/api.selectors";
+import { getUsers, getVehicles, setVehicles } from "../../api/api.actions";
+import { getCells, getVehiclesByIdNewStatus } from "../../api/api.selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
+import { useResize } from "../monitor.hooks";
 import { getColumnCount } from "./main.helpers";
 
 const MS_PER_S = 1000;
@@ -49,41 +40,24 @@ export const useInterval = (callback: () => void, delay: number) => {
   }, [delay]);
 };
 
-const useResize = (setWidth: (width: number) => void) =>
-  React.useEffect(() => {
-    // timeoutId for debounce mechanism
-    let timeoutId: NodeJS.Timeout | null = null;
-
-    const resizeListener = () => {
-      if (!!timeoutId) {
-        // prevent execution of previous setTimeout
-        clearTimeout(timeoutId);
-      }
-      // change width from the state object after 1 sec
-      timeoutId = setTimeout(() => setWidth(getCurrentWindowWidth()), 1000);
-    };
-    // set resize listener
-    window.addEventListener("resize", resizeListener);
-
-    // clean up function
-    return () => {
-      // remove resize listener
-      window.removeEventListener("resize", resizeListener);
-    };
-  });
-
 export const useMain = () => {
   const gridRef = React.createRef<FixedSizeGrid>();
+  const mainRef = React.createRef<HTMLDivElement>();
+  const [width, setWidth] = React.useState<number>(0);
 
   const dispatch = useDispatch();
 
   const cells = useSelector(getCells);
   const vehiclesByIdNewStatus = useSelector(getVehiclesByIdNewStatus);
-  const windowWidth = useSelector(getWindowWidth);
 
-  useResize((width) => {
-    console.log({ width, windowWidth });
-    dispatch(setWindowWidth(width));
+  useResize(() => {
+    pipe(
+      mainRef.current,
+      O.fromNullable,
+      O.map((el) => el.clientWidth),
+      O.getOrElse(() => 0),
+      setWidth
+    );
   });
 
   useInterval(() => {
@@ -116,7 +90,7 @@ export const useMain = () => {
     dispatch(getVehicles());
   }, [dispatch]);
 
-  const columnCount = getColumnCount(windowWidth);
+  const columnCount = getColumnCount(width);
 
   /** get list index given grid coords */
   const getListIndex = ({
@@ -127,5 +101,5 @@ export const useMain = () => {
     rowIndex: number;
   }) => rowIndex * (columnCount - 1) + (columnIndex + rowIndex);
 
-  return { cells, scrollToTop, gridRef, getListIndex, columnCount };
+  return { cells, scrollToTop, gridRef, mainRef, getListIndex, columnCount };
 };

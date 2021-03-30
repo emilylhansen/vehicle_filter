@@ -1,7 +1,5 @@
 import { MAX_CARD_WIDTH } from "./cell/cell.styles";
+import { MIN_SCREEN_WIDTH } from "../../utils/constants";
 
-export const getColumnCount = (width: number): number => {
-  const columnCount = Math.ceil((width - MAX_CARD_WIDTH * 2) / MAX_CARD_WIDTH);
-  console.log({ width, columnCount });
-  return width <= MAX_CARD_WIDTH * 2 ? 1 : columnCount;
-};
+export const getColumnCount = (width: number): number =>
+  width < MIN_SCREEN_WIDTH ? 1 : Math.floor(width / MAX_CARD_WIDTH);

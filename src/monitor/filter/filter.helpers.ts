@@ -1,5 +1,10 @@
 import { A, O, pipe, R } from "../../utils/fp-ts-exports";
 
+export const getCurrentWindowWidth = () =>
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
+
 export const getCheckedIds = <K extends string | number | symbol>(
   checkById: Record<K, boolean>
 ): Array<K> =>

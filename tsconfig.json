@@ -22,7 +22,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "module": "commonjs"
+    "module": "esnext"
   },
   "include": [
     "src"
