@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Color, FontSize, FontWeight } from "../design/styles";
 
 const StyledChip = styled(MuiChip)`
-  background-color: ${Color.Primary};
+  background-color: ${Color.Tertiary};
   height: 24px;
   font-weight: ${FontWeight.Weight4};
   font-size: ${FontSize.Size3};
