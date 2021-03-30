@@ -6,14 +6,15 @@ import {
   getVehicles,
   setVehicles,
   setWindowWidth,
-} from "../../api/actions";
+} from "../../api/api.actions";
+import { getCurrentWindowWidth } from "../../api/api.helpers";
 import {
   getCells,
   getVehiclesByIdNewStatus,
   getWindowWidth,
-} from "../../api/selectors";
+} from "../../api/api.selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
-import { getColumnCount, getCurrentWindowWidth } from "./main.helpers";
+import { getColumnCount } from "./main.helpers";
 
 const MS_PER_S = 1000;
 const S_PER_M = 60;
@@ -80,7 +81,10 @@ export const useMain = () => {
   const vehiclesByIdNewStatus = useSelector(getVehiclesByIdNewStatus);
   const windowWidth = useSelector(getWindowWidth);
 
-  useResize((width) => dispatch(setWindowWidth(width)));
+  useResize((width) => {
+    console.log({ width, windowWidth });
+    dispatch(setWindowWidth(width));
+  });
 
   useInterval(() => {
     console.log("poll data");

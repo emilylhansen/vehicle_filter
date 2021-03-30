@@ -8,7 +8,7 @@ import {
   isoVehicleId,
   NonEmptyString6,
   VehicleId,
-} from "../../../api/types";
+} from "../../../api/api.types";
 import { ConnectedIcon } from "../../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../../design/DisconnectedIcon";
 import { Color, FontSize, FontWeight } from "../../../design/styles";

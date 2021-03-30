@@ -1,8 +1,8 @@
 import React from "react";
 import {
-  Collapsible,
-  CollapsibleItem,
-} from "../../design/collapsible/Collapsible";
+  CollapsibleCheckboxList,
+  CheckboxListItemProps,
+} from "../../design/collapsibleCheckboxList/CollapsibleCheckboxList";
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
 import { O, pipe, R } from "../../utils/fp-ts-exports";
@@ -21,7 +21,7 @@ type Props = {
 const useStatusFilter = (props: Props) => {
   const checkedCount = getCheckedIds(props.checkByStatus).length;
 
-  const connectedItem: CollapsibleItem = {
+  const connectedItem: CheckboxListItemProps = {
     key: Status.Connected,
     primaryText: "Connected",
     rightAdornment: <ConnectedIcon fontSize={16} margin="0 2px 0 0" />,
@@ -41,7 +41,7 @@ const useStatusFilter = (props: Props) => {
     },
   };
 
-  const disconnectedItem: CollapsibleItem = {
+  const disconnectedItem: CheckboxListItemProps = {
     key: Status.Disconnected,
     primaryText: "Disconnected",
     rightAdornment: <DisconnectedIcon fontSize={16} margin="0 2px 0 0" />,
@@ -61,7 +61,7 @@ const useStatusFilter = (props: Props) => {
     },
   };
 
-  const items: Array<CollapsibleItem> = [connectedItem, disconnectedItem];
+  const items: Array<CheckboxListItemProps> = [connectedItem, disconnectedItem];
 
   return { items, checkedCount };
 };
@@ -70,7 +70,7 @@ export const StatusFilter = (props: Props) => {
   const state = useStatusFilter(props);
 
   return (
-    <Collapsible
+    <CollapsibleCheckboxList
       headerText="Status"
       items={state.items}
       notificationCount={state.checkedCount}

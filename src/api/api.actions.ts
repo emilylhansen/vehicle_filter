@@ -8,7 +8,7 @@ import {
   RdError,
   Vehicle,
   VehicleIdCarrier,
-} from "./types";
+} from "./api.types";
 
 //#region getUsers start
 export const GET_USERS = "GET_USERS";

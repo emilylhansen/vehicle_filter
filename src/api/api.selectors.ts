@@ -11,9 +11,9 @@ import {
   UserIdCarrier,
   Vehicle,
   VehicleIdCarrier,
-} from "./types";
+} from "./api.types";
 import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
-import { InitialState } from "./reducer";
+import { InitialState } from "./api.reducer";
 import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
 
 const usersByIdLens = Lens.fromProp<InitialState>()("usersById");

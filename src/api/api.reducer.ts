@@ -5,16 +5,17 @@ import {
   GET_VEHICLES,
   SET_VEHICLES,
   SET_WINDOW_WIDTH,
-} from "./actions";
+} from "./api.actions";
 import {
   RdError,
   User,
   UserIdCarrier,
   Vehicle,
   VehicleIdCarrier,
-} from "./types";
+} from "./api.types";
 import { usersByIdHandlers } from "./handlers/usersByIdHandlers";
 import { vehiclesByIdHandlers } from "./handlers/vehiclesByIdHandlers";
+import { getCurrentWindowWidth } from "./api.helpers";
 
 export type InitialState = {
   usersById: RemoteData<RdError, Record<UserIdCarrier, User>>;
@@ -24,7 +25,7 @@ export type InitialState = {
 const initialState: InitialState = {
   usersById: initial,
   vehiclesById: initial,
-  windowWidth: 0,
+  windowWidth: getCurrentWindowWidth(),
 };
 
 export function rootReducer(state = initialState, action: ApiAction) {

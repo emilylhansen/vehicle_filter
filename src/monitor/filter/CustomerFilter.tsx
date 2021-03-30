@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { isoNonEmptyString, UserIdCarrier } from "../../api/types";
+import { isoNonEmptyString, UserIdCarrier } from "../../api/api.types";
 import {
-  Collapsible,
-  CollapsibleItem,
-} from "../../design/collapsible/Collapsible";
-import { getUsersById } from "../../api/selectors";
+  CollapsibleCheckboxList,
+  CheckboxListItemProps,
+} from "../../design/collapsibleCheckboxList/CollapsibleCheckboxList";
+import { getUsersById } from "../../api/api.selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { getCheckedIds } from "./filter.helpers";
 
@@ -54,7 +54,7 @@ const useCustomerFilter = (props: Props) => {
                   O.getOrElse(() => false)
                 );
 
-                const item: CollapsibleItem = {
+                const item: CheckboxListItemProps = {
                   primaryText,
                   secondaryText,
                   checked,
@@ -76,7 +76,7 @@ const useCustomerFilter = (props: Props) => {
             })
           )
         ),
-        O.getOrElse<Array<CollapsibleItem>>(() => A.empty)
+        O.getOrElse<Array<CheckboxListItemProps>>(() => A.empty)
       ),
     [usersById, props.checkByUserId, props.setCheckByUserId, searchValue]
   );
@@ -88,7 +88,7 @@ export const CustomerFilter = (props: Props) => {
   const state = useCustomerFilter(props);
 
   return (
-    <Collapsible
+    <CollapsibleCheckboxList
       headerText="Customer"
       items={state.customerListItems}
       notificationCount={state.checkedCount}

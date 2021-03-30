@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ApiParams, GetUsersResponse, GetVehiclesResponse } from "./types";
+import { ApiParams, GetUsersResponse, GetVehiclesResponse } from "./api.types";
 
 export const apiClient = axios.create({
   baseURL: "http://localhost:3000/",

@@ -10,7 +10,7 @@ import {
   isoVehicleId,
   User,
   Vehicle,
-} from "./types";
+} from "./api.types";
 
 const LAST_CONNECTED = 1616866793;
 

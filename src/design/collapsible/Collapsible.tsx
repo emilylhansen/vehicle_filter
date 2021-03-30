@@ -1,17 +1,9 @@
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
-import { VariableSizeList } from "react-window";
-import { A, O, pipe } from "../../utils/fp-ts-exports";
-import { isNil } from "../../utils/utils";
+import { O, pipe } from "../../utils/fp-ts-exports";
 import { SearchInput, SearchInputProps } from "../SearchInput";
 import { FontSize, FontWeight } from "../styles";
 import { Text } from "../Text";
-import { CollapsibleListItem } from "./collapsible.components";
-import {
-  LIST_HEADER_HEIGHT,
-  LIST_ITEM_HEIGHT,
-  OVERSCAN_COUNT,
-} from "./collapsible.constants";
 import {
   SearchInputBox,
   StyledAccordion,
@@ -19,97 +11,40 @@ import {
   StyledChip,
 } from "./collapsible.styles";
 
-export type CollapsibleItem = {
-  primaryText: string;
-  secondaryText?: string;
-  rightAdornment?: JSX.Element;
-  key: string;
-  checked: boolean;
-  onChange: (c: boolean) => void;
-};
-
-type CollapsibleProps = {
+type CollapsibleProps = React.PropsWithChildren<{
   headerText: string;
-  notificationCount: number;
-  items: Array<CollapsibleItem>;
+  notificationCount?: number;
   search?: SearchInputProps;
-};
+  headerIconLeft?: JSX.Element;
+}>;
 
-const useCollapsible = (props: CollapsibleProps) => {
-  /** count of items matching filters */
-  const itemCount = pipe(
-    props.search,
-    O.fromNullable,
-    O.map((_) => props.items.length + 1),
-    O.getOrElse(() => props.items.length)
-  );
-
-  /** calculate grid height */
-  const _gridHeight = props.items.length * LIST_ITEM_HEIGHT;
-  const gridHeight = pipe(
-    props.search,
-    O.fromNullable,
-    O.map((_) => _gridHeight + LIST_HEADER_HEIGHT),
-    O.getOrElse(() => _gridHeight)
-  );
-
-  const shouldHandleSearch = (index: number) =>
-    index === 0 && !isNil(props.search);
-
-  /** height for each row */
-  const getItemSize = (index: number) =>
-    shouldHandleSearch(index) ? LIST_HEADER_HEIGHT : LIST_ITEM_HEIGHT;
-
-  return {
-    itemCount,
-    gridHeight,
-    shouldHandleSearch,
-    getItemSize,
-  };
-};
-
-export const Collapsible = (props: CollapsibleProps) => {
-  const state = useCollapsible(props);
-
-  return (
-    <StyledAccordion square data-cy="collapsible">
-      <StyledAccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        data-cy="collapsible-header"
-      >
-        <Text fontSize={FontSize.Size2} fontWeight={FontWeight.Weight4}>
-          {props.headerText}
-        </Text>
-        <StyledChip label={props.notificationCount} />
-      </StyledAccordionSummary>
+export const Collapsible = (props: CollapsibleProps) => (
+  <StyledAccordion square data-cy="collapsible">
+    <StyledAccordionSummary
+      expandIcon={<ExpandMoreIcon />}
+      data-cy="collapsible-header"
+    >
+      {props.headerIconLeft}
+      <Text fontSize={FontSize.Size2} fontWeight={FontWeight.Weight4}>
+        {props.headerText}
+      </Text>
       {pipe(
-        props.search,
+        props.notificationCount,
         O.fromNullable,
-        O.map((s) => (
-          <SearchInputBox>
-            <SearchInput value={s.value} onChange={s.onChange} />
-          </SearchInputBox>
-        )),
+        O.map((nc) => <StyledChip label={nc} />),
         O.toNullable
       )}
-      <VariableSizeList
-        height={state.gridHeight}
-        itemCount={state.itemCount}
-        itemSize={state.getItemSize}
-        width="100%"
-        overscanCount={OVERSCAN_COUNT}
-        /** data-cy and aria-label don't work, use className instead */
-        className="collapsible-list"
-      >
-        {({ index, style }) =>
-          pipe(
-            props.items,
-            A.lookup(index),
-            O.map((i) => <CollapsibleListItem item={i} style={style} />),
-            O.toNullable
-          )
-        }
-      </VariableSizeList>
-    </StyledAccordion>
-  );
-};
+    </StyledAccordionSummary>
+    {pipe(
+      props.search,
+      O.fromNullable,
+      O.map((s) => (
+        <SearchInputBox>
+          <SearchInput value={s.value} onChange={s.onChange} />
+        </SearchInputBox>
+      )),
+      O.toNullable
+    )}
+    {props.children}
+  </StyledAccordion>
+);
