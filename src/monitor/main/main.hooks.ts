@@ -1,10 +1,19 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeGrid } from "react-window";
-import { getUsers, getVehicles, setVehicles } from "../../api/actions";
-import { getCells, getVehiclesByIdNewStatus } from "../../api/selectors";
+import {
+  getUsers,
+  getVehicles,
+  setVehicles,
+  setWindowWidth,
+} from "../../api/actions";
+import {
+  getCells,
+  getVehiclesByIdNewStatus,
+  getWindowWidth,
+} from "../../api/selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
-import { getColumnCount, getWindowWidth } from "./main.helpers";
+import { getColumnCount, getCurrentWindowWidth } from "./main.helpers";
 
 const MS_PER_S = 1000;
 const S_PER_M = 60;
@@ -50,7 +59,7 @@ const useResize = (setWidth: (width: number) => void) =>
         clearTimeout(timeoutId);
       }
       // change width from the state object after 1 sec
-      timeoutId = setTimeout(() => setWidth(getWindowWidth()), 1000);
+      timeoutId = setTimeout(() => setWidth(getCurrentWindowWidth()), 1000);
     };
     // set resize listener
     window.addEventListener("resize", resizeListener);
@@ -63,16 +72,15 @@ const useResize = (setWidth: (width: number) => void) =>
   });
 
 export const useMain = () => {
-  const [width, setWidth] = React.useState<number>(getWindowWidth());
-
   const gridRef = React.createRef<FixedSizeGrid>();
 
   const dispatch = useDispatch();
 
   const cells = useSelector(getCells);
   const vehiclesByIdNewStatus = useSelector(getVehiclesByIdNewStatus);
+  const windowWidth = useSelector(getWindowWidth);
 
-  useResize(setWidth);
+  useResize((width) => dispatch(setWindowWidth(width)));
 
   useInterval(() => {
     console.log("poll data");
@@ -104,7 +112,7 @@ export const useMain = () => {
     dispatch(getVehicles());
   }, [dispatch]);
 
-  const columnCount = getColumnCount(width);
+  const columnCount = getColumnCount(windowWidth);
 
   /** get list index given grid coords */
   const getListIndex = ({
