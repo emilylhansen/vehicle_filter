@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { Icon } from "../design/Icon";
 import { Color } from "../design/styles";
+import { MIN_SCREEN_WIDTH } from "../utils/constants";
 
 const MenuItemBox = styled.li`
   display: flex;
@@ -24,7 +25,15 @@ const IconBox = styled.div<{ isActive: boolean }>`
   z-index: 999;
 
   :hover {
-    right: -16px;
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
+      bottom: -16px;
+    }
+
+    /* other devices (600px and up) */
+    @media only screen and (min-width: ${MIN_SCREEN_WIDTH}px) {
+      right: -16px;
+    }
   }
 
   ${({ isActive }) =>
