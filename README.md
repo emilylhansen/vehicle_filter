@@ -40,3 +40,7 @@ Using the terminal navigate to vehicle-filter and run `ts-node src/json-server.t
 ### cypress
 
 `npm run cypress`
+
+### Troubleshooting
+
+If you have trouble starting json-server you may have to change `module` in `tsconfig.json` from `"esnext"` to common `"commonjs"`. This is the best solution while I figure out how to fix it.
