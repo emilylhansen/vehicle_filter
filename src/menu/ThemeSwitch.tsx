@@ -11,8 +11,10 @@ import { ThemeEnum } from "../design/theme";
 
 const ThemeSwitchBox = styled.div`
   position: relative;
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
+  width: 40px;
+  height: 24px;
 `;
 
 const StyledSwitch = styled(Switch)`

@@ -3,7 +3,7 @@ import { default as MuiListItem } from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
-import styled from "styled-components";
+import { styled } from "../design.helpers";
 import { FontSize } from "../styles";
 import { CheckboxListItemProps } from "./CollapsibleCheckboxList";
 
@@ -26,10 +26,12 @@ export const StyledListItem = styled(MuiListItem)`
 
   .MuiListItemText-primary {
     font-size: ${FontSize.Size3};
+    color: ${({ theme }) => theme.color1};
   }
 
   .MuiListItemText-secondary {
     font-size: ${FontSize.Size5};
+    color: ${({ theme }) => theme.color2};
   }
 
   .MuiListItemText-root {

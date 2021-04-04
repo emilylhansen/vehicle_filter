@@ -2,7 +2,6 @@ import List from "@material-ui/core/List";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import OpacityIcon from "@material-ui/icons/Opacity";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import React from "react";
 import { styled } from "../design/design.helpers";
 import { Color } from "../design/styles";
@@ -54,16 +53,12 @@ export const Menu = () => {
           isDisabled={true}
           color={Color.Primary}
         />
+        {/** placeholder */}
         <MenuItem isActive={false} icon={<HomeOutlinedIcon />} />
         <MenuItem
           isActive={true}
           icon={<FilterListOutlinedIcon />}
           aria-label="filter"
-        />
-        <MenuItem
-          isActive={false}
-          icon={<SettingsOutlinedIcon />}
-          aria-label="paceholder 3"
         />
       </StyledList>
       <StyledList>
