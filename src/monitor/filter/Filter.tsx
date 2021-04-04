@@ -94,7 +94,7 @@ const FilterList = ({
         onClick={onReset}
         aria-label="reset"
         data-cy="reset-filter"
-        disabled={true}
+        disabled={isResetDisabled}
       >
         Reset
       </Button>

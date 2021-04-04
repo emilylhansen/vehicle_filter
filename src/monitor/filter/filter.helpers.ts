@@ -19,3 +19,11 @@ export const getCheckedIds = <K extends string | number | symbol>(
     (a) => a as Array<[K, boolean]>,
     A.filterMap(([k, v]) => (v ? O.some(k) : O.none))
   );
+
+export const areAllChecked = <K extends string | number | symbol>(
+  checkById: Record<K, boolean>
+) =>
+  pipe(
+    checkById,
+    R.every((c) => c)
+  );

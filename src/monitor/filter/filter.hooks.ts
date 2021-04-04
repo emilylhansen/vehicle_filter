@@ -5,7 +5,11 @@ import { getUsersById } from "../../api/api.selectors";
 import { UserIdCarrier } from "../../api/api.types";
 import { MIN_SCREEN_WIDTH } from "../../utils/constants";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
-import { getCheckedIds, getCurrentWindowWidth } from "./filter.helpers";
+import {
+  getCheckedIds,
+  getCurrentWindowWidth,
+  areAllChecked,
+} from "./filter.helpers";
 import { Status } from "./StatusFilter";
 import { useResize } from "../monitor.hooks";
 
@@ -84,25 +88,11 @@ export const useFilter = () => {
     dispatch(getVehicles());
   };
 
-  const isResetDisabled = true;
-  // const isResetDisabled = React.useMemo(
-  //   () =>
-  //     pipe(
-  //       checkByUserId,
-  //       getCheckedIds,
-  //       A.isEmpty,
-  //       O.map((_) =>
-  //         pipe(
-  //           checkByStatus,
-  //           getCheckedIds,
-  //           O.fromPredicate(A.isEmpty),
-  //           O.isSome
-  //         )
-  //       ),
-  //       O.getOrElse<boolean>(() => false)
-  //     ),
-  //   [checkByStatus, checkByUserId]
-  // );
+  const isResetDisabled = React.useMemo(
+    () =>
+      pipe(checkByUserId, areAllChecked) && pipe(checkByStatus, areAllChecked),
+    [checkByStatus, checkByUserId]
+  );
 
   return {
     dispatch,
