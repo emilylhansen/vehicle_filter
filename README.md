@@ -11,7 +11,7 @@ Your task will be to create Web GUI that will show these vehicles with their sta
 
 # Analysis
 
-Analysis of the task can be found in the `/identity`. It contains wireframes, user use-cases, user flow, branding.
+Analysis of the task can be found in the `/identity`.
 
 ## Technologies
 
