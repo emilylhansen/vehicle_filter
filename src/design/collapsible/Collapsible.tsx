@@ -1,9 +1,11 @@
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
+import { withTheme } from "styled-components";
 import { O, pipe } from "../../utils/fp-ts-exports";
 import { SearchInput, SearchInputProps } from "../SearchInput";
 import { FontSize, FontWeight } from "../styles";
 import { Text } from "../Text";
+import { Theme } from "../theme";
 import {
   SearchInputBox,
   StyledAccordion,
@@ -16,16 +18,21 @@ type CollapsibleProps = React.PropsWithChildren<{
   notificationCount?: number;
   search?: SearchInputProps;
   headerIconLeft?: JSX.Element;
+  theme: Theme;
 }>;
 
-export const Collapsible = (props: CollapsibleProps) => (
+export const Collapsible = withTheme((props: CollapsibleProps) => (
   <StyledAccordion square data-cy="collapsible">
     <StyledAccordionSummary
       expandIcon={<ExpandMoreIcon />}
       data-cy="collapsible-header"
     >
       {props.headerIconLeft}
-      <Text fontSize={FontSize.Size2} fontWeight={FontWeight.Weight4}>
+      <Text
+        fontSize={FontSize.Size2}
+        fontWeight={FontWeight.Weight4}
+        color={props.theme.color1}
+      >
         {props.headerText}
       </Text>
       {pipe(
@@ -47,4 +54,4 @@ export const Collapsible = (props: CollapsibleProps) => (
     )}
     {props.children}
   </StyledAccordion>
-);
+));

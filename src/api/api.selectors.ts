@@ -2,6 +2,11 @@ import faker from "faker";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { Lens } from "monocle-ts";
 import { createSelector } from "reselect";
+import { lightTheme, themesById } from "../design/theme";
+import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
+import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
+import { ENGLISH_TRANSLATION, TRANSLATIONS_BY_LANGUAGE } from "./api.constants";
+import { InitialState } from "./api.reducer";
 import {
   isoNonEmptyString,
   isoUserId,
@@ -12,10 +17,6 @@ import {
   Vehicle,
   VehicleIdCarrier,
 } from "./api.types";
-import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
-import { InitialState } from "./api.reducer";
-import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
-import { TRANSLATIONS_BY_LANGUAGE, ENGLISH_TRANSLATION } from "./api.constants";
 
 const usersByIdLens = Lens.fromProp<InitialState>()("usersById");
 
@@ -23,12 +24,24 @@ const vehiclesByIdLens = Lens.fromProp<InitialState>()("vehiclesById");
 
 const languageLens = Lens.fromProp<InitialState>()("language");
 
+const themeLens = Lens.fromProp<InitialState>()("theme");
+
+export const getTheme = (state: InitialState) => themeLens.get(state);
+
 export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
 
 export const getLanguage = (state: InitialState) => languageLens.get(state);
+
+export const getThemeObject = createSelector(getTheme, (theme) =>
+  pipe(
+    themesById,
+    R.lookup(theme),
+    O.getOrElse(() => lightTheme)
+  )
+);
 
 export const getTranslation = createSelector(getLanguage, (language) =>
   pipe(

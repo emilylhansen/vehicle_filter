@@ -1,11 +1,14 @@
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import React from "react";
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
+import { Translation } from "../../api/api.types";
 import { Button, ButtonPropsDisplay } from "../../design/Button";
 import { Collapsible } from "../../design/collapsible/Collapsible";
 import { CollapsibleCheckboxList } from "../../design/collapsibleCheckboxList/CollapsibleCheckboxList";
 import { Icon } from "../../design/Icon";
+import { FontSize, FontWeight } from "../../design/styles";
 import { Text } from "../../design/Text";
+import { Theme } from "../../design/theme";
 import { CustomerFilter } from "./CustomerFilter";
 import { useFilter, useFilterVariant } from "./filter.hooks";
 import {
@@ -16,8 +19,6 @@ import {
   StyledListSubheader,
 } from "./filter.styles";
 import { Status, StatusFilter } from "./StatusFilter";
-import { Color, FontSize, FontWeight } from "../../design/styles";
-import { Translation } from "../../api/api.types";
 
 const MinScreenWidthCollapsibleBox = styled.div`
   position: absolute;
@@ -133,7 +134,7 @@ export const MinScreenFilter = () => {
   );
 };
 
-export const StandardScreenFilter = () => {
+export const StandardScreenFilter = withTheme((props: { theme: Theme }) => {
   const state = useFilterVariant();
 
   return (
@@ -145,7 +146,7 @@ export const StandardScreenFilter = () => {
         <Text
           fontSize={FontSize.Size2}
           fontWeight={FontWeight.Weight4}
-          color={Color.Gray1}
+          color={props.theme.color1}
         >
           {state.translation.filterHeader}
         </Text>
@@ -162,7 +163,8 @@ export const StandardScreenFilter = () => {
       />
     </>
   );
-};
+});
+
 export const Filter = () => {
   const state = useFilter();
 

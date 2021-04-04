@@ -1,14 +1,15 @@
 import { RemoteData } from "@devexperts/remote-data-ts";
 import { AxiosResponse } from "axios";
+import { ThemeEnum } from "../design/theme";
 import { Api } from "./api";
 import {
   ApiParams,
   GetUsersResponse,
   GetVehiclesResponse,
+  Language,
   RdError,
   Vehicle,
   VehicleIdCarrier,
-  Language,
 } from "./api.types";
 
 //#region getUsers start
@@ -71,6 +72,26 @@ export const setLanguage = (language: Language): SetLanguage => {
     payload: language,
   };
 };
+//#endregion setLanguage end
+
+//#region setLanguage start
+export const SET_THEME = "SET_THEME";
+export type SET_THEME = typeof SET_THEME;
+export type SetTheme = {
+  type: SET_THEME;
+  payload: ThemeEnum;
+};
+export const setTheme = (theme: ThemeEnum): SetTheme => {
+  return {
+    type: SET_THEME,
+    payload: theme,
+  };
+};
 //#endregion setVehicles end
 
-export type ApiAction = GetUsers | GetVehicles | SetVehicles | SetLanguage;
+export type ApiAction =
+  | GetUsers
+  | GetVehicles
+  | SetVehicles
+  | SetLanguage
+  | SetTheme;

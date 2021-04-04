@@ -1,19 +1,21 @@
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
+import { withTheme } from "styled-components";
 import {
-  PositiveIntegerTimeStamp,
-  isoPositiveIntegerTimeStamp,
   isoNonEmptyString,
   isoNonEmptyString6,
+  isoPositiveIntegerTimeStamp,
   isoVehicleId,
   NonEmptyString6,
-  VehicleId,
+  PositiveIntegerTimeStamp,
   Translation,
+  VehicleId,
 } from "../../../api/api.types";
 import { ConnectedIcon } from "../../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../../design/DisconnectedIcon";
 import { Color, FontSize, FontWeight } from "../../../design/styles";
 import { Text } from "../../../design/Text";
+import { Theme } from "../../../design/theme";
 import car_placeholder from "./car_placeholder.png";
 import {
   CellBox,
@@ -38,7 +40,7 @@ export type InjectedProps = {
   id: VehicleId;
   translation: Translation;
 };
-type Props = ReactWindowCellProps & InjectedProps;
+type Props = ReactWindowCellProps & InjectedProps & { theme: Theme };
 
 const useCell = (props: Props) => {
   const dateString = new Date(
@@ -49,7 +51,7 @@ const useCell = (props: Props) => {
   return { date };
 };
 
-export const Cell = (props: Props) => {
+export const Cell = withTheme((props: Props) => {
   const state = useCell(props);
 
   return (
@@ -61,13 +63,17 @@ export const Cell = (props: Props) => {
             aria-label="fancy car image"
           />
           <StyledCardContent>
-            <Text fontSize={FontSize.Size1} fontWeight={FontWeight.Weight6}>
+            <Text
+              fontSize={FontSize.Size1}
+              fontWeight={FontWeight.Weight6}
+              color={props.theme.color1}
+            >
               {isoNonEmptyString.unwrap(props.vehicle)}
             </Text>
             <Text
               fontSize={FontSize.Size3}
               fontWeight={FontWeight.Weight4}
-              color={Color.Gray2}
+              color={props.theme.color2}
               margin="0 0 8px"
             >
               {isoNonEmptyString.unwrap(props.owner)}
@@ -76,7 +82,7 @@ export const Cell = (props: Props) => {
               <Text
                 fontSize={FontSize.Size6}
                 fontWeight={FontWeight.Weight2}
-                color={Color.Gray3}
+                color={props.theme.color3}
               >
                 {`${props.translation.lastConnected}: ${state.date}`}
               </Text>
@@ -99,4 +105,4 @@ export const Cell = (props: Props) => {
       </StyledCard>
     </CellBox>
   );
-};
+});

@@ -1,11 +1,12 @@
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
-import styled from "styled-components";
+import { styled } from "../../design/design.helpers";
 import { Chip } from "../Chip";
 
 export const StyledAccordion = styled(Accordion)`
   box-shadow: none;
   margin: 0 !important;
+  background-color: ${({ theme }) => theme.background1};
 
   .MuiAccordionSummary-root.Mui-expanded {
     height: 48px;
@@ -24,6 +25,11 @@ export const StyledChip = styled(Chip)`
 export const StyledAccordionSummary = styled(AccordionSummary)`
   display: flex;
   align-items: center;
+  background-color: ${({ theme }) => theme.background1};
+
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => theme.color1};
+  }
 
   .MuiAccordionSummary-content {
     align-items: center;

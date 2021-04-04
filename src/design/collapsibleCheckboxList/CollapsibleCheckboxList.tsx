@@ -7,7 +7,10 @@ import {
   LIST_ITEM_HEIGHT,
   OVERSCAN_COUNT,
 } from "../collapsible/collapsible.constants";
-import { SearchInput, SearchInputProps } from "../SearchInput";
+import {
+  SearchInput,
+  PassedProps as SearchInputPassedProps,
+} from "../SearchInput";
 import { CheckboxListItem } from "./CheckboxListItem";
 
 export const SearchInputBox = styled.div`
@@ -29,7 +32,7 @@ type CollapsibleCheckboxListProps = {
   headerText: string;
   notificationCount: number;
   items: Array<CheckboxListItemProps>;
-  search?: SearchInputProps;
+  search?: SearchInputPassedProps;
   headerIconLeft?: JSX.Element;
 };
 

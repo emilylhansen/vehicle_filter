@@ -1,8 +1,8 @@
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import styled from "styled-components";
 import { Text } from "../../../design/Text";
+import { styled } from "../../../design/design.helpers";
 
 const CARD_MARGIN = 16;
 export const CARD_WIDTH = 240;
@@ -25,6 +25,7 @@ export const StyledCard = styled(Card)`
   max-width: ${CARD_WIDTH}px;
   border-radius: 16px;
   margin: 16px;
+  background-color: ${({ theme }) => theme.background1};
   box-shadow: 0 2.8px 4.4px rgba(55, 40, 177, 0.006),
     0 6.7px 10.6px rgba(55, 40, 177, 0.008),
     0 12.5px 20px rgba(55, 40, 177, 0.01),

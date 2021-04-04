@@ -4,15 +4,16 @@ import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import OpacityIcon from "@material-ui/icons/Opacity";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import React from "react";
-import styled from "styled-components";
+import { styled } from "../design/design.helpers";
 import { Color } from "../design/styles";
 import { MIN_SCREEN_WIDTH } from "../utils/constants";
 import { LanguageSelect } from "./LanguageSelect";
-import { MenuItem, MenuItemBox } from "./MenuItem";
+import { MenuItem } from "./MenuItem";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 const MenuBox = styled.div`
   grid-area: menu;
-  border-right: 1px solid ${Color.Gray4};
+  border-right: 1px solid ${({ theme }) => theme.background2};
   justify-content: space-between;
   display: flex;
   flex-direction: column;
@@ -33,6 +34,13 @@ const StyledList = styled(List)`
     display: flex;
     flex-flow: row;
   }
+`;
+
+const BottomMenuItemBox = styled.div`
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
 `;
 
 /** TODO: set up routing */
@@ -58,10 +66,14 @@ export const Menu = () => {
           aria-label="paceholder 3"
         />
       </StyledList>
-
-      <MenuItemBox>
-        <LanguageSelect />
-      </MenuItemBox>
+      <StyledList>
+        <BottomMenuItemBox>
+          <LanguageSelect />
+        </BottomMenuItemBox>
+        <BottomMenuItemBox>
+          <ThemeSwitch />
+        </BottomMenuItemBox>
+      </StyledList>
     </MenuBox>
   );
 };

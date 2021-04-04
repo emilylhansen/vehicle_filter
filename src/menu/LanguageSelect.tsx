@@ -2,10 +2,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import { setLanguage } from "../api/api.actions";
 import { getLanguage } from "../api/api.selectors";
 import { Language } from "../api/api.types";
+import { styled } from "../design/design.helpers";
 import { Color, FontSize, FontWeight } from "../design/styles";
 import { A, pipe } from "../utils/fp-ts-exports";
 
@@ -33,9 +33,10 @@ const StyledSelect = styled(Select)`
   width: 40px;
   height: 24px;
   border-radius: 8px;
-  background-color: ${Color.White};
+  background-color: ${({ theme }) => theme.background1};
   border: 1px solid ${Color.Secondary};
   font-weight: ${FontWeight.Weight5};
+  color: ${Color.Secondary};
 
   .MuiSelect-root {
     padding: 0 8px 0 6px;
@@ -50,6 +51,12 @@ const StyledSelect = styled(Select)`
       color: ${Color.Secondary};
   }
 
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+  font-weight: ${FontWeight.Weight5};
+  color: ${Color.Secondary};
+  font-size: ${FontSize.Size5};
 `;
 
 export const useLanguageSelect = () => {
@@ -83,7 +90,9 @@ export const LanguageSelect = () => {
       >
         {pipe(
           languages,
-          A.map((l) => <MenuItem value={l.key}>{l.abbreviation}</MenuItem>)
+          A.map((l) => (
+            <StyledMenuItem value={l.key}>{l.abbreviation}</StyledMenuItem>
+          ))
         )}
       </StyledSelect>
     </SelectBox>

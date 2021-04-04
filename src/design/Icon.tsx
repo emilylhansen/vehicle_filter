@@ -1,13 +1,18 @@
 import { SvgIcon, SvgIconProps } from "@material-ui/core";
-import styled, { css } from "styled-components";
+import { css } from "styled-components";
 import { O, pipe } from "../utils/fp-ts-exports";
 import { Color } from "./styles";
+import { styled } from "./design.helpers";
 import { isNotNil } from "../utils/utils";
 
 const IconBox = styled.div<IconProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => theme.color1};
+  }
 
   ${({ fontSize, color, margin }) =>
     css`

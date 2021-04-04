@@ -3,8 +3,8 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import React from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeGrid } from "react-window";
-import styled from "styled-components";
 import { Chip } from "../../design/Chip";
+import { styled } from "../../design/design.helpers";
 import { Color } from "../../design/styles";
 import { A, O, pipe, RD } from "../../utils/fp-ts-exports";
 import { Cell } from "./cell/Cell";
@@ -12,7 +12,7 @@ import { useMain } from "./main.hooks";
 
 const MainBox = styled.div`
   grid-area: main;
-  background-color: ${Color.Gray4};
+  background-color: ${({ theme }) => theme.background2};
 `;
 
 const StyledChip = styled(Chip)`

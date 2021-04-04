@@ -1,6 +1,7 @@
 import { default as MuiButton } from "@material-ui/core/Button";
-import styled, { css } from "styled-components";
-import { Color, FontSize, FontWeight, colorToRbga } from "./styles";
+import { css } from "styled-components";
+import { styled } from "./design.helpers";
+import { Color, FontSize, FontWeight } from "./styles";
 
 export enum ButtonPropsDisplay {
   Primary = "PRIMARY",
@@ -19,7 +20,7 @@ const getDisplayStyles = (display: ButtonPropsDisplay) => {
     case ButtonPropsDisplay.Secondary:
       return css`
         border: 1px solid ${Color.Secondary} !important;
-        background-color: ${Color.White} !important;
+        background-color: ${({ theme }) => theme.background1} !important;
         color: ${Color.Secondary} !important;
       `;
   }

@@ -1,13 +1,12 @@
 import ListSubheader from "@material-ui/core/ListSubheader";
-import styled from "styled-components";
 import { Button } from "../../design/Button";
-import { Color } from "../../design/styles";
+import { styled } from "../../design/design.helpers";
 
 export const FilterBox = styled.div`
   grid-area: filter;
   display: flex;
   flex-flow: column;
-  border-right: 1px solid ${Color.Gray4};
+  border-right: 1px solid ${({ theme }) => theme.background2};
   overflow: auto;
 `;
 
@@ -22,7 +21,7 @@ export const ScrollList = styled.div`
   overflow: auto;
 
   > * {
-    border-bottom: 1px solid ${Color.Gray4};
+    border-bottom: 1px solid ${({ theme }) => theme.background2};
   }
 `;
 
@@ -34,5 +33,5 @@ export const StyledListSubheader = styled(ListSubheader)`
   display: flex;
   align-items: center;
   height: 48px;
-  background-color: ${Color.White};
+  // background-color: ${({ theme }) => theme.background1};
 `;

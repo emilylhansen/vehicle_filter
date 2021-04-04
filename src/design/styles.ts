@@ -3,30 +3,15 @@ export enum Color {
   Secondary = "#FE845F",
   Tertiary = "#f50057",
   White = "#fff",
-  Gray1 = "#313137",
-  Gray2 = "#89888C",
-  Gray3 = "#B1B1B1",
-  Gray4 = "#F8F8F8",
+  Gray1 = "#171717",
+  Gray2 = "#1C1C1C",
+  Gray3 = "#313137",
+  Gray4 = "#89888C",
+  Gray5 = "#B1B1B1",
+  Gray6 = "#F8F8F8",
   Connected = "#28A744",
   Disconnected = "#D73949",
 }
-
-export const colorToRbga = ({
-  color,
-  opacity,
-}: {
-  color: Color;
-  opacity: number;
-}): string => {
-  switch (color) {
-    case Color.Primary:
-      return `rgba(55, 40, 177, ${opacity})`;
-    case Color.Secondary:
-      return `rgba(254, 132, 95, ${opacity})`;
-    default:
-      return "";
-  }
-};
 
 export enum FontSize {
   Size1 = "1rem",
