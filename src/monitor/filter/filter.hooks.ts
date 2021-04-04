@@ -18,24 +18,17 @@ const initCheckByStatus = {
   [Status.Disconnected]: true,
 };
 
-export const useFilter = () => {
+export const useFilterVariant = () => {
   const [checkByUserId, setCheckByUserId] = React.useState<
     Record<UserIdCarrier, boolean>
   >({});
   const [checkByStatus, setCheckByStatus] = React.useState<
     Record<Status, boolean>
   >(initCheckByStatus);
-  const [isMinScreenWidth, setIsMinScreenWidth] = React.useState<boolean>(
-    getCurrentWindowWidth() <= MIN_SCREEN_WIDTH
-  );
 
   const dispatch = useDispatch();
 
   const usersById = useSelector(getUsersById);
-
-  useResize(() => {
-    setIsMinScreenWidth(getCurrentWindowWidth() <= MIN_SCREEN_WIDTH);
-  });
 
   const initCheckByUserId = React.useMemo(
     () =>
@@ -103,7 +96,20 @@ export const useFilter = () => {
     setCheckByUserId,
     onSearch,
     onReset,
-    isMinScreenWidth,
     isResetDisabled,
+  };
+};
+
+export const useFilter = () => {
+  const [isMinScreenWidth, setIsMinScreenWidth] = React.useState<boolean>(
+    getCurrentWindowWidth() <= MIN_SCREEN_WIDTH
+  );
+
+  useResize(() => {
+    setIsMinScreenWidth(getCurrentWindowWidth() <= MIN_SCREEN_WIDTH);
+  });
+
+  return {
+    isMinScreenWidth,
   };
 };

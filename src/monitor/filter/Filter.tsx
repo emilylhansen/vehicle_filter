@@ -7,7 +7,7 @@ import { CollapsibleCheckboxList } from "../../design/collapsibleCheckboxList/Co
 import { Icon } from "../../design/Icon";
 import { Text } from "../../design/Text";
 import { CustomerFilter } from "./CustomerFilter";
-import { useFilter } from "./filter.hooks";
+import { useFilter, useFilterVariant } from "./filter.hooks";
 import {
   ButtonsBox,
   FilterBox,
@@ -102,57 +102,68 @@ const FilterList = ({
   </>
 );
 
+export const MinScreenFilter = () => {
+  const state = useFilterVariant();
+
+  return (
+    <MinScreenWidthCollapsibleBox>
+      <Collapsible
+        headerText="Filter"
+        headerIconLeft={
+          <Icon fontSize={18} margin="0 8px 0 0">
+            <FilterListOutlinedIcon />
+          </Icon>
+        }
+      >
+        <FilterList
+          checkByStatus={state.checkByStatus}
+          checkByUserId={state.checkByUserId}
+          setCheckByStatus={state.setCheckByStatus}
+          setCheckByUserId={state.setCheckByUserId}
+          onReset={state.onReset}
+          onSearch={state.onSearch}
+          isResetDisabled={state.isResetDisabled}
+        />
+      </Collapsible>
+    </MinScreenWidthCollapsibleBox>
+  );
+};
+
+export const StandardScreenFilter = () => {
+  const state = useFilterVariant();
+
+  return (
+    <>
+      <StyledListSubheader data-cy="filter-list-header">
+        <Icon fontSize={18} margin="0 8px 0 0">
+          <FilterListOutlinedIcon />
+        </Icon>
+        <Text
+          fontSize={FontSize.Size2}
+          fontWeight={FontWeight.Weight4}
+          color={Color.Gray1}
+        >
+          Filter
+        </Text>
+      </StyledListSubheader>
+      <FilterList
+        checkByStatus={state.checkByStatus}
+        checkByUserId={state.checkByUserId}
+        setCheckByStatus={state.setCheckByStatus}
+        setCheckByUserId={state.setCheckByUserId}
+        onReset={state.onReset}
+        onSearch={state.onSearch}
+        isResetDisabled={state.isResetDisabled}
+      />
+    </>
+  );
+};
 export const Filter = () => {
   const state = useFilter();
 
   return (
     <FilterBox>
-      {state.isMinScreenWidth ? (
-        <MinScreenWidthCollapsibleBox>
-          <Collapsible
-            headerText="Filter"
-            headerIconLeft={
-              <Icon fontSize={18} margin="0 8px 0 0">
-                <FilterListOutlinedIcon />
-              </Icon>
-            }
-          >
-            <FilterList
-              checkByStatus={state.checkByStatus}
-              checkByUserId={state.checkByUserId}
-              setCheckByStatus={state.setCheckByStatus}
-              setCheckByUserId={state.setCheckByUserId}
-              onReset={state.onReset}
-              onSearch={state.onSearch}
-              isResetDisabled={state.isResetDisabled}
-            />
-          </Collapsible>
-        </MinScreenWidthCollapsibleBox>
-      ) : (
-        <>
-          <StyledListSubheader data-cy="filter-list-header">
-            <Icon fontSize={18} margin="0 8px 0 0">
-              <FilterListOutlinedIcon />
-            </Icon>
-            <Text
-              fontSize={FontSize.Size2}
-              fontWeight={FontWeight.Weight4}
-              color={Color.Gray1}
-            >
-              Filter
-            </Text>
-          </StyledListSubheader>
-          <FilterList
-            checkByStatus={state.checkByStatus}
-            checkByUserId={state.checkByUserId}
-            setCheckByStatus={state.setCheckByStatus}
-            setCheckByUserId={state.setCheckByUserId}
-            onReset={state.onReset}
-            onSearch={state.onSearch}
-            isResetDisabled={state.isResetDisabled}
-          />
-        </>
-      )}
+      {state.isMinScreenWidth ? <MinScreenFilter /> : <StandardScreenFilter />}
     </FilterBox>
   );
 };
