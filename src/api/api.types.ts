@@ -133,3 +133,26 @@ export const isoRdError = iso<RdError>();
 export type RdErrorCarrier = CarrierOf<RdError>;
 
 export type ApiParams = Array<Array<string>>;
+
+export enum Language {
+  English = "ENGLISH",
+  Swedish = "SWEDISH",
+}
+
+export type Translation = {
+  filterHeader: string;
+  filterCategories: {
+    customer: string;
+    status: string;
+    make: string;
+    model: string;
+    year: string;
+  };
+  searchButton: string;
+  resetButton: string;
+  resultsFound: string;
+  connected: string;
+  disconnected: string;
+  lastConnected: string;
+  now: string;
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getVehicles } from "../../api/api.actions";
-import { getUsersById } from "../../api/api.selectors";
+import { getUsersById, getTranslation } from "../../api/api.selectors";
 import { UserIdCarrier } from "../../api/api.types";
 import { MIN_SCREEN_WIDTH } from "../../utils/constants";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
@@ -29,6 +29,7 @@ export const useFilterVariant = () => {
   const dispatch = useDispatch();
 
   const usersById = useSelector(getUsersById);
+  const translation = useSelector(getTranslation);
 
   const initCheckByUserId = React.useMemo(
     () =>
@@ -97,6 +98,7 @@ export const useFilterVariant = () => {
     onSearch,
     onReset,
     isResetDisabled,
+    translation,
   };
 };
 

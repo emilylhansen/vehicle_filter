@@ -15,15 +15,28 @@ import {
 import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
 import { InitialState } from "./api.reducer";
 import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
+import { TRANSLATIONS_BY_LANGUAGE, ENGLISH_TRANSLATION } from "./api.constants";
 
 const usersByIdLens = Lens.fromProp<InitialState>()("usersById");
 
 const vehiclesByIdLens = Lens.fromProp<InitialState>()("vehiclesById");
 
+const languageLens = Lens.fromProp<InitialState>()("language");
+
 export const getUsersById = (state: InitialState) => usersByIdLens.get(state);
 
 export const getVehiclesById = (state: InitialState) =>
   vehiclesByIdLens.get(state);
+
+export const getLanguage = (state: InitialState) => languageLens.get(state);
+
+export const getTranslation = createSelector(getLanguage, (language) =>
+  pipe(
+    TRANSLATIONS_BY_LANGUAGE,
+    R.lookup(language),
+    O.getOrElse(() => ENGLISH_TRANSLATION)
+  )
+);
 
 /** change the connect value for each vehicle to simulate changing connection */
 export const getVehiclesByIdNewStatus = createSelector(
@@ -43,9 +56,11 @@ export const getVehiclesByIdNewStatus = createSelector(
 export const getCells = createSelector(
   getUsersById,
   getVehiclesById,
+  getTranslation,
   (
     usersById,
-    vehiclesById
+    vehiclesById,
+    translation
   ): RD.RemoteData<RdError, Array<CellInjectedProps>> => {
     return pipe(
       sequenceS(RD.remoteData)({ usersById, vehiclesById }),
@@ -85,6 +100,7 @@ export const getCells = createSelector(
                       registration: v.registration,
                       lastConnected: v.lastConnected,
                       id: isoVehicleId.wrap(k),
+                      translation,
                     };
                   })
                 );

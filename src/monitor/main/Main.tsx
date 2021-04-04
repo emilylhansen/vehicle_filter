@@ -69,6 +69,7 @@ export const Main = () => {
                           registration={data.registration}
                           lastConnected={data.lastConnected}
                           id={data.id}
+                          translation={data.translation}
                         />
                       )),
                       O.toNullable
@@ -88,7 +89,7 @@ export const Main = () => {
         RD.toOption,
         O.map((cs) => (
           <StyledChip
-            label={`${cs.length} Results Found`}
+            label={`${cs.length} ${state.translation.resultsFound}`}
             aria-label="results found count"
             data-cy="results-found-count"
           />

@@ -10,7 +10,8 @@ import styled from "styled-components";
 import { Icon } from "../design/Icon";
 import { Color } from "../design/styles";
 import { MIN_SCREEN_WIDTH } from "../utils/constants";
-import { MenuItem } from "./MenuItem";
+import { MenuItem, MenuItemBox } from "./MenuItem";
+import { LanguageSelect } from "./LanguageSelect";
 
 const MenuBox = styled.div`
   grid-area: menu;
@@ -33,14 +34,6 @@ export const Menu = () => {
   return (
     <MenuBox>
       <StyledList>
-        {/* <Icon
-          fontSize={32}
-          color={Color.Primary}
-          aria-label="home"
-          margin="16px auto 32px"
-        >
-          <OpacityIcon />
-        </Icon> */}
         <MenuItem
           isActive={false}
           icon={<OpacityIcon />}
@@ -69,6 +62,10 @@ export const Menu = () => {
           aria-label="paceholder 3"
         />
       </StyledList>
+
+      <MenuItemBox>
+        <LanguageSelect />
+      </MenuItemBox>
     </MenuBox>
   );
 };

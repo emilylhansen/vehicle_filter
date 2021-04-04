@@ -8,6 +8,7 @@ import {
   isoVehicleId,
   NonEmptyString6,
   VehicleId,
+  Translation,
 } from "../../../api/api.types";
 import { ConnectedIcon } from "../../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../../design/DisconnectedIcon";
@@ -35,6 +36,7 @@ export type InjectedProps = {
   registration: NonEmptyString6;
   lastConnected: PositiveIntegerTimeStamp;
   id: VehicleId;
+  translation: Translation;
 };
 type Props = ReactWindowCellProps & InjectedProps;
 
@@ -42,7 +44,7 @@ const useCell = (props: Props) => {
   const dateString = new Date(
     isoPositiveIntegerTimeStamp.unwrap(props.lastConnected) * 1000
   ).toLocaleDateString();
-  const date = props.isConnected ? "Now" : dateString;
+  const date = props.isConnected ? props.translation.now : dateString;
 
   return { date };
 };
@@ -76,7 +78,7 @@ export const Cell = (props: Props) => {
                 fontWeight={FontWeight.Weight2}
                 color={Color.Gray3}
               >
-                {`Last Connected: ${state.date}`}
+                {`${props.translation.lastConnected}: ${state.date}`}
               </Text>
               {props.isConnected ? (
                 <ConnectedIcon fontSize={12} margin="0 0 0 8px" />

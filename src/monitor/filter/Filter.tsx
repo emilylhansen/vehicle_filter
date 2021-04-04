@@ -17,6 +17,7 @@ import {
 } from "./filter.styles";
 import { Status, StatusFilter } from "./StatusFilter";
 import { Color, FontSize, FontWeight } from "../../design/styles";
+import { Translation } from "../../api/api.types";
 
 const MinScreenWidthCollapsibleBox = styled.div`
   position: absolute;
@@ -37,6 +38,7 @@ const FilterList = ({
   onSearch,
   onReset,
   isResetDisabled,
+  translation,
 }: {
   checkByStatus: Record<string, boolean>;
   checkByUserId: Record<string, boolean>;
@@ -49,6 +51,7 @@ const FilterList = ({
   onSearch: () => void;
   onReset: () => void;
   isResetDisabled: boolean;
+  translation: Translation;
 }) => (
   <>
     <ScrollList aria-label="filter-list" data-cy="filter-list">
@@ -61,17 +64,17 @@ const FilterList = ({
         setCheckByStatus={setCheckByStatus}
       />
       <CollapsibleCheckboxList
-        headerText="Make"
+        headerText={translation.filterCategories.make}
         items={[]}
         notificationCount={4}
       />
       <CollapsibleCheckboxList
-        headerText="Model"
+        headerText={translation.filterCategories.model}
         items={[]}
         notificationCount={4}
       />
       <CollapsibleCheckboxList
-        headerText="Year"
+        headerText={translation.filterCategories.year}
         items={[]}
         notificationCount={4}
       />
@@ -85,7 +88,7 @@ const FilterList = ({
         aria-label="search"
         data-cy="search-filter"
       >
-        Search
+        {translation.searchButton}
       </SearchButton>
       <Button
         variant="outlined"
@@ -96,7 +99,7 @@ const FilterList = ({
         data-cy="reset-filter"
         disabled={isResetDisabled}
       >
-        Reset
+        {translation.resetButton}
       </Button>
     </ButtonsBox>
   </>
@@ -108,7 +111,7 @@ export const MinScreenFilter = () => {
   return (
     <MinScreenWidthCollapsibleBox>
       <Collapsible
-        headerText="Filter"
+        headerText={state.translation.filterHeader}
         headerIconLeft={
           <Icon fontSize={18} margin="0 8px 0 0">
             <FilterListOutlinedIcon />
@@ -123,6 +126,7 @@ export const MinScreenFilter = () => {
           onReset={state.onReset}
           onSearch={state.onSearch}
           isResetDisabled={state.isResetDisabled}
+          translation={state.translation}
         />
       </Collapsible>
     </MinScreenWidthCollapsibleBox>
@@ -143,7 +147,7 @@ export const StandardScreenFilter = () => {
           fontWeight={FontWeight.Weight4}
           color={Color.Gray1}
         >
-          Filter
+          {state.translation.filterHeader}
         </Text>
       </StyledListSubheader>
       <FilterList
@@ -154,6 +158,7 @@ export const StandardScreenFilter = () => {
         onReset={state.onReset}
         onSearch={state.onSearch}
         isResetDisabled={state.isResetDisabled}
+        translation={state.translation}
       />
     </>
   );

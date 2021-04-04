@@ -1,15 +1,20 @@
 import React from "react";
 import { VariableSizeList } from "react-window";
+import styled from "styled-components";
 import { A, O, pipe } from "../../utils/fp-ts-exports";
-import { isNil } from "../../utils/utils";
 import { Collapsible } from "../collapsible/Collapsible";
 import {
-  LIST_HEADER_HEIGHT,
   LIST_ITEM_HEIGHT,
   OVERSCAN_COUNT,
 } from "../collapsible/collapsible.constants";
-import { SearchInputProps } from "../SearchInput";
+import { SearchInput, SearchInputProps } from "../SearchInput";
 import { CheckboxListItem } from "./CheckboxListItem";
+
+export const SearchInputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+`;
 
 export type CheckboxListItemProps = {
   primaryText: string;
@@ -29,35 +34,11 @@ type CollapsibleCheckboxListProps = {
 };
 
 const useCollapsibleCheckboxList = (props: CollapsibleCheckboxListProps) => {
-  /** count of items matching filters */
-  const itemCount = pipe(
-    props.search,
-    O.fromNullable,
-    O.map((_) => props.items.length + 1),
-    O.getOrElse(() => props.items.length)
-  );
-
   /** calculate grid height */
-  const _gridHeight = props.items.length * LIST_ITEM_HEIGHT;
-  const gridHeight = pipe(
-    props.search,
-    O.fromNullable,
-    O.map((_) => _gridHeight + LIST_HEADER_HEIGHT),
-    O.getOrElse(() => _gridHeight)
-  );
-
-  const shouldHandleSearch = (index: number) =>
-    index === 0 && !isNil(props.search);
-
-  /** height for each row */
-  const getItemSize = (index: number) =>
-    shouldHandleSearch(index) ? LIST_HEADER_HEIGHT : LIST_ITEM_HEIGHT;
+  const gridHeight = props.items.length * LIST_ITEM_HEIGHT;
 
   return {
-    itemCount,
     gridHeight,
-    shouldHandleSearch,
-    getItemSize,
   };
 };
 
@@ -72,10 +53,20 @@ export const CollapsibleCheckboxList = (
       headerIconLeft={props.headerIconLeft}
       notificationCount={props.notificationCount}
     >
+      {pipe(
+        props.search,
+        O.fromNullable,
+        O.map((s) => (
+          <SearchInputBox>
+            <SearchInput value={s.value} onChange={s.onChange} />
+          </SearchInputBox>
+        )),
+        O.toNullable
+      )}
       <VariableSizeList
         height={state.gridHeight}
-        itemCount={state.itemCount}
-        itemSize={state.getItemSize}
+        itemCount={props.items.length}
+        itemSize={(_) => LIST_ITEM_HEIGHT}
         width="100%"
         overscanCount={OVERSCAN_COUNT}
         /** data-cy and aria-label don't work, use className instead */

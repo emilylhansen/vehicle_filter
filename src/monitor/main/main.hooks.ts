@@ -2,7 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeGrid } from "react-window";
 import { getUsers, getVehicles, setVehicles } from "../../api/api.actions";
-import { getCells, getVehiclesByIdNewStatus } from "../../api/api.selectors";
+import {
+  getCells,
+  getVehiclesByIdNewStatus,
+  getTranslation,
+} from "../../api/api.selectors";
 import { O, pipe } from "../../utils/fp-ts-exports";
 import { useResize } from "../monitor.hooks";
 import { getColumnCount } from "./main.helpers";
@@ -49,6 +53,7 @@ export const useMain = () => {
 
   const cells = useSelector(getCells);
   const vehiclesByIdNewStatus = useSelector(getVehiclesByIdNewStatus);
+  const translation = useSelector(getTranslation);
 
   useResize(() => {
     pipe(
@@ -101,5 +106,13 @@ export const useMain = () => {
     rowIndex: number;
   }) => rowIndex * (columnCount - 1) + (columnIndex + rowIndex);
 
-  return { cells, scrollToTop, gridRef, mainRef, getListIndex, columnCount };
+  return {
+    cells,
+    scrollToTop,
+    gridRef,
+    mainRef,
+    getListIndex,
+    columnCount,
+    translation,
+  };
 };

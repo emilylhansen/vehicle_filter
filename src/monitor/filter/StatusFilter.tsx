@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { getTranslation } from "../../api/api.selectors";
 import {
-  CollapsibleCheckboxList,
   CheckboxListItemProps,
+  CollapsibleCheckboxList,
 } from "../../design/collapsibleCheckboxList/CollapsibleCheckboxList";
 import { ConnectedIcon } from "../../design/ConnectedIcon";
 import { DisconnectedIcon } from "../../design/DisconnectedIcon";
@@ -19,11 +21,13 @@ type Props = {
 };
 
 const useStatusFilter = (props: Props) => {
+  const translation = useSelector(getTranslation);
+
   const checkedCount = getCheckedIds(props.checkByStatus).length;
 
   const connectedItem: CheckboxListItemProps = {
     key: Status.Connected,
-    primaryText: "Connected",
+    primaryText: translation.connected,
     rightAdornment: <ConnectedIcon fontSize={16} margin="0 2px 0 0" />,
     checked: pipe(
       props.checkByStatus,
@@ -43,7 +47,7 @@ const useStatusFilter = (props: Props) => {
 
   const disconnectedItem: CheckboxListItemProps = {
     key: Status.Disconnected,
-    primaryText: "Disconnected",
+    primaryText: translation.disconnected,
     rightAdornment: <DisconnectedIcon fontSize={16} margin="0 2px 0 0" />,
     checked: pipe(
       props.checkByStatus,
@@ -63,7 +67,7 @@ const useStatusFilter = (props: Props) => {
 
   const items: Array<CheckboxListItemProps> = [connectedItem, disconnectedItem];
 
-  return { items, checkedCount };
+  return { items, checkedCount, translation };
 };
 
 export const StatusFilter = (props: Props) => {
@@ -71,7 +75,7 @@ export const StatusFilter = (props: Props) => {
 
   return (
     <CollapsibleCheckboxList
-      headerText="Status"
+      headerText={state.translation.filterCategories.status}
       items={state.items}
       notificationCount={state.checkedCount}
     />

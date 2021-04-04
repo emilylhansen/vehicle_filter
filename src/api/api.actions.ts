@@ -8,6 +8,7 @@ import {
   RdError,
   Vehicle,
   VehicleIdCarrier,
+  Language,
 } from "./api.types";
 
 //#region getUsers start
@@ -57,4 +58,19 @@ export const setVehicles = (
 };
 //#endregion setVehicles end
 
-export type ApiAction = GetUsers | GetVehicles | SetVehicles;
+//#region setLanguage start
+export const SET_LANGUAGE = "SET_LANGUAGE";
+export type SET_LANGUAGE = typeof SET_LANGUAGE;
+export type SetLanguage = {
+  type: SET_LANGUAGE;
+  payload: Language;
+};
+export const setLanguage = (language: Language): SetLanguage => {
+  return {
+    type: SET_LANGUAGE,
+    payload: language,
+  };
+};
+//#endregion setVehicles end
+
+export type ApiAction = GetUsers | GetVehicles | SetVehicles | SetLanguage;

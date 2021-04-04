@@ -5,7 +5,7 @@ import {
   CollapsibleCheckboxList,
   CheckboxListItemProps,
 } from "../../design/collapsibleCheckboxList/CollapsibleCheckboxList";
-import { getUsersById } from "../../api/api.selectors";
+import { getUsersById, getTranslation } from "../../api/api.selectors";
 import { A, O, pipe, R, RD } from "../../utils/fp-ts-exports";
 import { getCheckedIds } from "./filter.helpers";
 
@@ -18,6 +18,7 @@ const useCustomerFilter = (props: Props) => {
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const usersById = useSelector(getUsersById);
+  const translation = useSelector(getTranslation);
 
   const onChangeSearch = (v: string) => setSearchValue(v);
 
@@ -81,7 +82,13 @@ const useCustomerFilter = (props: Props) => {
     [usersById, props.checkByUserId, props.setCheckByUserId, searchValue]
   );
 
-  return { customerListItems, checkedCount, searchValue, onChangeSearch };
+  return {
+    customerListItems,
+    checkedCount,
+    searchValue,
+    onChangeSearch,
+    translation,
+  };
 };
 
 export const CustomerFilter = (props: Props) => {
@@ -89,7 +96,7 @@ export const CustomerFilter = (props: Props) => {
 
   return (
     <CollapsibleCheckboxList
-      headerText="Customer"
+      headerText={state.translation.filterCategories.customer}
       items={state.customerListItems}
       notificationCount={state.checkedCount}
       search={{ value: state.searchValue, onChange: state.onChangeSearch }}

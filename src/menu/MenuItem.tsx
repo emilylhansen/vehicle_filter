@@ -5,7 +5,7 @@ import { Color } from "../design/styles";
 import { MIN_SCREEN_WIDTH } from "../utils/constants";
 import { pipe, O } from "../utils/fp-ts-exports";
 
-const MenuItemBox = styled.li`
+export const MenuItemBox = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
