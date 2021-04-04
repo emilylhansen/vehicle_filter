@@ -7,15 +7,17 @@ import OpacityIcon from "@material-ui/icons/Opacity";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import React from "react";
 import styled from "styled-components";
-import { Icon } from "../design/Icon";
 import { Color } from "../design/styles";
 import { MIN_SCREEN_WIDTH } from "../utils/constants";
-import { MenuItem, MenuItemBox } from "./MenuItem";
 import { LanguageSelect } from "./LanguageSelect";
+import { MenuItem, MenuItemBox } from "./MenuItem";
 
 const MenuBox = styled.div`
   grid-area: menu;
   border-right: 1px solid ${Color.Gray4};
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledList = styled(List)`
