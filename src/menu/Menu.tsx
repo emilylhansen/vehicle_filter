@@ -33,14 +33,20 @@ export const Menu = () => {
   return (
     <MenuBox>
       <StyledList>
-        <Icon
+        {/* <Icon
           fontSize={32}
           color={Color.Primary}
           aria-label="home"
           margin="16px auto 32px"
         >
           <OpacityIcon />
-        </Icon>
+        </Icon> */}
+        <MenuItem
+          isActive={false}
+          icon={<OpacityIcon />}
+          isDisabled={true}
+          color={Color.Primary}
+        />
         <MenuItem isActive={false} icon={<HomeOutlinedIcon />} />
         <MenuItem
           isActive={true}

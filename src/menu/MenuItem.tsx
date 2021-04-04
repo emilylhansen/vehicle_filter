@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { Icon } from "../design/Icon";
 import { Color } from "../design/styles";
 import { MIN_SCREEN_WIDTH } from "../utils/constants";
+import { pipe, O } from "../utils/fp-ts-exports";
 
 const MenuItemBox = styled.li`
   display: flex;
@@ -12,7 +13,7 @@ const MenuItemBox = styled.li`
   height: 64px;
 `;
 
-const IconBox = styled.div<{ isActive: boolean }>`
+const IconBox = styled.div<{ isActive: boolean; isDisabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,17 +25,21 @@ const IconBox = styled.div<{ isActive: boolean }>`
   transition: right 250ms;
   z-index: 999;
 
-  :hover {
-    /* Extra small devices (phones, 600px and down) */
-    @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
-      bottom: -16px;
-    }
+  ${({ isDisabled }) =>
+    !isDisabled &&
+    css`
+      :hover {
+        /* Extra small devices (phones, 600px and down) */
+        @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
+          bottom: -16px;
+        }
 
-    /* other devices (600px and up) */
-    @media only screen and (min-width: ${MIN_SCREEN_WIDTH}px) {
-      right: -16px;
-    }
-  }
+        /* other devices (600px and up) */
+        @media only screen and (min-width: ${MIN_SCREEN_WIDTH}px) {
+          right: -16px;
+        }
+      }
+    `}
 
   ${({ isActive }) =>
     isActive
@@ -50,13 +55,30 @@ const IconBox = styled.div<{ isActive: boolean }>`
       : css``}
 `;
 
-type Props = { isActive: boolean; icon: JSX.Element };
+type Props = {
+  isActive: boolean;
+  icon: JSX.Element;
+  isDisabled?: boolean;
+  color?: Color;
+};
 
 export const MenuItem = (props: Props) => {
+  const isDisabled = pipe(
+    props.isDisabled,
+    O.fromNullable,
+    O.getOrElse<boolean>(() => false)
+  );
+
+  const color = pipe(
+    props.color,
+    O.fromNullable,
+    O.getOrElse(() => Color.Secondary)
+  );
+
   return (
     <MenuItemBox>
-      <IconBox isActive={props.isActive}>
-        <Icon fontSize={32} color={Color.Secondary}>
+      <IconBox isActive={props.isActive} isDisabled={isDisabled}>
+        <Icon fontSize={32} color={color}>
           {props.icon}
         </Icon>
       </IconBox>
