@@ -11,6 +11,23 @@ export enum Color {
   Disconnected = "#D73949",
 }
 
+export const colorToRbga = ({
+  color,
+  opacity,
+}: {
+  color: Color;
+  opacity: number;
+}): string => {
+  switch (color) {
+    case Color.Primary:
+      return `rgba(55, 40, 177, ${opacity})`;
+    case Color.Secondary:
+      return `rgba(254, 132, 95, ${opacity})`;
+    default:
+      return "";
+  }
+};
+
 export enum FontSize {
   Size1 = "1rem",
   Size2 = "0.85rem",

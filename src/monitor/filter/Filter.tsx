@@ -36,6 +36,7 @@ const FilterList = ({
   setCheckByUserId,
   onSearch,
   onReset,
+  isResetDisabled,
 }: {
   checkByStatus: Record<string, boolean>;
   checkByUserId: Record<string, boolean>;
@@ -47,6 +48,7 @@ const FilterList = ({
   >;
   onSearch: () => void;
   onReset: () => void;
+  isResetDisabled: boolean;
 }) => (
   <>
     <ScrollList aria-label="filter-list" data-cy="filter-list">
@@ -92,6 +94,7 @@ const FilterList = ({
         onClick={onReset}
         aria-label="reset"
         data-cy="reset-filter"
+        disabled={true}
       >
         Reset
       </Button>
@@ -121,6 +124,7 @@ export const Filter = () => {
               setCheckByUserId={state.setCheckByUserId}
               onReset={state.onReset}
               onSearch={state.onSearch}
+              isResetDisabled={state.isResetDisabled}
             />
           </Collapsible>
         </MinScreenWidthCollapsibleBox>
@@ -145,6 +149,7 @@ export const Filter = () => {
             setCheckByUserId={state.setCheckByUserId}
             onReset={state.onReset}
             onSearch={state.onSearch}
+            isResetDisabled={state.isResetDisabled}
           />
         </>
       )}

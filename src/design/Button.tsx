@@ -1,6 +1,6 @@
 import { default as MuiButton } from "@material-ui/core/Button";
 import styled, { css } from "styled-components";
-import { Color, FontSize, FontWeight } from "./styles";
+import { Color, FontSize, FontWeight, colorToRbga } from "./styles";
 
 export enum ButtonPropsDisplay {
   Primary = "PRIMARY",

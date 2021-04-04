@@ -84,6 +84,26 @@ export const useFilter = () => {
     dispatch(getVehicles());
   };
 
+  const isResetDisabled = true;
+  // const isResetDisabled = React.useMemo(
+  //   () =>
+  //     pipe(
+  //       checkByUserId,
+  //       getCheckedIds,
+  //       A.isEmpty,
+  //       O.map((_) =>
+  //         pipe(
+  //           checkByStatus,
+  //           getCheckedIds,
+  //           O.fromPredicate(A.isEmpty),
+  //           O.isSome
+  //         )
+  //       ),
+  //       O.getOrElse<boolean>(() => false)
+  //     ),
+  //   [checkByStatus, checkByUserId]
+  // );
+
   return {
     dispatch,
     getQueryParams,
@@ -94,5 +114,6 @@ export const useFilter = () => {
     onSearch,
     onReset,
     isMinScreenWidth,
+    isResetDisabled,
   };
 };

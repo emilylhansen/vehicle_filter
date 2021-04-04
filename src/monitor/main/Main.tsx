@@ -17,7 +17,7 @@ const MainBox = styled.div`
 
 const StyledChip = styled(Chip)`
   position: absolute;
-  bottom: 16px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
