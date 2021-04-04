@@ -20,7 +20,7 @@ describe("vehicle filter app is running", () => {
   });
 
   it("Reset the filter to show all results", () => {
-    cy.clickReset();
+    cy.openCustomerList().toggleFirstListItem(0).clickReset();
   });
 
   it("Search and filter customers list", () => {
@@ -44,9 +44,7 @@ describe("vehicle filter app is running", () => {
   it("Filter vehicles results based on filter selections", () => {
     cy.openCustomerList()
       .toggleFirstListItem(0)
-      .openStatusList()
-      .toggleFirstListItem(1)
       .clickSearch()
-      .checkResultsFound(11);
+      .checkResultsFound(22);
   });
 });
