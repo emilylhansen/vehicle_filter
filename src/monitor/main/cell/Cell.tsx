@@ -1,8 +1,8 @@
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { NonEmptyString } from "newtype-ts/lib/NonEmptyString";
 import {
-  IntegerTimeStamp,
-  isoIntegerTimeStamp,
+  PositiveIntegerTimeStamp,
+  isoPositiveIntegerTimeStamp,
   isoNonEmptyString,
   isoNonEmptyString6,
   isoVehicleId,
@@ -33,14 +33,14 @@ export type InjectedProps = {
   owner: NonEmptyString;
   isConnected: boolean;
   registration: NonEmptyString6;
-  lastConnected: IntegerTimeStamp;
+  lastConnected: PositiveIntegerTimeStamp;
   id: VehicleId;
 };
 type Props = ReactWindowCellProps & InjectedProps;
 
 const useCell = (props: Props) => {
   const dateString = new Date(
-    isoIntegerTimeStamp.unwrap(props.lastConnected) * 1000
+    isoPositiveIntegerTimeStamp.unwrap(props.lastConnected) * 1000
   ).toLocaleDateString();
   const date = props.isConnected ? "Now" : dateString;
 

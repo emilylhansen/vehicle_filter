@@ -1,13 +1,14 @@
 import faker from "faker";
-import { A, pipe } from "../utils/fp-ts-exports";
+import { prismNonEmptyString } from "newtype-ts/lib/NonEmptyString";
+import { A, O, pipe, sequenceS, sequenceT } from "../utils/fp-ts-exports";
 import {
-  isoIntegerTimeStamp,
-  isoNonEmptyString,
-  isoNonEmptyString6,
-  isoPositiveInteger4,
-  isoPositiveInteger5,
   isoUserId,
   isoVehicleId,
+  prismNonEmptyString6,
+  prismIntegerTimeStamp,
+  prismPositiveInteger4,
+  prismPositiveInteger5,
+  prismNonEmptyStringEmail,
   User,
   Vehicle,
 } from "./api.types";
@@ -15,160 +16,290 @@ import {
 const LAST_CONNECTED = 1616866793;
 
 //#region userA start
-const userA: User = {
-  id: isoUserId.wrap("userA"),
-  first: isoNonEmptyString.wrap("Kalles"),
-  last: isoNonEmptyString.wrap("Grustransporter"),
-  email: isoNonEmptyString.wrap("kalles_grustransporter@email.com"),
-  address: {
-    street: isoNonEmptyString.wrap("Cementvägen 8"),
-    postalCode: isoPositiveInteger5.wrap(11111),
-    city: isoNonEmptyString.wrap("Södertälje"),
-    country: isoNonEmptyString.wrap("Sverige"),
-  },
-};
-const vehicleAA: Vehicle = {
-  id: isoVehicleId.wrap("YS2R4X20005399401"),
-  ownerId: isoUserId.wrap("userA"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("ABC123"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
-const vehicleAB: Vehicle = {
-  id: isoVehicleId.wrap("VLUR4X20009093588"),
-  ownerId: isoUserId.wrap("userA"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("DEF456"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
-const vehicleAC: Vehicle = {
-  id: isoVehicleId.wrap("VLUR4X20009048066"),
-  ownerId: isoUserId.wrap("userA"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("GHI789"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
+const userAO: O.Option<User> = pipe(
+  sequenceS(O.option)({
+    first: prismNonEmptyString.getOption("Kalles"),
+    last: prismNonEmptyString.getOption("Grustransporter"),
+    email: prismNonEmptyStringEmail.getOption(
+      "kalles_grustransporter@email.com"
+    ),
+    street: prismNonEmptyString.getOption("Cementvägen 8"),
+    postalCode: prismPositiveInteger5.getOption(11111),
+    city: prismNonEmptyString.getOption("Södertälje"),
+    country: prismNonEmptyString.getOption("Sverige"),
+  }),
+  O.map((data) => ({
+    id: isoUserId.wrap("userA"),
+    first: data.first,
+    last: data.last,
+    email: data.email,
+    address: {
+      street: data.street,
+      postalCode: data.postalCode,
+      city: data.city,
+      country: data.country,
+    },
+  }))
+);
+const vehicleAaO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("ABC123"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("YS2R4X20005399401"),
+    ownerId: isoUserId.wrap("userA"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
+const vehicleAbO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("DEF456"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("VLUR4X20009093588"),
+    ownerId: isoUserId.wrap("userA"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
+const vehicleAcO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("GHI789"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("VLUR4X20009048066"),
+    ownerId: isoUserId.wrap("userA"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
 //#endregion userA end
 
 //#region userB start
-const userB: User = {
-  id: isoUserId.wrap("userB"),
-  first: isoNonEmptyString.wrap("Johans"),
-  last: isoNonEmptyString.wrap("Bulk"),
-  email: isoNonEmptyString.wrap("johans_bulk@email.com"),
-  address: {
-    street: isoNonEmptyString.wrap("Balkvägen 12"),
-    postalCode: isoPositiveInteger5.wrap(22222),
-    city: isoNonEmptyString.wrap("Stockholm"),
-    country: isoNonEmptyString.wrap("Sverige"),
-  },
-};
-const vehicleBA: Vehicle = {
-  id: isoVehicleId.wrap("YS2R4X20005388011"),
-  ownerId: isoUserId.wrap("userB"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("JKL012"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
-const vehicleBB: Vehicle = {
-  id: isoVehicleId.wrap("YS2R4X20005387949"),
-  ownerId: isoUserId.wrap("userB"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("MNO345"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
+const userBO: O.Option<User> = pipe(
+  sequenceS(O.option)({
+    first: prismNonEmptyString.getOption("Johans"),
+    last: prismNonEmptyString.getOption("Bulk"),
+    email: prismNonEmptyStringEmail.getOption("johans_bulk@email.com"),
+    street: prismNonEmptyString.getOption("Balkvägen 12"),
+    postalCode: prismPositiveInteger5.getOption(22222),
+    city: prismNonEmptyString.getOption("Stockholm"),
+    country: prismNonEmptyString.getOption("Sverige"),
+  }),
+  O.map((data) => ({
+    id: isoUserId.wrap("userB"),
+    first: data.first,
+    last: data.last,
+    email: data.email,
+    address: {
+      street: data.street,
+      postalCode: data.postalCode,
+      city: data.city,
+      country: data.country,
+    },
+  }))
+);
+const vehicleBaO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("JKL012"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("YS2R4X20005388011"),
+    ownerId: isoUserId.wrap("userB"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
+const vehicleBbO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("MNO345"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("YS2R4X20005387949"),
+    ownerId: isoUserId.wrap("userB"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
 //#endregion userB end
 
 //#region userC start
-const userC: User = {
-  id: isoUserId.wrap("userC"),
-  first: isoNonEmptyString.wrap("Haralds"),
-  last: isoNonEmptyString.wrap("Värdetransporter"),
-  email: isoNonEmptyString.wrap("haralds_värdetransporter@email.com"),
-  address: {
-    street: isoNonEmptyString.wrap("Budgetvägen 1"),
-    postalCode: isoPositiveInteger5.wrap(33333),
-    city: isoNonEmptyString.wrap("Uppsala"),
-    country: isoNonEmptyString.wrap("Sverige"),
-  },
-};
-const vehicleCA: Vehicle = {
-  id: isoVehicleId.wrap("VLUR4X20009048066"),
-  ownerId: isoUserId.wrap("userC"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("PQR678"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
-const vehicleCB: Vehicle = {
-  id: isoVehicleId.wrap("YS2R4X20005387055"),
-  ownerId: isoUserId.wrap("userC"),
-  make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-  model: isoNonEmptyString.wrap(faker.vehicle.model()),
-  year: isoPositiveInteger4.wrap(2021),
-  registration: isoNonEmptyString6.wrap("STU901"),
-  connected: faker.random.boolean(),
-  lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-};
+const userCO: O.Option<User> = pipe(
+  sequenceS(O.option)({
+    first: prismNonEmptyString.getOption("Haralds"),
+    last: prismNonEmptyString.getOption("Värdetransporter"),
+    email: prismNonEmptyStringEmail.getOption(
+      "haralds_värdetransporter@email.com"
+    ),
+    street: prismNonEmptyString.getOption("Budgetvägen 1"),
+    postalCode: prismPositiveInteger5.getOption(33333),
+    city: prismNonEmptyString.getOption("Uppsala"),
+    country: prismNonEmptyString.getOption("Sverige"),
+  }),
+  O.map((data) => ({
+    id: isoUserId.wrap("userC"),
+    first: data.first,
+    last: data.last,
+    email: data.email,
+    address: {
+      street: data.street,
+      postalCode: data.postalCode,
+      city: data.city,
+      country: data.country,
+    },
+  }))
+);
+const vehicleCaO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("PQR678"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("VLUR4X20009048066"),
+    ownerId: isoUserId.wrap("userC"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
+const vehicleCbO: O.Option<Vehicle> = pipe(
+  sequenceS(O.option)({
+    make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+    model: prismNonEmptyString.getOption(faker.vehicle.model()),
+    year: prismPositiveInteger4.getOption(2021),
+    registration: prismNonEmptyString6.getOption("STU901"),
+    lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+  }),
+  O.map((data) => ({
+    id: isoVehicleId.wrap("YS2R4X20005387055"),
+    ownerId: isoUserId.wrap("userC"),
+    make: data.make,
+    model: data.model,
+    year: data.year,
+    registration: data.registration,
+    connected: faker.random.boolean(),
+    lastConnected: data.lastConnected,
+  }))
+);
 //#endregion userC end
 
-const baseCustomers = [userA, userB, userC];
+const baseCustomers: Array<User> = pipe(
+  sequenceT(O.option)(userAO, userBO, userCO),
+  O.getOrElse<Array<User>>(() => [])
+);
 
-const baseVehicles = [
-  vehicleAA,
-  vehicleAB,
-  vehicleAC,
-  vehicleBA,
-  vehicleBB,
-  vehicleCA,
-  vehicleCB,
-];
+const baseVehicles = pipe(
+  sequenceT(O.option)(
+    vehicleAaO,
+    vehicleAbO,
+    vehicleAcO,
+    vehicleBaO,
+    vehicleBbO,
+    vehicleCaO,
+    vehicleCbO
+  ),
+  O.getOrElse<Array<Vehicle>>(() => [])
+);
 
 const generatedCustomers: Array<User> = pipe(
   A.range(baseCustomers.length + 1, 20),
-  A.map((i) => ({
-    id: isoUserId.wrap(i.toLocaleString()),
-    first: isoNonEmptyString.wrap(faker.name.firstName()),
-    last: isoNonEmptyString.wrap(faker.name.lastName()),
-    email: isoNonEmptyString.wrap(faker.internet.email()),
-    address: {
-      street: isoNonEmptyString.wrap(faker.address.streetAddress()),
-      postalCode: isoPositiveInteger5.wrap(11111),
-      city: isoNonEmptyString.wrap(faker.address.city()),
-      country: isoNonEmptyString.wrap(faker.address.country()),
-    },
-  }))
+  A.filterMap((i) =>
+    pipe(
+      sequenceS(O.option)({
+        first: prismNonEmptyString.getOption(faker.name.firstName()),
+        last: prismNonEmptyString.getOption(faker.name.lastName()),
+        email: prismNonEmptyStringEmail.getOption(faker.internet.email()),
+        street: prismNonEmptyString.getOption(faker.address.streetAddress()),
+        postalCode: prismPositiveInteger5.getOption(11111),
+        city: prismNonEmptyString.getOption(faker.address.city()),
+        country: prismNonEmptyString.getOption(faker.address.country()),
+      }),
+      O.map((data) => ({
+        id: isoUserId.wrap(i.toLocaleString()),
+        first: data.first,
+        last: data.last,
+        email: data.email,
+        address: {
+          street: data.street,
+          postalCode: data.postalCode,
+          city: data.city,
+          country: data.country,
+        },
+      }))
+    )
+  )
 );
 
 const generatedVehicles: Array<Vehicle> = pipe(
   A.range(baseCustomers.length + 1, 20),
-  A.map((i) => ({
-    id: isoVehicleId.wrap(i.toLocaleString()),
-    ownerId: isoUserId.wrap(i.toLocaleString()),
-    make: isoNonEmptyString.wrap(faker.vehicle.manufacturer()),
-    model: isoNonEmptyString.wrap(faker.vehicle.model()),
-    year: isoPositiveInteger4.wrap(2021),
-    registration: isoNonEmptyString6.wrap("dk1l1"),
-    connected: faker.random.boolean(),
-    lastConnected: isoIntegerTimeStamp.wrap(LAST_CONNECTED),
-  }))
+  A.filterMap((i) =>
+    pipe(
+      sequenceS(O.option)({
+        make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
+        model: prismNonEmptyString.getOption(faker.vehicle.model()),
+        year: prismPositiveInteger4.getOption(2021),
+        registration: prismNonEmptyString6.getOption("dk1l1"),
+        lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
+      }),
+      O.map((data) => ({
+        id: isoVehicleId.wrap(i.toLocaleString()),
+        ownerId: isoUserId.wrap(i.toLocaleString()),
+        make: data.make,
+        model: data.model,
+        year: data.year,
+        registration: data.registration,
+        connected: faker.random.boolean(),
+        lastConnected: data.lastConnected,
+      }))
+    )
+  )
 );
 
 const users: Array<User> = [...baseCustomers, ...generatedCustomers];
