@@ -21,6 +21,10 @@ const MenuBox = styled.div`
   @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
     display: flex;
     flex-flow: row;
+
+    .menu-bottom {
+      display: none;
+    }
   }
 `;
 
@@ -61,7 +65,7 @@ export const Menu = () => {
           aria-label="filter"
         />
       </StyledList>
-      <StyledList>
+      <StyledList className="menu-bottom">
         <BottomMenuItemBox>
           <LanguageSelect />
         </BottomMenuItemBox>
