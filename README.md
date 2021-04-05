@@ -1,6 +1,6 @@
 # Vehicle Filter
 
-This application has a tab that allows admins to easily view and filter their customers' vehicles. The design is clean and sleek to showcase the vehicles and their affluent owners, and pops of color provide a modern feel. The grid makes it easy to identify vehicles, their status, and several other important details at first glance. The sidebar provides filter and search making it easier to discover vehicles that fit certain criteria.
+This application allows admins to easily view and filter their customers' vehicles. The design is clean and sleek to showcase the vehicles and their affluent owners, and pops of color provide a modern feel. The grid makes it easy to identify vehicles, their status, and several other important details at first glance. The sidebar provides filter and search making it easier to discover vehicles that fit certain criteria. The ability to toggle between English and Swedish, dark and light mode, and desktop and mobile provides a more customized user experience.
 
 ![vehicle filter](https://github.com/emilylhansen/vehicle_filter/blob/main/identity/desktop_light.png)
 ![vehicle filter](https://github.com/emilylhansen/vehicle_filter/blob/main/identity/vehicle-filter-gif.gif)
