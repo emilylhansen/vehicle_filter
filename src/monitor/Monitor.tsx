@@ -8,7 +8,6 @@ const MonitorBox = styled.div`
   display: grid;
   height: 100%;
 
-  /* TODO: filter is inaccessible, make into dropdown */
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: ${MIN_SCREEN_WIDTH}px) {
     grid-template-areas:

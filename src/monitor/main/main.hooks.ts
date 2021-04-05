@@ -66,11 +66,11 @@ export const useMain = () => {
   });
 
   useInterval(() => {
-    console.log("poll data");
     /** change vehicle connection status every minute */
     dispatch(setVehicles(vehiclesByIdNewStatus));
   }, MS_PER_M);
 
+  /** scroll grid to top */
   const scrollToTop = () => {
     /**
      * Unable to use window smooth scroll with react-window,
@@ -90,11 +90,13 @@ export const useMain = () => {
     );
   };
 
+  /** fetch users and vehicles from server */
   React.useEffect(() => {
     dispatch(getUsers());
     dispatch(getVehicles());
   }, [dispatch]);
 
+  /** get calculated columns count based on grid width */
   const columnCount = getColumnCount(width);
 
   /** get list index given grid coords */
