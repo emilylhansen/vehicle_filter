@@ -5,7 +5,7 @@ import { createSelector } from "reselect";
 import { lightTheme, themesById } from "../design/theme";
 import { InjectedProps as CellInjectedProps } from "../monitor/main/cell/Cell";
 import { A, O, pipe, R, RD } from "../utils/fp-ts-exports";
-import { ENGLISH_TRANSLATION, TRANSLATIONS_BY_LANGUAGE } from "./api.constants";
+import { ENGLISH_TRANSLATION, TRANSLATIONS_BY_LANGUAGE } from "./translations";
 import { InitialState } from "./api.reducer";
 import {
   isoNonEmptyString,
