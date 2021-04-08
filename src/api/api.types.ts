@@ -22,7 +22,7 @@ export const isPositiveIntegerX = ({
     val,
     O.fromPredicate(isInteger),
     O.chain(O.fromPredicate(isPositiveInteger)),
-    O.map((n) => n.toLocaleString().length === length),
+    O.map((n) => n.toString().length === length),
     O.getOrElse<boolean>(() => false)
   );
 
@@ -77,7 +77,12 @@ export interface PositiveIntegerTimeStamp
   extends Concat<TimeStamp, PositiveInteger> {}
 export const isoPositiveIntegerTimeStamp = iso<PositiveIntegerTimeStamp>();
 export const isPositiveIntegerTimeStamp = (num: number): boolean =>
-  isPositiveIntegerX({ val: num, length: 16 });
+  pipe(
+    num,
+    O.fromPredicate(isPositiveInteger),
+    O.map((n) => n.toString().length <= 16),
+    O.getOrElse<boolean>(() => false)
+  );
 export const prismIntegerTimeStamp = prism<PositiveIntegerTimeStamp>(
   isPositiveIntegerTimeStamp
 );

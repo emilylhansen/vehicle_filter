@@ -285,7 +285,7 @@ const generatedVehicles: Array<Vehicle> = pipe(
         make: prismNonEmptyString.getOption(faker.vehicle.manufacturer()),
         model: prismNonEmptyString.getOption(faker.vehicle.model()),
         year: prismPositiveInteger4.getOption(2021),
-        registration: prismNonEmptyString6.getOption("dk1l1"),
+        registration: prismNonEmptyString6.getOption("dk1lp1"),
         lastConnected: prismIntegerTimeStamp.getOption(LAST_CONNECTED),
       }),
       O.map((data) => ({
